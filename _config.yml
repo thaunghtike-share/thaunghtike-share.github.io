@@ -1,25 +1,25 @@
-title: Welcome to Flexton
+title: Thaung Htike's Blog
 description: Flexton is a responsive and ultra-minimal theme for Jekyll.
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "flexton.netlify.com" # the base hostname & protocol for your site, e.g. http://example.com
 
 # Author
-author-name:    Clayton Hanson
-author-image:   1.jpg
-author-job:     Web Developer
-author-email:   your-email@domain.com # Add your email for contant form.
-author-twitter: artemsheludko_ # Add your twitter account
-about-author:   I am a web developer focusing on front-end development. Always hungry to keep learning.
+author-name:    Thaung Htike Oo
+author-image:   tho.jpg
+author-job:     Associate Site REliability Engineer
+author-email:   thaunghtikeoo.tho1234@gmail.com # Add your email for contant form.
+author-twitter:  # Add your twitter account
+about-author:   An Associate SRE who loves DevOps and Cloud Technologies. Still trying to be a Cloud DevOps Engineer.
 
 # Social settings
-social-twitter:   artemsheludko_
-social-facebook:
-social-github:    artemsheludko
-social-pinterest: artemsheludko
-social-instagram: artemsheludko_
+social-twitter:   
+social-facebook: Frozen.Rose.2014
+social-github:    thaunggyee
+social-pinterest: 
+social-instagram: thaunghtike_oo
 social-youtube:
 social-vk:   
-social-linkedin:
+social-linkedin: thaung-htike-oo-6672781b1
 
 # Newsletter
 mailchimp: # Add your MailChimp form identifier. For example - blogenjoyfreedom.us16.list-manage.com/subscribe/post?u=cd56155d76ddeeb4c0bc4d080&amp;id=7a526cd13e
@@ -28,7 +28,7 @@ mailchimp: # Add your MailChimp form identifier. For example - blogenjoyfreedom.
 google-analytics: # Add your identifier. For example UA-99631805-1
 
 # Comment Section (Disqus)
-disqus-identifier: mr-brown # Add your shortname for Disqus Comment. For example mr-brown
+disqus-identifier: thaungoo # Add your shortname for Disqus Comment. For example mr-brown
 
 # Build settings
 markdown: kramdown
