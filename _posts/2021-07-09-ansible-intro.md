@@ -4,6 +4,7 @@ title:      "Lxc & Ansible"
 subtitle:   "Introduction To Ansible Ad-Hoc Commands & Playbooks ( PART-I)"
 date:       2021-07-09 3:00:00
 author:     "Thaung Htike Oo"
+catagories: ansible
 header-img: img/black.jpg
 catalog: true
 tags:
