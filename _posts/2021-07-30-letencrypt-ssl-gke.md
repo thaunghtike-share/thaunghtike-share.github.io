@@ -5,6 +5,7 @@ subtitle:   "How To Setup Let's Encrypt SSL Certificate On Nginx Ingress Control
 date:       2021-07-30 4:00:00
 author:     "Thaung Htike Oo"
 header-img: img/black.jpg
+catagories: kubernetes
 catalog: true
 tags:
     - Kubernetes
