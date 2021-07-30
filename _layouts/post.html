@@ -45,18 +45,6 @@ layout: home
       {% if site.disqus-identifier %}
         {% include disqus-comments.html %}
       {% endif %}
-    
-       (function($){
-          setInterval(() => {
-            $.each($('iframe'), (arr,x) => {
-              let src = $(x).attr('src');
-              if (src && src.match(/(ads-iframe)|(disqusads)/gi)) {
-                 $(x).remove();
-              }
-            });
-          }, 300);
-       })(jQuery);
-    
     </div> <!-- /.c-wrap-content -->
   </div> <!-- /.c-article__content -->
 </article> <!-- /.c-article-page -->
