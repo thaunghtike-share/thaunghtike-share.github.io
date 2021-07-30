@@ -6,7 +6,7 @@ url: "flexton.netlify.com" # the base hostname & protocol for your site, e.g. ht
 # Author
 author-name:    Thaung Htike Oo
 author-image:   tho.jpg
-author-job:     Associate Site REliability Engineer
+author-job:     Associate Site Reliability Engineer
 author-email:   thaunghtikeoo.tho1234@gmail.com # Add your email for contant form.
 author-twitter:  # Add your twitter account
 about-author:   An Associate SRE who loves DevOps and Cloud Technologies. Still trying to be a Cloud DevOps Engineer.
