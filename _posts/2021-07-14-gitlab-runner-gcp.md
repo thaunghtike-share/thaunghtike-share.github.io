@@ -5,7 +5,7 @@ subtitle:   " Gitlab Runner Autoscaling With GCP Preemptible VMs"
 date:       2021-07-14 12:00:00
 author:     "Thaung Htike Oo"
 header-img: img/black.jpg
-catagories: gitlab
+categories: gitlab
 catalog: true
 tags:
     - Gitlab CI
