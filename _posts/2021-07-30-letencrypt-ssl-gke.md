@@ -68,7 +68,7 @@ replicaset.apps/ingress-nginx-controller-d9458694b   1         1         1      
 ```
 nginx ingress controller run နေတာကို သိဖို့ loadbalancer ip ဖြစ်တဲ့ 104.198.153.12 ကို browser ကခေါ်ကြည့်ရင် အောက်ကအတိုင်းတွေ့ရမှာပါ။
 
-![nginxcontroller]()
+![nginxcontroller](https://raw.githubusercontent.com/thaunghtike-share/thaunghtike-share.github.io/master/images/nc1.png)
 
 <h2> Create Sample Nginx Deployment And Service </h2>
 
@@ -127,17 +127,17 @@ nginx-app                            LoadBalancer   10.52.1.182   35.184.183.163
 ```
 အဲ့ ip ကို browser ကနေ ခေါ်လိုက်ရင် nginx default page ကို တွေ့ရမှာပါ။ 
 
-![nginx]()
+![nginx](https://raw.githubusercontent.com/thaunghtike-share/thaunghtike-share.github.io/master/images/ng1.png)
 
 <h2> Setup Ingress For Nginx Service </h2>
 
 public ip နဲ့ access ရပြီဆိုတော့ domain နဲ့ ခေါ်သုံးဖို့ ingress route တစ်ခုကို create ဖို့လိုပါတယ်။ service တွေကို deployment နဲ့ ချိတ်ဖို့ဆိုရင် label တွေကို သုံးကြပါတယ်။ ingress မှာတော့ service နဲ့ ချိတ်ဖို့အတွက် service name နဲ့ service port  အသုံးပြုရပါမယ်။ ingress create မလုပ်ခင်မှာ အရေးကြီးဆုံးကတော့ ingress controller ရဲ့ loadbalancer ip ကို မိမိအသုံးပြုမယ်ံ domain မှာ dns record သတ်မှတ်ပေးရပါမယ်။ ဒါမှသာ user တွေက domain ကို access လုပ်တဲ့အခါ အဲ့ဒီ ingress controller ကိုရောက်သွားပါမယ်။ ingress controller ရဲ့ အလုပ်က user တွေခေါ်လိုက်တဲ့ domain ရဲ့ url ကို kubernetes ပေါ်မှာ ရှိတဲ့ ချိတ်ထားတဲ့  သက်ဆိုင်ရာ backend service တွေကို ပြန်ပြီး route လုပ်ပေးမှာဖြစ်ပါတယ်။ dns record add လိုက်ပါပြီ။ 
 
-![dnsrecord]()
+![dnsrecord](https://raw.githubusercontent.com/thaunghtike-share/thaunghtike-share.github.io/master/images/dmrc1.png)
 
 ကျွန်တော့်ရဲ့ domain ဖြစ်တဲ့ thaunghtikeoo.info ကို browser ကခေါ်လိုက်ရင် nginx controller run နေတာကို တွေ့ရမှာဖြစ်ပါတယ်။ ဒါဆိုရင် ingress route စပြီး create လို့ရပါပြီ။
 
-![domainnc]()
+![domainnc](https://raw.githubusercontent.com/thaunghtike-share/thaunghtike-share.github.io/master/images/dmnc1.png)
 
 <h2> Creating Nginx Ingress Resources </h2>
 
@@ -178,7 +178,7 @@ nginx-ingress   <none>   thaunghtikeoo.info   104.198.153.12   80      29s
 ```
 ဒါဆိုရင် thaunghtikeoo.info ကို browser က access လုပ်လိုက်ရင် nginx page ကိုတွေ့ရမှာဖြစ်ပါတယ်။ kubectl describe ingress နဲ့ ingress ရဲ့ details ကိုကြည့်နိုင်ပါတယ်။ 
 
-![thong]()
+![thong](https://raw.githubusercontent.com/thaunghtike-share/thaunghtike-share.github.io/master/images/thong1.png)
 
 အခုလက်ရှိမှာ thaunghtikeoo.info မှာ ssl certificate မရှိသေးပါဘူး။ ဒါကြောင့် cert-manager နဲ့ ssl install လုပ်ပေးဖို့လိုပါမယ်။
 
@@ -296,11 +296,11 @@ nginx-ingress   <none>   thaunghtikeoo.info   104.198.153.12   80, 443   35m
 ```
 browser ကနေ thaunghtikeoo.info ကို access လုပ်ကြည့်တဲ့ အခါ secure ဖြစ်နေတာကို အခုလိုပဲတွေ့ရမှာဖြစ်ပါတယ်။ 
 
-![secureth]()
+![secureth](https://raw.githubusercontent.com/thaunghtike-share/thaunghtike-share.github.io/master/images/seth1.png)
 
 certificate details ကိုကြည့်ရင်လည်း issuer က Let's Encrypt ၊ commonName က thaunghtikeoo.info ဆိုပြီးတွေ့ရမှာဖြစ်ပါတယ်။ 
 
-![certdetail]()
+![certdetail](https://raw.githubusercontent.com/thaunghtike-share/thaunghtike-share.github.io/master/images/cede1.png)
 
 <h2> Conclusion </h2>
 
