@@ -6,6 +6,7 @@ date:       2021-07-14 12:00:00
 author:     "Thaung Htike Oo"
 header-img: img/black.jpg
 categories: gitlab
+image: 10.jpg
 catalog: true
 tags:
     - Gitlab CI
