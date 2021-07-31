@@ -39,7 +39,12 @@ layout: home
       <script src="https://unpkg.com/commentbox.io/dist/commentBox.min.js"></script>
       <script>commentBox('5697874281103360-proj')</script>  
       </div> <!-- /.c-recent-post -->
-
+      <br><h2>  Recent Posts</h2>
+      <br><ul class="posts">  
+          {% for post in site.posts limit:5 %}  
+             <li><a href="{{ BASE_PATH }}{{ post.url }}">{{ post.title }}</a></li>  
+          {% endfor %}  
+      </ul>
     </div> <!-- /.c-wrap-content -->
   </div> <!-- /.c-article__content -->
 </article> <!-- /.c-article-page -->
