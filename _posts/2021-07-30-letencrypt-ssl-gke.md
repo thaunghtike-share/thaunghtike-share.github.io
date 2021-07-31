@@ -1,7 +1,6 @@
 ---
 layout:     post
-title:      "Let's Encrypt SSL Certificate On Nginx Ingress Controller"
-subtitle:   "How To Setup Let's Encrypt SSL Certificate On Nginx Ingress Controller For GEK"
+title:   "How To Setup Let's Encrypt SSL Certificate On Nginx Ingress Controller For GEK"
 date:       2021-07-30 4:00:00
 author:     "Thaung Htike Oo"
 image: 5.jpg
@@ -71,7 +70,7 @@ nginx ingress controller run နေတာကို သိဖို့ loadbalanc
 
 ![nginxcontroller]()
 
-<h2> Create Sample Nginx Deployment And Service </h>
+<h2> Create Sample Nginx Deployment And Service </h2>
 
 kubernetes service ကိုတော့ nginx နဲ့ပဲ demo စမ်းပြပါမယ်။ အောက်ကအတိုင်း nginx deployment နဲ့ service ကို create နိုင်ပါတယ်။ nginx service ကိုတော့ ingress စမ်းမှာဆိုတော့ loadbalancer အနေနဲ့ create ရပါမယ်။ replica က တစ်ခုကိုပဲသုံးပါမယ်။ service type က loadbalancer ပါ။ 
 
