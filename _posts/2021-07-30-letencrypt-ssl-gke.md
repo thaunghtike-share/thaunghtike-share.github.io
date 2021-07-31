@@ -131,4 +131,45 @@ nginx-app                            LoadBalancer   10.52.1.182   35.184.183.163
 
 <h2> Setup Ingress For Nginx Service </h2>
 
-public ip နဲ့ access ရပြီဆိုတော့ domain နဲ့ ခေါ်သုံးဖို့ ingress route တစ်ခုကို create ဖို့လိုပါတယ်။ service တွေကို deployment နဲ့ ချိတ်ဖို့ဆိုရင် label တွေကို သုံးကြပါတယ်။ ingress မှာတော့ service နဲ့ ချိတ်ဖို့အတွက် service name နဲ့ service port  အသုံးပြုရပါမယ်။ ingress create မလုပ်ခင်မှာ အရေးကြီးဆုံးကတော့ ingress controller ရဲ့ loadbalancer ip ကို မိမိအသုံးပြုမယ်ံ domain မှာ dns record သတ်မှတ်ပေးရပါမယ်။ ဒါမှသာ user တွေက domain ကို access လုပ်တဲ့အခါ အဲ့ဒီ ingress controller ကိုရောက်သွားပါမယ်။ ingress controller ရဲ့ အလုပ်က user တွေခေါ်လိုက်တဲ့ domain ရဲ့ url ကို kubernetes ပေါ်မှာ ရှိတဲ့ ချိတ်ထားတဲ့  သက်ဆိုင်ရာ backend service တွေကို ပြန်ပြီး route လုပ်ပေးမှာဖြစ်ပါတယ်။ 
+public ip နဲ့ access ရပြီဆိုတော့ domain နဲ့ ခေါ်သုံးဖို့ ingress route တစ်ခုကို create ဖို့လိုပါတယ်။ service တွေကို deployment နဲ့ ချိတ်ဖို့ဆိုရင် label တွေကို သုံးကြပါတယ်။ ingress မှာတော့ service နဲ့ ချိတ်ဖို့အတွက် service name နဲ့ service port  အသုံးပြုရပါမယ်။ ingress create မလုပ်ခင်မှာ အရေးကြီးဆုံးကတော့ ingress controller ရဲ့ loadbalancer ip ကို မိမိအသုံးပြုမယ်ံ domain မှာ dns record သတ်မှတ်ပေးရပါမယ်။ ဒါမှသာ user တွေက domain ကို access လုပ်တဲ့အခါ အဲ့ဒီ ingress controller ကိုရောက်သွားပါမယ်။ ingress controller ရဲ့ အလုပ်က user တွေခေါ်လိုက်တဲ့ domain ရဲ့ url ကို kubernetes ပေါ်မှာ ရှိတဲ့ ချိတ်ထားတဲ့  သက်ဆိုင်ရာ backend service တွေကို ပြန်ပြီး route လုပ်ပေးမှာဖြစ်ပါတယ်။ dns record add လိုက်ပါပြီ။ 
+
+![dnsrecord]()
+
+ကျွန်တော့်ရဲ့ domain ဖြစ်တဲ့ thaunghtikeoo.info ကို browser ကခေါ်လိုက်ရင် nginx controller run နေတာကို တွေ့ရမှာဖြစ်ပါတယ်။ ဒါဆိုရင် ingress route စပြီး create လို့ရပါပြီ။
+
+![domainnc]()
+
+<h2> Creating Nginx Ingress Resources </h2>
+
+ingress create ဖို့အတွက် yaml file ကတော့အောက်မှာရေးထားပါတယ်။ default namespace ကိုသုံးပါမယ်။ host က thaunghtikeoo.info ကိုသုံးပြီး route က defautl route ကိုပဲသုံးမှာပါ။ service ကိုတော့ nginx service နဲ့ချိတ်ထားပါတယ်။ ingress မှာ subdomain တွေနဲ့ route တွေလည်းရှိပါသေးတယ်။ အဲ့ဒါတွေကိုတော့ နောက်တစ်ပိုင်းမှဆက်ရေးပေးသွားပါမယ်။ 
+
+```yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: nginx-ingress
+  namespace: default
+  annotations:
+    kubernetes.io/ingress.class: nginx   
+spec:
+  rules:
+  - host: thaunghtikeoo.info
+    http:
+      paths:
+      - backend:
+          service:
+            name: nginx-app
+            port:
+              number: 80
+        path: /
+        pathType: Prefix
+```  
+kubectl create -f ingress.yaml ဆိုပြီး ingress ကို create လိုက်ပါမယ်။ 
+
+```bash
+kubectl create -f ingress.yaml
+```
+users တွေက thaunghtikeoo.info ကို access လုပ်တဲ့အခါ အရင်ဆုံး domain နဲ့ချိတ်ထားတဲ့ public ip ကို ရောက်သွားပါလိမ့်မယ်။ အဲ့အချိန်မှာ အဲ့ public ip မှာက ingress controller run နေတယ်။ ဒါကြောင့် controller ကလိုက်ရှာမယ်။ thaunghtikeoo.info နဲ့ backend service ချိတ်ထားရင် အဲ့ service ကို route လုပ်ပေးမယ်။ မရှိရင် 404 Not Found ဆိုပြီးပြမယ်။ kubectl get ingress နဲ့ကြည့်လိုက်ရင် ခုဏက create ခဲ့တဲ့ ingress တစ်ခုကိုတွေ့ရမှာဖြစ်တယ်။
+
+
+
