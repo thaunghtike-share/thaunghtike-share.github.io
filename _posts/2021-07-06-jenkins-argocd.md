@@ -132,8 +132,6 @@ argocd-server                   ClusterIP   10.96.215.91    <none>        80/TCP
 kubernetes deployment file ကို အပေါ်မှာသုံးခဲ့တဲ့ git repo ထဲမှာ kubernetes ဆိုတဲ့ folder အောက်မှာထည့်ပါမယ်။ mcapp deployment နဲ့ service အတွက် အောက်က yaml file ကို သုံးပါမယ်။
 
 ```yaml
----
-
 apiVersion: apps/v1
 kind: Deployment
 metadata:
