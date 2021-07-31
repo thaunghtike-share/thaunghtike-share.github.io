@@ -1,15 +1,15 @@
 title: Thaung Htike's Blog
 description: A simple blog to share knowledges about DevOps and Cloud.
 baseurl: "" # the subpath of your site, e.g. /blog
-url: "thaunghtike-oo.github.io" # the base hostname & protocol for your site, e.g. http://example.com
+url: "thaunghtike-share.github.io" # the base hostname & protocol for your site, e.g. http://example.com
 
 # Author
 author-name:    Thaung Htike Oo
 author-image:   tho.jpg
 author-job:     Associate Site Reliability Engineer
 author-email:   thaunghtikeoo.tho1234@gmail.com # Add your email for contant form.
-author-twitter:  # Add your twitter account
-about-author:   An Associate SRE who loves DevOps and Cloud Technologies. Still trying to be a Cloud DevOps Engineer.
+author-twitter:  thaunghtike_oo # Add your twitter account
+about-author:   I'm an Associate Site Reliability Engineer working in SRE and Telecommunication fields for over one year. I have strong knowledge in Python Django, Linux System Administration, Bash Scripting, CI/CD, Containerization (Kubernetes, Docker), Cloud Technology ( AWS & Azure) and infrastructure automation like Ansible, Puppet and Terraform. I'm a final year student at the University of Information Technology Myanmar. I am currently working as a Site Reliability Engineer at Frontiir Company Myanmar. Especially, I am passionate about DevOps and Cloud Native Technologies.
 
 # Social settings
 social-twitter:   thaunghtike_oo
