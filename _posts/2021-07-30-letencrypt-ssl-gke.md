@@ -137,7 +137,7 @@ public ip နဲ့ access ရပြီဆိုတော့ domain နဲ့ �
 
 ကျွန်တော့်ရဲ့ domain ဖြစ်တဲ့ thaunghtikeoo.info ကို browser ကခေါ်လိုက်ရင် nginx controller run နေတာကို တွေ့ရမှာဖြစ်ပါတယ်။ ဒါဆိုရင် ingress route စပြီး create လို့ရပါပြီ။
 
-![domainnc](https://raw.githubusercontent.com/thaunghtike-share/thaunghtike-share.github.io/master/images/dmnc1.png)
+![domainnc](https://raw.githubusercontent.com/thaunghtike-share/thaunghtike-share.github.io/master/images/donc1.png)
 
 <h2> Creating Nginx Ingress Resources </h2>
 
