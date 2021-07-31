@@ -4,7 +4,7 @@ title:      "Gitops In Kubernetes With Jenkins And ArgoCD"
 subtitle:   "Gitops At Scale With Jenkins And ArgoCD On Kubernetes"
 date:       2021-07-19 18:00:00
 author:     "Thaung Htike Oo"
-image: 1.jpg
+image: 3.jpg
 categories: jenkins
 tags:
     - Kubernetes
