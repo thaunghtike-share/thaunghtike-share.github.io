@@ -5,7 +5,7 @@ subtitle:   "Introduction To Ansible Ad-Hoc Commands & Playbooks ( PART-II)"
 date:       2021-07-09 3:00:00
 author:     "Thaung Htike Oo"
 categories: ansible
-header-img: img/black.jpg
+image: 6.jpg
 catalog: true
 tags:
     - Ansible
