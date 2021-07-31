@@ -169,7 +169,143 @@ kubectl create -f ingress.yaml ဆိုပြီး ingress ကို create �
 ```bash
 kubectl create -f ingress.yaml
 ```
-users တွေက thaunghtikeoo.info ကို access လုပ်တဲ့အခါ အရင်ဆုံး domain နဲ့ချိတ်ထားတဲ့ public ip ကို ရောက်သွားပါလိမ့်မယ်။ အဲ့အချိန်မှာ အဲ့ public ip မှာက ingress controller run နေတယ်။ ဒါကြောင့် controller ကလိုက်ရှာမယ်။ thaunghtikeoo.info နဲ့ backend service ချိတ်ထားရင် အဲ့ service ကို route လုပ်ပေးမယ်။ မရှိရင် 404 Not Found ဆိုပြီးပြမယ်။ kubectl get ingress နဲ့ကြည့်လိုက်ရင် ခုဏက create ခဲ့တဲ့ ingress တစ်ခုကိုတွေ့ရမှာဖြစ်တယ်။
+users တွေက thaunghtikeoo.info ကို access လုပ်တဲ့အခါ အရင်ဆုံး domain နဲ့ချိတ်ထားတဲ့ public ip ကို ရောက်သွားပါလိမ့်မယ်။ အဲ့အချိန်မှာ အဲ့ public ip မှာက ingress controller run နေတယ်။ ဒါကြောင့် controller ကလိုက်ရှာမယ်။ thaunghtikeoo.info နဲ့ backend service ချိတ်ထားရင် အဲ့ service ကို route လုပ်ပေးမယ်။ service မရှိရင် 404 Not Found ဆိုပြီးပြမယ်။ kubectl get ingress နဲ့ကြည့်လိုက်ရင် ခုဏက create ခဲ့တဲ့ ingress တစ်ခုကိုတွေ့ရမှာဖြစ်တယ်။
 
+```bash
+thaunghtikeoo_tho1234@cloudshell:~ (clever-circlet-317904)$ kubectl get ingress
+NAME            CLASS    HOSTS                ADDRESS          PORTS   AGE
+nginx-ingress   <none>   thaunghtikeoo.info   104.198.153.12   80      29s
+```
+ဒါဆိုရင် thaunghtikeoo.info ကို browser က access လုပ်လိုက်ရင် nginx page ကိုတွေ့ရမှာဖြစ်ပါတယ်။ kubectl describe ingress နဲ့ ingress ရဲ့ details ကိုကြည့်နိုင်ပါတယ်။ 
+
+![thong]()
+
+အခုလက်ရှိမှာ thaunghtikeoo.info မှာ ssl certificate မရှိသေးပါဘူး။ ဒါကြောင့် cert-manager နဲ့ ssl install လုပ်ပေးဖို့လိုပါမယ်။
+
+<h2> Configure cert manager for Nginx Ingress </h2>
+
+cert-manager နဲ့ ingress အတွက်လိုအပ်တဲ့ ssl certificate ကို configure လုပ်ပါမယ်။ အောက်ကအတိုင်း kubectl apply နဲ့ install လုပ်ပေးပါမယ်။
+
+```bash
+kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v1.0.1/cert-manager.yaml
+kubectl get all -n cert-manager
+```
+<h2> Configure Let's Encrypt SSL </h2>
+
+cert-manager ကို configure လုပ်တဲ့နေရာမှာ issuer types တွေရှိပါတယ်။ self-signed ၊ CA ၊ ACME စသည်ဖြင့်ပေါ့ ။ အသေးစိတ်ကိုတော့ [ဒီမှာ](https://cert-manager.io/docs/configuration) သွားဖတ်နိုင်ပါတယ်။ ကျွန်တော်ကတော့ ACME ကိုသုံးပါမယ်။ အရင်ဆုံး issuer ကို install လုပ်ရပါမယ်။ kubectl create နဲ့ပဲ create လိုက်ပါ။ 
+
+```bash
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-prod
+  namespace: default
+spec:
+  acme:
+    # The ACME server URL
+    server: https://acme-v02.api.letsencrypt.org/directory
+    # Email address used for ACME registration
+    email: thaunghtikeoo.tho1234@gmail.com
+    # Name of a secret used to store the ACME account private key
+    privateKeySecretRef:
+      name: letsencrypt-prod
+    # Enable the HTTP-01 challenge provider
+    solvers:
+    - http01:
+        ingress:
+          class: nginx
+```         
+kubectl create -f clusterissuer.yaml နဲ့ create ပြီးသွားရင် let's encrypt issuer ကို install ပြီးပါပြီ။ kubectl get clusterissuer နဲ့ ကြည့်နိုင်ပါတယ်။
+
+```bash
+thaunghtikeoo_tho1234@cloudshell:~ (clever-circlet-317904)$ kubectl get clusterissuer
+NAME               READY   AGE
+letsencrypt-prod   True    8s
+```
+thaunghtikeoo.info အတွက် လိုအပ်တဲ့ ssl certificate ကိုလည်း kubectl create နဲ့ ပဲ create ပါမယ်။ commonName ၊ dnsName သတ်မှတ်ပေးရမယ်။ cert အတွက်ရလာမယ်ံ့ tls key တွေကိုသိမ်းဖို့အတွက် secret file နာမည်ပေးရပါမယ်။
+
+```bash
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: thaunghtikeoo.info
+  namespace: default
+spec:
+  secretName: thaunghtikeoo.info-tls
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+  commonName: thaunghtikeoo.info
+  dnsNames:
+  - thaunghtikeoo.info
+```
+create ပြီးသွားရင် ခဏစောင့်ပါ။ kubectl get certificate နဲ့ကြည့်လို့ state က true ဖြစ်နေရင် certificate ကို install ပြီးသွားပါပြီ။
+
+```bash
+thaunghtikeoo_tho1234@cloudshell:~ (clever-circlet-317904)$ ုkubectl get certificates
+NAME                 READY   SECRET                   AGE
+thaunghtikeoo.info   True    thaunghtikeoo.info-tls   95s
+```
+cert အတွက် tls secret file တစ်ခုထွက်လာပါတယ်။ name ကတော့ အပေါ်က certificate yaml ထဲကအတိုင်းပါပဲ။ kubectl get secret thaunghtikeoo.info-tls -o yaml နဲ့ secret အသေးစိတ်ကိုကြည့်နိုင်ပါတယ်။
+
+```bash
+thaunghtikeoo_tho1234@cloudshell:~ (clever-circlet-317904)$ kubectl get secret
+NAME                                  TYPE                                  DATA   AGE
+default-token-dvprj                   kubernetes.io/service-account-token   3      151m
+ingress-nginx-admission               Opaque                                3      137m
+ingress-nginx-token-fvdtn             kubernetes.io/service-account-token   3      137m
+sh.helm.release.v1.ingress-nginx.v1   helm.sh/release.v1                    1      137m
+thaunghtikeoo.info-tls                kubernetes.io/tls                     2      2m3s
+```
+<h2> Configure SSl Ingress </h2>
+
+ရလာတဲ့ tls secret ကို ingress ထဲမှာ အသုံးပြုရပါမယ်။ ssl ingress အတွက် yaml file ကတော့ အောက်ကအတိုင်းပဲဖြစ်ပါတယ်။ 
+
+```bash
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    kubernetes.io/ingress.class: nginx
+  name: nginx-ingress
+  namespace: default
+spec:
+  rules:
+  - host: thaunghtikeoo.info
+    http:
+      paths:
+      - backend:
+          service:
+            name: nginx-app
+            port:
+              number: 80
+        path: /
+        pathType: Prefix
+  tls:
+  - hosts:
+    - thaunghtikeoo.info
+    secretName: thaunghtikeoo.info-tls
+```
+ingress create ပြီးလို့ ခဏကြာတဲ့အခါ kubectl get ingress နဲ့ ပြန်ခေါ်ကြည့်ပါ။ address မှာ nginx controller ip ပေါ်လာရင် ssl certificate install ပြီးသွားပါပြီ၊
+
+```bash
+thaunghtikeoo_tho1234@cloudshell:~ (clever-circlet-317904)$ ုkubectl get ingress
+NAME            CLASS    HOSTS                ADDRESS          PORTS     AGE
+nginx-ingress   <none>   thaunghtikeoo.info   104.198.153.12   80, 443   35m
+```
+browser ကနေ thaunghtikeoo.info ကို access လုပ်ကြည့်တဲ့ အခါ secure ဖြစ်နေတာကို အခုလိုပဲတွေ့ရမှာဖြစ်ပါတယ်။ 
+
+![secureth]()
+
+certificate details ကိုကြည့်ရင်လည်း issuer က Let's Encrypt ၊ commonName က thaunghtikeoo.info ဆိုပြီးတွေ့ရမှာဖြစ်ပါတယ်။ 
+
+![certdetail]()
+
+<h2> Conclusion </h2>
+
+ကျွန်တော်နားလည်သလောက် ingress အကြောင်းကို ရှင်းပြထားပါတယ်။ traefik ၊ kong api gateway တို့ကလည်း ingress controller အဖြစ်အသုံးပြုလို့ရပါသေးတယ်။ ingress subdomain နဲ့ path တွေအကြာင်းကိုလည်း ဆက်ရေးပါဦးမယ်။ အားလုံးကိုကျေးဇူးတင်ပါတယ်ခင်ဗျာ။
+
+Thanks for reading ...
 
 
