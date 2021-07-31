@@ -7,12 +7,12 @@ body {
   font-size: $base-font-size;
   line-height: 27px;
   color: $text-color;
-  background-color: $background;
+  background-color: white;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 *::selection {
   color: $white-color;
-  background-color: $primary-color;
+  background-color: white;
 }
