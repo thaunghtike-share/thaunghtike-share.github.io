@@ -33,7 +33,6 @@ layout: home
           <a href="{{site.baseurl}}/tags#{{tag}}">&#35; {{ tag }}</a>
           {% endfor %}
         </div>
-      </div>
       <ul class="pagination blog-pager">
         {% if page.previous.url %}
         <li class="page-item previous">
@@ -46,6 +45,7 @@ layout: home
         </li>
         {% endif %}
       </ul>
+      </div>
       <div class="sharethis-inline-share-buttons"></div>
 
       </div> <!-- /.c-recent-post -->
@@ -58,7 +58,6 @@ layout: home
       <div class="commentbox"></div>
       <script src="https://unpkg.com/commentbox.io/dist/commentBox.min.js"></script>
       <script>commentBox('5697874281103360-proj')</script>  
-      {% include prenext.html %}
     </div> <!-- /.c-wrap-content -->
   </div> <!-- /.c-article__content -->
 </article> <!-- /.c-article-page -->
