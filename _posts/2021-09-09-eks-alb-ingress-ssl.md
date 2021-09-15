@@ -125,6 +125,17 @@ $ thaunghtikeoo@thaunghtikeoo:~$ kubectl get all -n kube-system
 NAME                                          READY   STATUS    RESTARTS   AGE
 pod/alb-ingress-controller-7f699ff874-q5xsq   1/1     Running   0          103s
 ```
+<h2> Verify our ALB Ingress Controller is running </h2>
+
+You can check alb ingress controller is working or not. Check the logs of alb controller pod. Otherwise, if ALB have not created well then you see something is wrong.
+
+```bash
+$ kubectl logs -f $(kubectl get po -n kube-system | egrep -o 'alb-ingress-controller-[A-Za-z0-9-]+') -n kube-system
+
+1 leaderelection.go:214] successfully acquired lease kube-system/ingress-controller-leader-alb
+I0915 15:12:57.217703       1 controller.go:134] kubebuilder/controller "level"=0 "msg"="Starting Controller"  "controller"="alb-ingress-controller"
+I0915 15:12:57.318066       1 controller.go:154] kubebuilder/controller "level"=0 "msg"="Starting workers"  "controller"="alb-ingress-controller" "worker count"=1
+```
 
 
 
