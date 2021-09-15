@@ -11,7 +11,7 @@ categories: kubernetes
 
 <h2> Introduction </h2>
 
-In this tutorial, I' gonna show you how to set up tls encryption on eks cluster with alb ingress controller. I already wrote a post about ssl nginx controller controller on my blog. You can read it [here](https://thaunghtike-share.github.io/2021/07/30/letencrypt-ssl-gke). In order for the Ingress resource to work, the cluster must have an ingress controller running. There are a lot of ingress controllers such as nginx, traefik and alb.
+In this tutorial, I' gonna show you how to set up tls encryption on eks cluster with alb ingress controller. I already wrote a post about ssl nginx controller on my blog. You can read it [here](https://thaunghtike-share.github.io/2021/07/30/letencrypt-ssl-gke). In order for the Ingress resource to work, the cluster must have an ingress controller running. There are a lot of ingress controllers such as nginx, traefik and alb.
 
 <h2> Prerequities </h2>
 
@@ -33,7 +33,7 @@ $ eksctl version
 ```
 <h2> Create An EKS Cluster </h2>
  
-Firstly we have to create an eks cluster named eksdemo1 in us-east-east-1. It takes 15-20 minutes depending on your connection. You can go to aws cloudformation stack and you can see what resources are deployed.
+Firstly we have to create an eks cluster named eksdemo1 in us-east-1. It takes 15-20 minutes depending on your connection. You can go to aws cloudformation stack and you can see what resources are deployed.
  
  ```bash
  $ eksctl create cluster --name=eksdemo1 --region=us-east-1 --zones=us-east-1a,us-east-1b --without-nodegroup
