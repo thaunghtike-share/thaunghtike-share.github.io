@@ -136,9 +136,96 @@ $ kubectl logs -f $(kubectl get po -n kube-system | egrep -o 'alb-ingress-contro
 I0915 15:12:57.217703       1 controller.go:134] kubebuilder/controller "level"=0 "msg"="Starting Controller"  "controller"="alb-ingress-controller"
 I0915 15:12:57.318066       1 controller.go:154] kubebuilder/controller "level"=0 "msg"="Starting workers"  "controller"="alb-ingress-controller" "worker count"=1
 ```
+<h2> Create Nginx Deployment </h2>
 
+You are ready to create ingress routes on this eks cluster. Let's create a sample nginx deployment for this demo using kubectl.
 
+```bash
+$ kubectl create deploy nginx --image nginx --port 80
+```
+make sure nginx deployment is ready.
 
+```bash
+$ kubectl get deploy 
+NAME    READY   UP-TO-DATE   AVAILABLE   AGE
+nginx   1/1     1            1           63s
+```
+<h2> Expose Nginx Service As NodePort </h2>
+
+This step is quite important. You have to expose nginx svc as NodePort. So, alb can create a listener which will forward to target group with this NodePort.
+
+```bash
+$ kubectl expose deploy nginx --type NodePort --target-port 80 --port 80
+```
+
+<h2> Create ALB kubernetes Basic Ingress Manifest </h2>
+
+create an ingress route to nginx service. check the following yaml. You can refer [this link](https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.2/guide/ingress/annotations) for alb ingress annotations. You can define alb health checks and other alb settings using those annotations.
+
+```yaml
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: nginx
+  labels:
+    app: nginx
+  annotations:
+    # Ingress Core Settings
+    kubernetes.io/ingress.class: "alb"
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: instance
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /*
+            backend:
+              serviceName: nginx
+              servicePort: 80
+```              
+create the ingress manifest.
+
+```bash
+$ kubectl apply -f ingress.yaml
+Warning: extensions/v1beta1 Ingress is deprecated in v1.14+, unavailable in v1.22+; use networking.k8s.io/v1 Ingress
+ingress.extensions/nginx created
+```
+Wait for some minutes to create an alb. Realize your ingress is not created well after waiting for some minutes.
+
+```bash
+$  kubectl get ingress
+NAME    CLASS    HOSTS   ADDRESS    PORTS    AGE
+nginx   <none>   *                   80     6m10s
+```
+May be something is going wrong with alb controller. Check the logs again.
+
+```bash
+$ kubectl logs -f $(kubectl get po -n kube-system | egrep -o 'alb-ingress-controller-[A-Za-z0-9-]+') -n kube-system
+
+Subnets must contains these tags: 'kubernetes.io/cluster/eksdemo1': ['shared' or 'owned'] and 'kubernetes.io/role/elb': ['' or '1']. See https://kubernetes-sigs.github.io/aws-alb-ingress-controller/guide/controller/config/#subnet-auto-discovery for more details. 
+```
+Due to above logs, you need to assign tags to two public subnets under eks vpc. After assigning tags to these subnets, your alb controller is working fine.
+
+![subnet_tags]()
+
+check ingress again. 
+
+```bash
+$  kubectl get ingress
+NAME    CLASS    HOSTS   ADDRESS                                                              PORTS   AGE
+nginx   <none>   *       6ad0ef5b-default-nginx-ef8b-1266263549.us-east-1.elb.amazonaws.com   80      6m50s
+```
+You can see an alb with one listener which forwards traffic to nginx target group is active now. 
+
+![albconsole]()
+
+Also you can verify target group have two registerd instances with port 30866. This is nginx service's NodePort.
+
+![albnodeport]()
+
+Access the alb dns on your browser. Verify nginx is running.
+
+![nginxalb]()
 
 
 
