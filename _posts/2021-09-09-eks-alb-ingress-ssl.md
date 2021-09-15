@@ -282,13 +282,13 @@ status:
 ``` 
 <h2> PART-II AWS ALB Ingress Controller - SSL  </h2>
 
-Firstly we have to create a public hosted zone in Route53. I already created a public hosted zone named thaunghtikeoo.info.
+Firstly you have to create a public hosted zone in Route53. I already created a public hosted zone named thaunghtikeoo.info.
 
 ![thoroute53](https://raw.githubusercontent.com/thaunghtike-share/thaunghtike-share.github.io/master/images/albhz.png)
 
 <h2> Create a SSL Certificate in Certificate Manager </h2>
 
-We will use amazon cert manager to request a certificate. Then select a dns validation method to validate your certificate with your domain. 
+I will use amazon cert manager to request a certificate. Then select a dns validation method to validate your certificate with your domain. 
 
 ![certmanpend](https://raw.githubusercontent.com/thaunghtike-share/thaunghtike-share.github.io/master/images/albcp.png)
 
@@ -348,7 +348,7 @@ verify certificate is issued by Amazon.
 
 <h2> Implement HTTP to HTTPS Redirect </h2>
 
-ALB also provides a method for configuring custom actions on a listener, such as for Redirect Actions. We don't need to create this action manually. We can implement it with ingress annotations. Before implementing http to https redirect, we have to use https:// to access ssl dns. The following annotation can help you to redirect traffic to https. 
+ALB also provides a method for configuring custom actions on a listener, such as for Redirect Actions. We don't need to create this action manually. You can implement it with ingress annotations. Before implementing http to https redirect, you have to use https:// to access ssl dns. The following annotation can help you to redirect traffic to https. 
 
 ```bash
 # SSL Redirect Setting
@@ -415,6 +415,8 @@ Access http://yourdns on your browser. You will see implementing http to https r
 
 ![ssldemonginx](https://raw.githubusercontent.com/thaunghtike-share/thaunghtike-share.github.io/master/images/ssldemonginx.png)
 
+
+Hope you like this post and happy cloud computing and kubernetes.
 
 Thanks for reading .. bye bye
 
