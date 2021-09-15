@@ -231,7 +231,7 @@ Access the alb dns on your browser. Verify nginx is running.
 
 <h2> PART-II AWS ALB Ingress Controller - SSL  </h2>
 
-<h2> Create A Hosted Zone In Route53 </h2>
+<h1> Create A Hosted Zone In Route53 </h1>
 
 Firstly we have to create a public hosted zone in Route53. I already created a public hosted zone named thaunghtikeoo.info.
 
@@ -246,6 +246,56 @@ We will use amazon cert manager to request a certificate. Then select a dns vali
 You see certificate is issued by ACM after some minutes.
 
 ![certissued](https://raw.githubusercontent.com/thaunghtike-share/thaunghtike-share.github.io/master/images/albci.png)
+
+<h2> Create SSL Ingress Manifest </h2>
+
+You have to add two annotations to get ssl alb in ingress yaml file. Replace certificate arn with your own.
+
+```yaml
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: nginx
+  labels:
+    app: nginx
+  annotations:
+    # Ingress Core Settings
+    kubernetes.io/ingress.class: "alb"
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: instance
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS":443}, {"HTTP":80}]'
+    alb.ingress.kubernetes.io/certificate-arn:  arn:aws:acm:us-east-1:993450297386:certificate/a232dd7c-e454-405e-8563-ebc3928f2752
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /*
+            backend:
+              serviceName: nginx
+              servicePort: 80
+```
+I deleted old ingress which I deployed previously. Create ssl ingress with kubectl. You got an ingress route running after some minutes.
+
+```bash
+$ kubectl get ingress
+NAME    CLASS    HOSTS   ADDRESS                                                            PORTS   AGE
+nginx   <none>   *       6ad0ef5b-default-nginx-ef8b-19862874.us-east-1.elb.amazonaws.com   80      5m34s
+```
+Go to aws ec2 console and you see an alb with two listers is running. When you created basic ingress route, you got an alb with one listener. Now you got two listeners including both HTTP and HTTPS.
+
+![sslalb](https://raw.githubusercontent.com/thaunghtike-share/thaunghtike-share.github.io/master/images/sslalb.png)
+
+You created a certificate request for thaunghtikeoo.info and thaunghitkeoo.info wildcard domain. So you have to create ALB alias record in route53 hosted zone. I will use ssldemo.thaunghtikeoo.info for this alias.
+
+![ssldemo](https://raw.githubusercontent.com/thaunghtike-share/thaunghtike-share.github.io/master/images/ssldemo.png)
+
+Access ssl dns name on your browser and check the certificate detail.
+
+![ssldemonginx](https://raw.githubusercontent.com/thaunghtike-share/thaunghtike-share.github.io/master/images/ssldemonginx.png)
+
+verify certificate is issued by Amazon.
+
+![ssldemocert](https://raw.githubusercontent.com/thaunghtike-share/thaunghtike-share.github.io/master/images/ssldemocert.png)
 
 
 
