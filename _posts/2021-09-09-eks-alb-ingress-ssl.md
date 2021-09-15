@@ -416,6 +416,9 @@ Access http://yourdns on your browser. You will see implementing http to https r
 ![ssldemonginx](https://raw.githubusercontent.com/thaunghtike-share/thaunghtike-share.github.io/master/images/ssldemonginx.png)
 
 
+Thanks for reading .. bye bye
+
+
 
 
 
