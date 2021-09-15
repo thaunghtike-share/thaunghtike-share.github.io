@@ -206,7 +206,7 @@ Subnets must contains these tags: 'kubernetes.io/cluster/eksdemo1': ['shared' or
 ```
 Due to above logs, you need to assign tags to two public subnets under eks vpc. After assigning tags to these subnets, your alb controller is working fine.
 
-![subnet_tags]()
+![subnet_tags](https://raw.githubusercontent.com/thaunghtike-share/thaunghtike-share.github.io/master/images/albsubnets.png)
 
 check ingress again. 
 
@@ -217,15 +217,15 @@ nginx   <none>   *       6ad0ef5b-default-nginx-ef8b-1266263549.us-east-1.elb.am
 ```
 You can see an alb with one listener which forwards traffic to nginx target group is active now. 
 
-![albconsole]()
+![albconsole](https://raw.githubusercontent.com/thaunghtike-share/thaunghtike-share.github.io/master/images/albconsole.png)
 
 Also you can verify target group have two registerd instances with port 30866. This is nginx service's NodePort.
 
-![albnodeport]()
+![albnodeport](https://raw.githubusercontent.com/thaunghtike-share/thaunghtike-share.github.io/master/images/albnodeport.png)
 
 Access the alb dns on your browser. Verify nginx is running.
 
-![nginxalb]()
+![nginxalb](https://raw.githubusercontent.com/thaunghtike-share/thaunghtike-share.github.io/master/images/albnginx.png)
 
 
 
