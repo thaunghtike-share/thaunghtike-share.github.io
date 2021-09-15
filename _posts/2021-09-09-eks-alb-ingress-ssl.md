@@ -245,7 +245,7 @@ We will use amazon cert manager to request a certificate. Then select a dns vali
 
 You see certificate is issued by ACM after some minutes.
 
-![certissued](https://raw.githubusercontent.com/thaunghtike-share/thaunghtike-share.github.io/master/images/albcs.png)
+![certissued](https://raw.githubusercontent.com/thaunghtike-share/thaunghtike-share.github.io/master/images/albci.png)
 
 
 
