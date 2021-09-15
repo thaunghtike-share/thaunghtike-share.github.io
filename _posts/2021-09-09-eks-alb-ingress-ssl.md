@@ -55,9 +55,12 @@ Yeah you got an eks cluster. Let's create a node group with two worker nodes to 
  ```
  Now, you've created an eks cluster. Check with 'eksctl get clusters'. You will see one cluster is running. 
  
- $ 
- 
-
+ ```bash
+ $ kubectl get nodes
+NAME                             STATUS   ROLES    AGE    VERSION
+ip-192-168-12-223.ec2.internal   Ready    <none>   112s   v1.20.7-eks-135321
+ip-192-168-34-20.ec2.internal    Ready    <none>   88s    v1.20.7-eks-135321
+```
 <h2> Create A Kubernetes Service Account For Alb Ingress Controller</h2>
 
 Then we have to create a k8s service account named alb-ingress-controller in kube-system namespace. This service account will help eks cluster to create and delete elastic load balancers.
@@ -75,13 +78,58 @@ $ aws iam create-policy \
     --policy-name ALBIngressControllerIAMPolicy \
     --policy-document https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/master/docs/examples/iam-policy.json
 ```
+There is an issue in this policy. So we need to edit this policy. Go to Services -> IAM -> Policies. Click Edit Policy >> Visual Editor on this policy. Add ELB full access: Click on Add Additional Permissions >> Service: ELB >> Actions: All ELB actions (elasticloadbalancing:*) >> Resources: All Resources. Remove ELB which has warning.Then click on review policy.
 
-There is an issue in this policy. So we need to edit this policy. Go to Services -> IAM -> Policies. Click Visual Editor on this policy. Add ELB full access
+<h2> Create an IAM role for the ALB Ingress Controller </h2>
 
-    Click on Add Additional Permissions
-        Service: ELB
-        Actions: All ELB actions (elasticloadbalancing:*)
-        Resources: All Resources
+This will create an IAM role for the alb ingress controller using created ALB ingress policy above. And this IAM role attachs to the service account named alb-ingress-controller which you created early on this post. Replace cluster name and policy arn with your cluster name and policy arn.
+
+```bash
+$ eksctl create iamserviceaccount \
+    --region us-east-1 \
+    --name alb-ingress-controller \
+    --namespace kube-system \
+    --cluster eksdemo1 \
+    --attach-policy-arn arn:aws:iam::993450297386:policy/ALBIngressControllerIAMPolicy \
+    --override-existing-serviceaccounts \
+    --approve
+```
+<h2> Verify using eksctl cli </h2>
+
+```bash
+$ eksctl  get iamserviceaccount --cluster eksdemo1
+```
+<h2> Verify k8s Service Account </h2>
+
+You can see that newly created Role ARN is added in Annotations to k8s SA account. It proves that AWS IAM role bounds to alb-ingress-controller service account.
+
+```bash
+$ kubectl get sa alb-ingress-controller -n kube-system -o jsonpath={.metadata.annotations}
+```
+<h2> Deploy ALB Ingress Controller </h2>
+
+You are ready to deploy alb ingress controller on eks cluster. This alb controller deployment uses alb-ingress-controller SA account to perform ELB operations.
+
+```bash
+$ kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/master/docs/examples/alb-ingress-controller.yaml
+```
+You will see alb ingress pod going to be 'crashloopbackoff'. You have to edit this deployment using kubectl. Add your eks cluster name '--cluster-name=eksdemo1' to the container arguments. 
+
+```bash
+$  kubectl edit deployment.apps/alb-ingress-controller -n kube-system
+```
+Wait for a couple of minutes. ALB ingress controller pod is running now.
+
+```bash
+$ thaunghtikeoo@thaunghtikeoo:~$ kubectl get all -n kube-system
+NAME                                          READY   STATUS    RESTARTS   AGE
+pod/alb-ingress-controller-7f699ff874-q5xsq   1/1     Running   0          103s
+```
+
+
+
+
+
 
 
 
