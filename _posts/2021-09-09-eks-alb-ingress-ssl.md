@@ -136,63 +136,7 @@ $ kubectl logs -f $(kubectl get po -n kube-system | egrep -o 'alb-ingress-contro
 I0915 15:12:57.217703       1 controller.go:134] kubebuilder/controller "level"=0 "msg"="Starting Controller"  "controller"="alb-ingress-controller"
 I0915 15:12:57.318066       1 controller.go:154] kubebuilder/controller "level"=0 "msg"="Starting workers"  "controller"="alb-ingress-controller" "worker count"=1
 ```
-<h2> AWS ALB Ingress Controller - Context Path Based Routing </h2>
-
-You can also create ingress alb using context path based routing . Here is a sample yaml file for context path based alb ingress.
-
-```yaml
-apiVersion: extensions/v1beta1
-kind: Ingress
-metadata:
-  name: multiple-nginx
-  labels:
-    app: multiple-nginx
-  annotations:
-    # Ingress Core Settings
-    kubernetes.io/ingress.class: "alb"
-    alb.ingress.kubernetes.io/scheme: internet-facing
-spec:
-  rules:
-    - http:
-        paths:
-          - path: /app1/*
-            backend:
-              serviceName: nginx-app1
-              servicePort: 80                        
-          - path: /app2/*
-            backend:
-              serviceName: nginx-app2
-              servicePort: 80            
-          - path: /*
-            backend:
-              serviceName: nginx
-              servicePort: 80         
-```
-When you use context path based routing, remember one path is one target. so Health check path annotation should be moved to respective node port services if we have to route to multiple targets using single load balancer. show the following service yaml file. 
-
-```bash
-apiVersion: v1
-kind: Service
-metadata:
-  annotations:
-    alb.ingress.kubernetes.io/healthcheck-path: /
-  labels:
-    app: nginx
-  name: nginx
-spec:
-  ports:
-  - port: 80
-    protocol: TCP
-    targetPort: 80
-  selector:
-    app: nginx
-  type: NodePort
-status:
-``` 
-
 <h2> PART-I Basic Ingress </h2>
-
-<h1> Create Nginx Deployment </h1>
 
 You are ready to create ingress routes on this eks cluster. Let's create a sample nginx deployment for this demo using kubectl.
 
@@ -283,9 +227,60 @@ Access the alb dns on your browser. Verify nginx is running.
 
 ![nginxalb](https://raw.githubusercontent.com/thaunghtike-share/thaunghtike-share.github.io/master/images/albnginx.png)
 
-<h2> PART-II AWS ALB Ingress Controller - SSL  </h2>
+<h2> AWS ALB Ingress Controller - Context Path Based Routing </h2>
 
-<h1> Create A Hosted Zone In Route53 </h1>
+You can also create ingress alb using context path based routing . Here is a sample yaml file for context path based alb ingress.
+
+```yaml
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: multiple-nginx
+  labels:
+    app: multiple-nginx
+  annotations:
+    # Ingress Core Settings
+    kubernetes.io/ingress.class: "alb"
+    alb.ingress.kubernetes.io/scheme: internet-facing
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /app1/*
+            backend:
+              serviceName: nginx-app1
+              servicePort: 80                        
+          - path: /app2/*
+            backend:
+              serviceName: nginx-app2
+              servicePort: 80            
+          - path: /*
+            backend:
+              serviceName: nginx
+              servicePort: 80         
+```
+When you use context path based routing, remember one path is one target. so Health check path annotation should be moved to respective node port services if we have to route to multiple targets using single load balancer. show the following service yaml file. 
+
+```bash
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    alb.ingress.kubernetes.io/healthcheck-path: /
+  labels:
+    app: nginx
+  name: nginx
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: nginx
+  type: NodePort
+status:
+``` 
+<h2> PART-II AWS ALB Ingress Controller - SSL  </h2>
 
 Firstly we have to create a public hosted zone in Route53. I already created a public hosted zone named thaunghtikeoo.info.
 
@@ -351,8 +346,74 @@ verify certificate is issued by Amazon.
 
 ![ssldemocert](https://raw.githubusercontent.com/thaunghtike-share/thaunghtike-share.github.io/master/images/ssldemocert.png)
 
+<h2> Implement HTTP to HTTPS Redirect </h2>
 
+ALB also provides a method for configuring custom actions on a listener, such as for Redirect Actions. We don't need to create this action manually. We can implement it with ingress annotations. Before implementing http to https redirect, we have to use https:// to access ssl dns. The following annotation can help you to redirect traffic to https. 
 
+```bash
+# SSL Redirect Setting
+alb.ingress.kubernetes.io/actions.ssl-redirect: '{"Type": "redirect", "RedirectConfig": { "Protocol": "HTTPS", "Port": "443", "StatusCode": "HTTP_301"}}'  
+```
+The action-name in the annotation must match the serviceName in the ingress rules, and servicePort must be use-annotation. Also add this path inside ingress yaml.
+
+```bash
+- path: /* # SSL Redirect Setting
+  backend:
+    serviceName: ssl-redirect
+    servicePort: use-annotation  
+```               
+so complete yaml file looks like below. create ingress using kubectl.
+
+```yaml
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: nginx
+  labels:
+    app: nginx
+  annotations:
+    # Ingress Core Settings
+    kubernetes.io/ingress.class: "alb"
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: instance
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS":443}, {"HTTP":80}]'
+    alb.ingress.kubernetes.io/actions.ssl-redirect: '{"Type": "redirect", "RedirectConfig": { "Protocol": "HTTPS", "Port": "443", "StatusCode": "HTTP_301"}}'
+    alb.ingress.kubernetes.io/certificate-arn:  arn:aws:acm:us-east-1:993450297386:certificate/a232dd7c-e454-405e-8563-ebc3928f2752
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /* # SSL Redirect Setting
+            backend:
+              serviceName: ssl-redirect
+              servicePort: use-annotation
+          - path: /*
+            backend:
+              serviceName: nginx
+              servicePort: 80
+```
+verify your ingress is running now.
+
+```bash
+$ kubectl get ingress
+NAME    CLASS    HOSTS   ADDRESS                                                              PORTS   AGE
+nginx   <none>   *       6ad0ef5b-default-nginx-ef8b-1749999008.us-east-1.elb.amazonaws.com   80      58s
+```
+Go to aws ec2 console and select nginx alb. 
+
+![redirectalb](https://raw.githubusercontent.com/thaunghtike-share/thaunghtike-share.github.io/master/images/redirectalb.png)
+
+Click view/edit rules on Lister HTTP: 80. You will see http to https redirect traffic rule.
+
+![redirectrule](https://raw.githubusercontent.com/thaunghtike-share/thaunghtike-share.github.io/master/images/redirectrule.png)
+
+Go to hosted zone again. Update ssldemo.thaunghtikeoo.info record with new created alb alias.
+
+![redirectrecord](https://raw.githubusercontent.com/thaunghtike-share/thaunghtike-share.github.io/master/images/redirectrecord.png)
+
+Access http://yourdns on your browser. You will see implementing http to https redirect works now.
+
+![ssldemonginx](https://raw.githubusercontent.com/thaunghtike-share/thaunghtike-share.github.io/master/images/ssldemonginx.png)
 
 
 
