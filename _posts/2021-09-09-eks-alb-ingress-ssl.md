@@ -136,7 +136,9 @@ $ kubectl logs -f $(kubectl get po -n kube-system | egrep -o 'alb-ingress-contro
 I0915 15:12:57.217703       1 controller.go:134] kubebuilder/controller "level"=0 "msg"="Starting Controller"  "controller"="alb-ingress-controller"
 I0915 15:12:57.318066       1 controller.go:154] kubebuilder/controller "level"=0 "msg"="Starting workers"  "controller"="alb-ingress-controller" "worker count"=1
 ```
-<h2> Create Nginx Deployment </h2>
+<h2> PART-I Basic Ingress </h2>
+
+<h1> Create Nginx Deployment </h1>
 
 You are ready to create ingress routes on this eks cluster. Let's create a sample nginx deployment for this demo using kubectl.
 
@@ -226,6 +228,28 @@ Also you can verify target group have two registerd instances with port 30866. T
 Access the alb dns on your browser. Verify nginx is running.
 
 ![nginxalb](https://raw.githubusercontent.com/thaunghtike-share/thaunghtike-share.github.io/master/images/albnginx.png)
+
+<h2> PART-II AWS ALB Ingress Controller - SSL  </h2>
+
+<h2> Create A Hosted Zone In Route53 </h2>
+
+Firstly we have to create a public hosted zone in Route53. I already created a public hosted zone named thaunghtikeoo.info.
+
+![thoroute53](https://raw.githubusercontent.com/thaunghtike-share/thaunghtike-share.github.io/master/images/albhz.png)
+
+<h2> Create a SSL Certificate in Certificate Manager </h2>
+
+We will use amazon cert manager to request a certificate. Then select a dns validation method to validate your certificate with your domain. 
+
+![certmanpend](https://raw.githubusercontent.com/thaunghtike-share/thaunghtike-share.github.io/master/images/albcp.png)
+
+You see certificate is issued by ACM after some minutes.
+
+![certissued](https://raw.githubusercontent.com/thaunghtike-share/thaunghtike-share.github.io/master/images/albcs.png)
+
+
+
+
 
 
 
