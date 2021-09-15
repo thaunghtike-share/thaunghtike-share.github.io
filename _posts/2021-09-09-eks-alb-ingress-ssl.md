@@ -18,7 +18,7 @@ In this tutorial, I' gonna show you how to set up tls encryption on eks cluster 
 <ul>
     <li> eksctl </li>
     <li> eks cluster </li>
-    <li> public hosted zone <li>
+    <li> public hosted zone </li>
     <li> domain </li>
 </ul>
 
