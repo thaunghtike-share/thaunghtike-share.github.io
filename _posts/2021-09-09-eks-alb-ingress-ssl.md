@@ -136,6 +136,60 @@ $ kubectl logs -f $(kubectl get po -n kube-system | egrep -o 'alb-ingress-contro
 I0915 15:12:57.217703       1 controller.go:134] kubebuilder/controller "level"=0 "msg"="Starting Controller"  "controller"="alb-ingress-controller"
 I0915 15:12:57.318066       1 controller.go:154] kubebuilder/controller "level"=0 "msg"="Starting workers"  "controller"="alb-ingress-controller" "worker count"=1
 ```
+<h2> AWS ALB Ingress Controller - Context Path Based Routing </h2>
+
+You can also create ingress alb using context path based routing . Here is a sample yaml file for context path based alb ingress.
+
+```yaml
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: multiple-nginx
+  labels:
+    app: multiple-nginx
+  annotations:
+    # Ingress Core Settings
+    kubernetes.io/ingress.class: "alb"
+    alb.ingress.kubernetes.io/scheme: internet-facing
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /app1/*
+            backend:
+              serviceName: nginx-app1
+              servicePort: 80                        
+          - path: /app2/*
+            backend:
+              serviceName: nginx-app2
+              servicePort: 80            
+          - path: /*
+            backend:
+              serviceName: nginx
+              servicePort: 80         
+```
+When you use context path based routing, remember one path is one target. so Health check path annotation should be moved to respective node port services if we have to route to multiple targets using single load balancer. show the following service yaml file. 
+
+```bash
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    alb.ingress.kubernetes.io/healthcheck-path: /
+  labels:
+    app: nginx
+  name: nginx
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: nginx
+  type: NodePort
+status:
+``` 
+
 <h2> PART-I Basic Ingress </h2>
 
 <h1> Create Nginx Deployment </h1>
