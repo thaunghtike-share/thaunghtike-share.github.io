@@ -426,7 +426,7 @@ Access http://yourdns on your browser. You will see implementing http to https r
 ![ssldemonginx](https://raw.githubusercontent.com/thaunghtike-share/thaunghtike-share.github.io/master/images/ssldemonginx.png)
 
 
-Hope you like this post and happy cloud computing and kubernetes.
+Hope you like this post and happy cloud computing and kubernetes. 
 
 Thanks for reading .. bye bye
 
