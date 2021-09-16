@@ -417,7 +417,7 @@ Click view/edit rules on Lister HTTP: 80. You will see http to https redirect tr
 
 ![redirectrule](https://raw.githubusercontent.com/thaunghtike-share/thaunghtike-share.github.io/master/images/redirectrule.png)
 
-Go to hosted zone again. Update ssldemo.thaunghtikeoo.info record with new created alb alias.
+Go to hosted zone again. Update ssldemo.thaunghtikeoo.info record with newly created alb alias.
 
 ![redirectrecord](https://raw.githubusercontent.com/thaunghtike-share/thaunghtike-share.github.io/master/images/redirectrecord.png)
 
