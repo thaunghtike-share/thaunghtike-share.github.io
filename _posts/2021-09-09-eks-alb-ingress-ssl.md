@@ -113,11 +113,21 @@ You are ready to deploy alb ingress controller on eks cluster. This alb controll
 ```bash
 $ kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/master/docs/examples/alb-ingress-controller.yaml
 ```
-You will see alb ingress pod going to be 'crashloopbackoff'. You have to edit this deployment using kubectl. Add your eks cluster name '--cluster-name=eksdemo1' to the container arguments. 
+You will see alb ingress pod going to be 'crashloopbackoff'. You have to edit this deployment using kubectl. 
 
 ```bash
 $  kubectl edit deployment.apps/alb-ingress-controller -n kube-system
 ```
+Add your eks cluster name '--cluster-name=eksdemo1' to the container arguments. 
+
+```bash
+# Replaced cluster-name with our cluster-name eksdemo1
+    spec:
+      containers:
+      - args:
+        - --ingress-class=alb
+        - --cluster-name=eksdemo1
+```        
 Wait for a couple of minutes. ALB ingress controller pod is running now.
 
 ```bash
