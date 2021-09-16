@@ -53,7 +53,7 @@ Yeah you got an eks cluster. Let's create a node group with two worker nodes to 
  ```bash
  $ eksctl create nodegroup --cluster=eksdemo1 --region=us-east-1  --name=eksdemo1-ng-public1 --node-type=t3.medium --nodes=2 --nodes-min=2                       --nodes-max=4 --node-volume-size=20 --ssh-access --ssh-public-key=aws --managed --asg-access --external-dns-access --full-ecr-access                       --appmesh-access
  ```
- Now, you've created an eks cluster. Check with 'eksctl get clusters'. You will see one cluster is running. 
+ Now, you've created an eks cluster. Check with 'eksctl get clusters'. You will see one cluster is running. Check nodes status of eksdemo1 cluster.
  
  ```bash
  $ kubectl get nodes
