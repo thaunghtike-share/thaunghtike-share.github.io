@@ -50,8 +50,8 @@ As part of this step, we are going to create a k8s Service Account named externa
 ```bash
 # Replaced name, namespace, cluster, arn 
 eksctl create iamserviceaccount \
-    --name external-dns \
-    --namespace kube-system \
+    --name external-dns-demo \
+    --namespace default \
     --cluster eksdemo1 \
     --attach-policy-arn arn:aws:iam::993450297386:policy/AllowExternalDNSUpdates \
     --approve \
@@ -60,21 +60,21 @@ eksctl create iamserviceaccount \
 Verify external-dns service account, primarily verify annotation related to IAM Role
 
 ```bash
-$ kubectl get sa external-dns -n kube-system -o yaml
+$ kubectl get sa external-dns-demo -o yaml
 apiVersion: v1
 kind: ServiceAccount
 metadata:
   annotations:
-    eks.amazonaws.com/role-arn: arn:aws:iam::993450297386:role/eksctl-eksdemo1-addon-iamserviceaccount-kube-Role1-161BGTASEDB35
-  creationTimestamp: "2021-09-22T15:32:19Z"
+    eks.amazonaws.com/role-arn: arn:aws:iam::993450297386:role/eksctl-eksdemo1-addon-iamserviceaccount-defa-Role1-1VUEQBDOYDMCE
+  creationTimestamp: "2021-09-22T16:00:12Z"
   labels:
     app.kubernetes.io/managed-by: eksctl
-  name: external-dns
-  namespace: kube-system
-  resourceVersion: "47252"
-  uid: e94de865-be5e-4a5b-b651-a0e743976ce1
+  name: external-dns-demo
+  namespace: default
+  resourceVersion: "51192"
+  uid: 1d8eb723-463e-469e-84d2-6f8c3fe388ce
 secrets:
-- name: external-dns-token-b2s8x
+- name: external-dns-demo-token-wvnkv
 ```
 <h2> Update External DNS Kubernetes manifest </h2>
 
@@ -87,17 +87,6 @@ Before creating external dns deployment, you have to edit manifest a litte bit.
 </ul>    
 
 ```bash
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: external-dns
-  namespace: kube-system
-  # If you're using Amazon EKS with IAM Roles for Service Accounts, specify the following annotation.
-  # Otherwise, you may safely omit it.
-  annotations:
-    # Substitute your account ID and IAM service role name below. #Change-1: Replace with your IAM ARN Role for extern-dns
-    eks.amazonaws.com/role-arn: arn:aws:iam::993450297386:role/eksctl-eksdemo1-addon-iamserviceaccount-kube-Role1-161BGTASEDB35
----
 apiVersion: rbac.authorization.k8s.io/v1beta1
 kind: ClusterRole
 metadata:
@@ -123,14 +112,13 @@ roleRef:
   name: external-dns
 subjects:
 - kind: ServiceAccount
-  name: external-dns
+  name: external-dns-demo
   namespace: default
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: external-dns
-  namespace: kube-system
 spec:
   strategy:
     type: Recreate
