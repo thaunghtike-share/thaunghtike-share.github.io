@@ -150,3 +150,136 @@ spec:
       securityContext:
         fsGroup: 65534 # For ExternalDNS to be able to read Kubernetes and AWS token files
 ```        
+Verify external dns pod is running.
+
+```bash
+$ kubectl get all
+NAME                                READY   STATUS    RESTARTS   AGE
+pod/external-dns-75b6bbbb7b-r4hdr   1/1     Running   0          113s
+
+NAME                 TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
+service/kubernetes   ClusterIP   10.100.0.1   <none>        443/TCP   6h20m
+
+NAME                           READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/external-dns   1/1     1            1           116s
+
+NAME                                      DESIRED   CURRENT   READY   AGE
+replicaset.apps/external-dns-75b6bbbb7b   1         1         1       117s
+```
+Check the logs of the pod.
+
+```bash
+$ kubectl logs -f $(kubectl get po | egrep -o 'external-dns[A-Za-z0-9-]+')
+time="2021-09-22T16:06:06Z" level=info msg="Instantiating new Kubernetes client"
+time="2021-09-22T16:06:06Z" level=info msg="Using inCluster-config based on serviceaccount-token"
+time="2021-09-22T16:06:06Z" level=info msg="Created Kubernetes client https://10.100.0.1:443"
+time="2021-09-22T16:06:14Z" level=info msg="All records are already up to date"
+time="2021-09-22T16:07:14Z" level=info msg="All records are already up to date"
+time="2021-09-22T16:08:14Z" level=info msg="All records are already up to date"
+```
+<h2> Create Nginx Deployment </h2>
+
+You are ready to create ingress routes on this eks cluster. Let’s create a sample nginx deployment for this demo using kubectl.
+
+```bash
+$ kubectl create deploy nginx --image nginx --port 80
+```
+make sure nginx deployment is ready.
+
+```bash
+$ kubectl get deploy 
+NAME    READY   UP-TO-DATE   AVAILABLE   AGE
+nginx   1/1     1            1           63s
+```
+<h2>  Expose Nginx Service As NodePort  </h2>
+
+This step is quite important. You have to expose nginx svc as NodePort. So, alb can create a listener which will forward to target group with this NodePort.
+
+```bash
+$ kubectl expose deploy nginx --type NodePort --target-port 80 --port 80
+```
+<h2> AWS ALB Ingress Controller - SSL  </h2>
+
+Firstly you have to create a public hosted zone in Route53. I already created a public hosted zone named thaunghtikeoo.info.
+
+![thoroute53](https://raw.githubusercontent.com/thaunghtike-share/thaunghtike-share.github.io/master/images/albhz.png)
+
+<h2> Create a SSL Certificate in Certificate Manager </h2>
+
+I will use amazon cert manager to request a certificate. Then select a dns validation method to validate your certificate with your domain. 
+
+![certmanpend](https://raw.githubusercontent.com/thaunghtike-share/thaunghtike-share.github.io/master/images/albcp.png)
+
+You see certificate is issued by ACM after some minutes.
+
+![certissued](https://raw.githubusercontent.com/thaunghtike-share/thaunghtike-share.github.io/master/images/albci.png)
+
+<h2> Create Ingress Manifest </h2>
+
+This ingress rule will create an ALB on which ssl is already installed. You have to annotate ACM arn to install ssl on this ingress route. It will automatically create a dns record in route 53 hosted zone for nginx.thaunghtikeoo.info.
+
+```yaml
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: nginx-ingresss-demo
+  labels:
+    app: nginx
+  annotations:
+    # Ingress Core Settings  
+    kubernetes.io/ingress.class: "alb"
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    # Health Check Settings
+    alb.ingress.kubernetes.io/healthcheck-protocol: HTTP 
+    alb.ingress.kubernetes.io/healthcheck-port: traffic-port
+    #Important Note:  Need to add health check path annotations in service level if we are planning to use multiple targets in a load balancer    
+    #alb.ingress.kubernetes.io/healthcheck-path: /
+    alb.ingress.kubernetes.io/healthcheck-interval-seconds: '15'
+    alb.ingress.kubernetes.io/healthcheck-timeout-seconds: '5'
+    alb.ingress.kubernetes.io/success-codes: '200'
+    alb.ingress.kubernetes.io/healthy-threshold-count: '2'
+    alb.ingress.kubernetes.io/unhealthy-threshold-count: '2'
+    ## SSL Settings
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS":443}, {"HTTP":80}]'
+    alb.ingress.kubernetes.io/certificate-arn:  arn:aws:acm:us-east-1:993450297386:certificate/b8a072e5-096b-436d-87da-f1517c72023d
+    #alb.ingress.kubernetes.io/ssl-policy: ELBSecurityPolicy-TLS-1-1-2017-01 #Optional (Picks default if not used)    
+    # SSL Redirect Setting
+    alb.ingress.kubernetes.io/actions.ssl-redirect: '{"Type": "redirect", "RedirectConfig": { "Protocol": "HTTPS", "Port": "443", "StatusCode": "HTTP_301"}}'   
+    # External DNS - For creating a Record Set in Route53
+    external-dns.alpha.kubernetes.io/hostname: nginx.thaunghtikeoo.info     
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /* # SSL Redirect Setting
+            backend:
+              serviceName: ssl-redirect
+              servicePort: use-annotation                  
+          - path: /*
+            backend:
+              serviceName: nginx
+              servicePort: 80             
+````
+Create ssl ingress with kubectl. You got an ingress route running after some minutes.
+
+```bash
+ kubectl get ingress
+NAME                  CLASS    HOSTS   ADDRESS                                                                  PORTS   AGE
+nginx-ingresss-demo   <none>   *       6ad0ef5b-default-nginxingr-ce56-1065941475.us-east-1.elb.amazonaws.com   80      2m40s
+```
+Go to aws ec2 console and you see an alb with two listers is running.
+
+![albpart2](https://raw.githubusercontent.com/thaunghtike-share/thaunghtike-share.github.io/master/images/albpart2.png)
+
+Also go to route 53 hosted zone. You will see dns record are automatically created by external dns.
+
+![nginxr53](https://raw.githubusercontent.com/thaunghtike-share/thaunghtike-share.github.io/master/images/nginxr53.png)
+
+Access nginx.thaunghtikeoo.info on browser. You will see 'http to https redirect' also works because I also annotates this redirect feauture on ingress rule.
+
+![nginxalbpage](https://raw.githubusercontent.com/thaunghtike-share/thaunghtike-share.github.io/master/images/nginxalbpage.png)
+
+Also check the certificate detail. verify certificate is issued by amazon.
+
+![ssldemocert](https://raw.githubusercontent.com/thaunghtike-share/thaunghtike-share.github.io/master/images/ssldemocert.png)
+
