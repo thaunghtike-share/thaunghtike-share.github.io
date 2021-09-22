@@ -134,7 +134,7 @@ spec:
       #annotations:  
         #iam.amazonaws.com/role: arn:aws:iam::ACCOUNT-ID:role/IAM-SERVICE-ROLE-NAME    
     spec:
-      serviceAccountName: external-dns
+      serviceAccountName: external-dns-demo
       containers:
       - name: external-dns
         image: registry.opensource.zalan.do/teapot/external-dns:latest
