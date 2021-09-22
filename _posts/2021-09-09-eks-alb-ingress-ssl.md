@@ -113,7 +113,14 @@ You are ready to deploy alb ingress controller on eks cluster. This alb controll
 ```bash
 $ kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/master/docs/examples/alb-ingress-controller.yaml
 ```
-You will see alb ingress pod going to be 'crashloopbackoff'. You have to edit this deployment using kubectl. 
+Check alb ingress pod is running or not. You will see alb ingress pod is getting error. 
+
+```bash
+$ kubectl get pods -n kube-system
+NAME                                     READY   STATUS    RESTARTS   AGE
+alb-ingress-controller-7b4cdcc5b-x8vzw   0/1     Error     2          24s
+```
+You have to edit this deployment using kubectl. 
 
 ```bash
 $  kubectl edit deployment.apps/alb-ingress-controller -n kube-system
