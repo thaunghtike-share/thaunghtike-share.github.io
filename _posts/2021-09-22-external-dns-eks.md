@@ -283,7 +283,7 @@ Also check the certificate detail. verify certificate is issued by amazon.
 
 ![ssldemocert](https://raw.githubusercontent.com/thaunghtike-share/thaunghtike-share.github.io/master/images/ssldemocert.png)
 
-Happy Cotainerization And Cloud Computing !!
+That's for this lab. See you in the next section. Bye Bye!!
 
 Thanks for reading...
 
