@@ -11,7 +11,7 @@ categories: kubernetes
 
 <h2> What is External DNS? </h2>
 
-Hi guys, I released a post about ssl termination on alb ingress controller last week. You can read it [albsslingress](https://thaunghtike-share.github.io/2021/09/15/eks-alb-ingress-ssl). You have to create a route 53 record with alb ingress dns name manually once you deployed ssl termination on ALB ingress. EKS supports you to create those records automatically when you create an ingress route or service. In short, external DNS is a pod running in your EKS cluster which watches over all your ingresses. When it detects an ingress with a host specified, it automatically picks up the hostname as well as the endpoint and creates a record for that resource in Route53. If the host is changed or deleted, external DNS will reflect the change immediately in Route53.
+Hi guys, I released a post about ssl termination on alb ingress controller last week. You can read it [here](https://thaunghtike-share.github.io/2021/09/15/eks-alb-ingress-ssl). You have to create a route 53 record with alb ingress dns name manually once you deployed ssl termination on ALB ingress. EKS supports you to create those records automatically when you create an ingress route or service. In short, external DNS is a pod running in your EKS cluster which watches over all your ingresses. When it detects an ingress with a host specified, it automatically picks up the hostname as well as the endpoint and creates a record for that resource in Route53. If the host is changed or deleted, external DNS will reflect the change immediately in Route53.
 
 <h2> Create IAM policy </h2>
 
