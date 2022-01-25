@@ -23,7 +23,7 @@ So why do we need to autoscale GitLab runners? ။ Normally we register runners 
 
 <h1> Runner Manager (or) Bastion Host </h1>
 
-Runner manager is used to do scale in | scale out spot instances. Firstly we should create a user who has Ec2 and S3 full access. I will use aws root user account in this demo. So, I will not create any IAM user. It's enough t2.small instance for runner manager. I already created an ec2 instance for manager. Let's check the instance.
+Runner manager is used to do scale in (or) scale out spot instances. Firstly we should create a user who has Ec2 and S3 full access. I will use aws root user account in this demo. So, I will not create any IAM user. It's enough t2.small instance for runner manager. I already created an ec2 instance for manager. Let's check the instance.
 
 ```bash
 thaunghtikeoo@thaunghtikeoo:~$ aws ec2 describe-instances --query "Reservations[*].Instances[*].{name: Tags[?Key=='Name'] | [0].Value, instance_id: InstanceId, ip_address: PrivateIpAddress, state: State.Name}" --output table
