@@ -19,7 +19,7 @@ GitLab Runner is an application that works with GitLab CI/CD to run jobs in a pi
 
 <h1> Why Runner Needs Autoscaling </h1>
 
-So why do we need to autoscale GitLab runners? ။ Normally we register runners using Docker executor on another machine that’s separate from the one that hosts the GitLab instance for security and performance reason. It is not an issue when we run a small number of jobs. But when we run multiple jobs by multiple engineers parallelly, this machine which is used to register runner can't work well due to CPU overloading. Using a lot of machines to register gitlab runners does not seems a good option in technical view. If we are also using cloud service provider instances, why would you cost much for VMs monthly? We don't need the runners to active for the whole time. We can solve that problem by autoscaling AWS spot instances to install GitLab runners. Spot instances are almost 70-90% cheaper than normal instances. You can run it whenever you want and it will be terminated after processing the job automatically. Spot instances are used especially when we run batch jobs.  
+So why do we need to autoscale GitLab runners? Normally we register runners using Docker executor on another machine that’s separate from the one that hosts the GitLab instance for security and performance reason. It is not an issue when we run a small number of jobs. But when we run multiple jobs by multiple engineers parallelly, this machine which is used to register runner can't work well due to CPU overloading. Using a lot of machines to register gitlab runners does not seems a good option in technical view. If we are also using cloud service provider instances, why would you cost much for VMs monthly? We don't need the runners to active for the whole time. We can solve that problem by autoscaling AWS spot instances to install GitLab runners. Spot instances are almost 70-90% cheaper than normal instances. You can run it whenever you want and it will be terminated after processing the job automatically. Spot instances are used especially when we run batch jobs.  
 
 <h1> Runner Manager (or) Bastion Host </h1>
 
@@ -95,4 +95,20 @@ Enter the default Docker image (for example, ruby:2.6):
 alpine:latest
 Runner registered successfully. Feel free to start it, but if it's running already the config should be automatically reloaded! 
 ```
+We will be asked to enter some information, fill in the options as follows.
+
+(1) gitlab cordinator url: this is your gitlab host url. If you are running a dedicated gitlab instance, enter the host url, otherwise use https://gitlab.com.
+
+(2) gitlab ci token: Enter the token you just obtained
+
+(3) gitlab runner description: Enter a description for the runner. Something like what the runner does should be fine
+
+(4) gitlab ci tags: Tags are ways to say, run only jobs that has this tags on them. If this is not what you need, most likely, leave it empty. We can still have it tagged but disable it later in the gitlab ui by setting the run untagged jobs option to true.
+
+(5) runner executor:: For the runner executor. Make sure to enter docker+machine.
+
+(6) default docker image: Specify your default docker image, when a job in gitlab-ci.yml file does not specify an image, this default image will be used.
+
+</h1> Configure the Runner </h1>
+
 
