@@ -19,4 +19,4 @@ GitLab Runner is an application that works with GitLab CI/CD to run jobs in a pi
 
 <h1> Why Runner Needs Autoscaling <h1>
 
-So why do we need to autoscale gitlab runners? ။ Normally we register runners using Docker container or separate machines. It is not an issue when we run small number of jobs. But when we run multipe jobs by multiple engineers parallely, this machine which is used to register runner can't work well due to cpu overloading. There are a lot of ways to solve that problem. We can either use Kubernetes cluter or use aws spot instances to install gitlab runners.
+So why do we need to autoscale GitLab runners? ။ Normally we register runners using Docker containers or separate machines. It is not an issue when we run a small number of jobs. But when we run multiple jobs by multiple engineers parallelly, this machine which is used to register runner can't work well due to CPU overloading. There are a lot of ways to solve that problem. We can either use the Kubernetes cluster or use AWS spot instances to install GitLab runners.
