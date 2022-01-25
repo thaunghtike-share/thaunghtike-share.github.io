@@ -49,6 +49,7 @@ After creating ec2 instance and s3 bucket, ssh into ec2 instance. Install gitlab
 NOTE - docker-machine has been depricated.
 
 ```bash
+
 [comment]: # ( gitlab ruunner binary install )
 
 sudo curl -L --output /usr/local/bin/gitlab-runner "https://gitlab-runner-downloads.s3.amazonaws.com/latest/binaries/gitlab-runner-linux-amd64"
