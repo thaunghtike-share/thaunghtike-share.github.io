@@ -38,8 +38,31 @@ thaunghtikeoo@thaunghtikeoo:~$ aws ec2 describe-instances --query "Reservations[
 Then we have to create a S3 bucket to store runner config and cache. Create a s3 bucket.
 
 ```bash
+
 thaunghtikeoo@thaunghtikeoo:~$ aws s3 mb s3://tho-s3-demo
 make_bucket: tho-s3-demo
 ```
+<h1> Register gitlab runner </h1>
 
+After creating ec2 instance and s3 bucket, ssh into ec2 instance. Install gitlab runner binary , docker and also docker machine.
 
+NOTE - docker-machine has been depricated.
+
+```bash
+[comment]: <> ( gitlab ruunner binary install )
+
+sudo curl -L --output /usr/local/bin/gitlab-runner "https://gitlab-runner-downloads.s3.amazonaws.com/latest/binaries/gitlab-runner-linux-amd64"
+sudo chmod +x /usr/local/bin/gitlab-runner
+
+[comment]: <> ( docker install )
+
+sudo su - && apt update -y && apt install docker.io -y && systemctl restart docker
+
+[comment]: <> ( docker-machine install )
+
+base=https://github.com/docker/machine/releases/download/v0.16.0 \
+  && curl -L $base/docker-machine-$(uname -s)-$(uname -m) >/tmp/docker-machine \
+  && sudo mv /tmp/docker-machine /usr/local/bin/docker-machine \
+  && chmod +x /usr/local/bin/docker-machine
+  
+```  
