@@ -35,6 +35,11 @@ thaunghtikeoo@thaunghtikeoo:~$ aws ec2 describe-instances --query "Reservations[
 |  i-01559252cc9d7baf8 |  172.31.81.166 |  runner-manager                    |  running    |
 +----------------------+----------------+------------------------------------+-------------+
 ```
+Then we have to create a S3 bucket to store runner config and cache. Create a s3 bucket.
 
+```bash
+thaunghtikeoo@thaunghtikeoo:~$ aws s3 mb s3://tho-s3-demo
+make_bucket: tho-s3-demo
+```
 
 
