@@ -20,3 +20,11 @@ GitLab Runner is an application that works with GitLab CI/CD to run jobs in a pi
 <h1> Why Runner Needs Autoscaling </h1>
 
 So why do we need to autoscale GitLab runners? ။ Normally we register runners using Docker containers or separate machines. It is not an issue when we run a small number of jobs. But when we run multiple jobs by multiple engineers parallelly, this machine which is used to register runner can't work well due to CPU overloading. Using a lot of machines to register gitlab runners does not seems a good option in technical view. If we are also using cloud service provider instances, why would you cost much for VMs monthly? We don't need the runners to active for the whole time. We can solve that problem by autoscaling AWS spot instances to install GitLab runners. Spot instances are almost 70-90% cheaper than normal instances. You can run it whenever you want and it will be terminated after processing the job automatically. Spot instances are used especially when we run batch jobs.  
+
+<h1> Runner Manager (or) Bastion Host </h2>
+
+Runner manager is used to do scale in | scale out spot instances. Firstly we should create a user who has Ec2 and S3 full access. I will use aws root user account in this demo. So, I will not create any IAM user. It's enough t2.small instance for runner manager. I already created an ec2 instance for manager. Let's check the instance.
+
+<
+
+
