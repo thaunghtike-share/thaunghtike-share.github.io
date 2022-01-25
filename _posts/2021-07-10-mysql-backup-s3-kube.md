@@ -21,6 +21,7 @@ cloud services တွေ popular မဖြစ်ခင်ကဆို ကျွ�
 </p>
 
 <h2> Prequities </h2>
+
 ```bash
  Basic Kubernetes Knowledge 
  AWS Account
