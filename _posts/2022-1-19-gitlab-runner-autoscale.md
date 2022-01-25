@@ -109,6 +109,6 @@ We will be asked to enter some information, fill in the options as follows.
 
 (6) default docker image: Specify your default docker image, when a job in gitlab-ci.yml file does not specify an image, this default image will be used.
 
-</h1> Configure the Runner </h1>
+<h1> Configure the Runner </h1>
 
 
