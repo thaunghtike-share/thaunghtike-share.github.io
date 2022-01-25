@@ -111,4 +111,91 @@ We will be asked to enter some information, fill in the options as follows.
 
 <h1> Configure the Runner </h1>
 
+Having registered the runner, it is time to configure the autoscaling features. This is where the final work is. Note also that you can register multiple runners by following the steps above. All you need is to get the targt project or group registration token.
 
+In ubuntu, gitlab-runner configuration settings are saved and located at /etc/gitlab-runner/config.toml. Ssh once again into the ubuntu instance and fire up nano editor on this file. Here we will configure how the runner ochestrates and spins up and down aws ec2 spot instances.
+
+```bash
+sudo nano /etc/gitlab-runner/config.toml
+```
+Note: The gitlab runner must have network connection with every ec2 instance that it needs to create. To ensure that this need is met, we need to launch ec2 instances within the same vpc, utilizing any of the subnet network groups.
+
+Once you fire up the editor, you will see an entry for the registered runner. This was created by gitlab when we first ran gitlab-runner register. We will edit this default configuration to our taste.
+
+```yaml
+concurrent = 4
+check_interval = 0
+
+[session_server]
+  session_timeout = 1800
+  
+[[runners]]
+  name = "ip-172-31-81-166"
+  url = "https://gitlab.com"
+  token = "jDQCx1yfZb9paXQowCex"
+  executor = "docker+machine"
+  limit = 4
+  [runners.docker]
+    tls_verify = false
+    image = "alpine:latest"
+    privileged = true
+    disable_cache = true
+    shm_size = 0
+  [runners.cache]
+    Type = "s3"
+    Shared = true
+    [runners.cache.s3]
+      ServerAddress = "s3.amazonaws.com"
+      AccessKey = "AKIA6OTSARAVHZPAKGNI"
+      SecretKey = "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"
+      BucketName = "tho-s3-demo"
+      BucketLocation = "tho-s3-demo-location"
+  [runners.machine]
+    MachineDriver = "amazonec2"
+    MachineName = "gitlab-ci-machine-%s"
+    OffPeakTimezone = ""
+    OffPeakIdleCount = 0
+    OffPeakIdleTime = 0
+    IdleCount = 0
+    MachineOptions = [
+      "amazonec2-access-key=AKIA6OTSARAVHZPAKGNI",
+      "amazonec2-secret-key=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",
+      "amazonec2-region=us-east-1",
+      "amazonec2-vpc-id=vpc-8e3d57f3",
+      "amazonec2-subnet-id=subnet-e56a4ec4",
+      "amazonec2-zone=a",
+      "amazonec2-use-private-address=true",
+      "amazonec2-tags=gitlab-runner-autoscaler,gitlab,group-runner",
+      "amazonec2-security-group=kube",
+      "amazonec2-instance-type=t2.medium",
+      "amazonec2-request-spot-instance=true",
+      "amazonec2-spot-price=0.05",
+      "amazonec2-block-duration-minutes=60"
+    ]
+``` 
+Global Section
+
+the global section defines rules that applies to all runners. check_interval defines the time interval in seconds at which gitlab runner communicates with the gitlab host to check for new jobs. defaults to 3 if not given. concurrent defines the maximum number of jobs that can be run concurrently by all runners put together. 0 means unlimited.
+Runners Section
+
+Each runner you register is listed in the [[runners]] section. This is what we see above. There are different executor types for gitlab-runner, but for us, we are interested in docker+machine, specified during the registration process.
+
+limit defines the number of jobs that can be handled concurrently by the runner (also called token by gitlab). It can be equal to or less than the concurrent global option.
+Runners.docker Section
+
+This section configures the docker container. We disable volume cache since this will never help us because docker volume is lost once the build completes and ec2 instance is shut down. We will specify s3 as our cache location in the next section. [disable_cache] disables docker volume cache.
+Runners.Cache Section
+
+Here we configure how the runner handles cache. Caching is necessary to speed up our jobs. We will be using s3 for cache, since the docker volume gets deleted once a job completes. We disable volume cache, and instead, specify s3 as our cache location.
+
+We also provide necessary access and secret keys, as well as bucket name and location to the runner. Here, you specify the access key and secret key you created earlier in the tutorial. Also create a bucket. Name can be cache.your-domain.com.
+
+The Shared configuration is very important, as this enables/disables cache sharing between runners.
+Runners.machine Section
+
+Here we configure the machine to be used for running the jobs. Most of the sections are self explanatory. But here are the key notes. Provide the previously created aws access and secret keys for amazonec2-access-key and amazonec2-secret-key respectively.
+
+amazonec2-region specifies the region where the ec2 instance will be setup. Like I said earlier, take your time to study aws spot instances available in their various regions, and the bidding price using the link here.
+Note on Networking
+
+The runner manager instance (gitlab in the t.micro instance) needs to have network access to the region where the machines will be provisioned. The network configuration fields, (amazonec2-vpc-id, amazonec2-subnet-id, amazonec2-zone and amazonec2-security-group) are specifically for this. Here we setup the networking portion for our spot instances.
