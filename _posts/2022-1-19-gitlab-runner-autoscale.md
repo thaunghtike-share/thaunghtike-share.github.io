@@ -132,7 +132,7 @@ check_interval = 0
 [[runners]]
   name = "ip-172-31-81-166"
   url = "https://gitlab.com"
-  token = "jDQCx1yfZb9paXQowCex"
+  token = "DhYy6gjGGV7hABg7-ZzP"
   executor = "docker+machine"
   limit = 4
   [runners.docker]
@@ -205,3 +205,11 @@ amazonec2-region specifies the region where the ec2 instance will be setup. Like
 <h3> Note on Networking </h3>
 
 The runner manager instance (gitlab in the t.micro instance) needs to have network access to the region where the machines will be provisioned. The network configuration fields, (amazonec2-vpc-id, amazonec2-subnet-id, amazonec2-zone and amazonec2-security-group) are specifically for this. Here we setup the networking portion for our spot instances.
+
+<h1> Running CICD pipeline in gitlab </h1>
+
+So I go to the project in gitlab and create a .gitlab-ci.yml file as shown below.
+
+![ci](ci.png)
+
+A job will be running in the pipeline soon. If the pipeline is pending, run gitlab-runner –debug on runner manager. Once in the running state, you can access the runner logs. When the job is done you will see the following
