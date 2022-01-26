@@ -169,7 +169,7 @@ check_interval = 0
       "amazonec2-security-group=kube",
       "amazonec2-instance-type=t2.micro",
       "amazonec2-request-spot-instance=true",
-      "amazonec2-spot-price=0.05"
+      "amazonec2-spot-price=0.004"
     ]
 
 ``` 
@@ -220,10 +220,22 @@ Also you will see one ec2 spot instance with size t2.micro running as below
 
 ![ec2running](ec2spotunning.png)
 
+Here you can use any type you like, not just t2.micro. If you want to modify it, you can not just modify the type. For example, let's say you have a lot of jobs to run. We will convert from t2.micro to m4.xlarge. To do so, you will need to make two changes in config.toml. amazonec2-instance-type and amazonec2-spot-price. How to make a change? Look at the pricing on the spot instance. Compare the two pictures below.
+
+![t2microprice](t2microprice.png)
+
+![m4xlargeprice](m4xlargeprice.png)
+
+In first picture, hourly price for t2.micro is $ 0.0035. In the next picture, the pricing for the m4.xlarge will be $ 0.040. So if we only use m4.xlarge, we need to set amazonec2-spot-price in the config to 0.05. Simply adjust the pricing to the instance type you want to use. 
+
 Pipeline will be passed after a couple of minutes
 
 ![22pipepass](22pipepass.png)
 
 If you go back to the spot instance when the pipelie is passed, you will see that it is closed and the status is terminated.
+
+In this way, it will create a spot instance for each pipeline and it will scale in automatically when the pipeline is completed. Also you do not need to spend a lot of money. 
+ 
+Thanks for your time !!! 
 
 
