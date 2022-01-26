@@ -210,7 +210,7 @@ The runner manager instance (gitlab in the t.micro instance) needs to have netwo
 
 So I will go to the demo project in gitlab and create a .gitlab-ci.yml file as shown below.
 
-![ci](https://raw.githubusercontent.com/thaunghtike-share/thaunghtike-share.github.io/master/images/c1.png)
+![ci](https://raw.githubusercontent.com/thaunggyee/thaunggyee.github.io/master/img/ci.png)
 
 A job will be running in the pipeline soon. If the pipeline is pending, run command 'gitlab-runner –debug run ' on runner manager. Once in the running state, you can access the runner logs. When the job is done you will see the following
 
@@ -218,7 +218,7 @@ A job will be running in the pipeline soon. If the pipeline is pending, run comm
 
 Also you will see one ec2 spot instance with size t2.micro running as below 
 
-![ec2running](https://raw.githubusercontent.com/thaunghtike-share/thaunghtike-share.github.io/master/images/ec2spotunning.png)
+![ec2running](https://raw.githubusercontent.com/thaunghtike-share/thaunghtike-share.github.io/master/images/ec2spotrunning.png)
 
 Here you can use any type you like, not just t2.micro. If you want to modify it, you can not just modify the type. For example, let's say you have a lot of jobs to run. We will convert from t2.micro to m4.xlarge. To do so, you will need to make two changes in config.toml. amazonec2-instance-type and amazonec2-spot-price. How to make a change? Look at the pricing on the spot instance. Compare the two pictures below.
 
