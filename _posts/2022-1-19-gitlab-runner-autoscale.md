@@ -242,4 +242,4 @@ References
 - https://gitlab.com
 - https://medium.com/@dev.npalm/gitlab-runners-on-the-aws-spotinstances-c637503e3c17
 
-Thanks for your time !!! 
+Thanks for your time !!! !
