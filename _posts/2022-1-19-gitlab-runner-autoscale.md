@@ -69,7 +69,7 @@ base=https://github.com/docker/machine/releases/download/v0.16.0 \
 ```  
 <h1> Register a Runner </h1>
 
-Having installed all the necessary tools, it is time to register a runner. By registering a runner, we establish a connection between our gitlab host and our runner manager. There are various ways to register runners in gitlab, it all depends on your use case. Runners can be registered on a project level, or group level. Group level runners are available for all projects in the group, while project specific runners are just for a single repository. Select the project or group, navigate to Settings >> Runners, expand the runners section, scroll down and grab the registration token shown.
+After installed all the necessary tools, it is time to register a runner. By registering a runner, we establish a connection between our gitlab host and our runner manager. There are various ways to register runners in gitlab, it all depends on your use case. Runners can be registered on a project level, or group level. Group level runners are available for all projects in the group, while project specific runners are just for a single repository. Select the project or group, navigate to Settings >> Runners, expand the runners section, scroll down and grab the registration token shown.
 
 ![22runtoken](https://raw.githubusercontent.com/thaunghtike-share/thaunghtike-share.github.io/master/images/2022runtoken.png)
 
@@ -97,17 +97,17 @@ Runner registered successfully. Feel free to start it, but if it's running alrea
 ```
 We will be asked to enter some information, fill in the options as follows.
 
-(1) gitlab cordinator url: this is your gitlab host url. If you are running a dedicated gitlab instance, enter the host url, otherwise use https://gitlab.com.
+- gitlab cordinator url: this is your gitlab host url. If you are running a dedicated gitlab instance, enter the host url, otherwise use https://gitlab.com.
 
-(2) gitlab ci token: Enter the token you just obtained
+- gitlab ci token: Enter the token you just obtained
 
-(3) gitlab runner description: Enter a description for the runner. Something like what the runner does should be fine
+- gitlab runner description: Enter a description for the runner. Something like what the runner does should be fine
 
-(4) gitlab ci tags: Tags are ways to say, run only jobs that has this tags on them. If this is not what you need, most likely, leave it empty. We can still have it tagged but disable it later in the gitlab ui by setting the run untagged jobs option to true.
+- gitlab ci tags: Tags are ways to say, run only jobs that has this tags on them. If this is not what you need, most likely, leave it empty. We can still have it   tagged but disable it later in the gitlab ui by setting the run untagged jobs option to true.
 
-(5) runner executor:: For the runner executor. Make sure to enter docker+machine.
+- runner executor:: For the runner executor. Make sure to enter docker+machine.
 
-(6) default docker image: Specify your default docker image, when a job in gitlab-ci.yml file does not specify an image, this default image will be used.
+- default docker image: Specify your default docker image, when a job in gitlab-ci.yml file does not specify an image, this default image will be used.
 
 <h1> Configure the Runner </h1>
 
@@ -226,9 +226,9 @@ Here you can use any type you like, not just t2.micro. If you want to modify it,
 
 ![m4xlargeprice](https://raw.githubusercontent.com/thaunghtike-share/thaunghtike-share.github.io/master/images/m4xlargeprice.png)
 
-In first picture, hourly price for t2.micro is $ 0.0035. In the next picture, the pricing for the m4.xlarge will be $ 0.040. So if we only use m4.xlarge, we need to set amazonec2-spot-price in the config to 0.05. Simply adjust the pricing to the instance type you want to use. 
+In the first picture, the hourly price for t2.micro is $ 0.0035. In the next picture, the pricing for the m4.xlarge will be $ 0.040. So if we only use m4.xlarge, we need to set amazonec2-spot-price in the config to 0.05. Simply adjust the pricing to the instance type you want to use.
 
-Pipeline will be passed after a couple of minutes
+The pipeline will be passed after a couple of minutes.
 
 ![22pipepass](https://raw.githubusercontent.com/thaunghtike-share/thaunghtike-share.github.io/master/images/22pipepass.png)
 
@@ -238,4 +238,9 @@ In this way, it will create a spot instance for each pipeline and it will scale 
  
 Thanks for your time !!! 
 
+References
 
+- https://blog.dopevs.cloud/2019-08-02-Gitlab-Runner-Autoscaling-with-aws-spot-instances
+- https://gitlab.com
+- https://medium.com/@dev.npalm/gitlab-runners-on-the-aws-spotinstances-c637503e3c17
+- 
