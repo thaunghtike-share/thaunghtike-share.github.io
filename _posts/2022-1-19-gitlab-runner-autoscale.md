@@ -236,11 +236,10 @@ If you go back to the spot instance when the pipelie is passed, you will see tha
 
 In this way, it will create a spot instance for each pipeline and it will scale in automatically when the pipeline is completed. Also you do not need to spend a lot of money. 
  
-Thanks for your time !!! 
-
 References
 
 - https://blog.dopevs.cloud/2019-08-02-Gitlab-Runner-Autoscaling-with-aws-spot-instances
 - https://gitlab.com
 - https://medium.com/@dev.npalm/gitlab-runners-on-the-aws-spotinstances-c637503e3c17
-- 
+
+Thanks for your time !!! 
