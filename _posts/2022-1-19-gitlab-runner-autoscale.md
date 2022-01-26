@@ -71,7 +71,7 @@ base=https://github.com/docker/machine/releases/download/v0.16.0 \
 
 Having installed all the necessary tools, it is time to register a runner. By registering a runner, we establish a connection between our gitlab host and our runner manager. There are various ways to register runners in gitlab, it all depends on your use case. Runners can be registered on a project level, or group level. Group level runners are available for all projects in the group, while project specific runners are just for a single repository. Select the project or group, navigate to Settings >> Runners, expand the runners section, scroll down and grab the registration token shown.
 
-![22runtoken](22runtoken.png)
+![22runtoken](2022runtoken.png)
 
 With the token at hand, ssh once again to the instance, lets register the runner by running the interactive command:
 
@@ -130,9 +130,9 @@ check_interval = 0
   session_timeout = 1800
   
 [[runners]]
-  name = "ip-172-31-81-166"
+  name = "ip-172-31-0-224"
   url = "https://gitlab.com"
-  token = "DhYy6gjGGV7hABg7-ZzP"
+  token = "hps5Dk5y9x6QwzmBqUV1"
   executor = "docker+machine"
   limit = 4
   [runners.docker]
@@ -146,10 +146,10 @@ check_interval = 0
     Shared = true
     [runners.cache.s3]
       ServerAddress = "s3.amazonaws.com"
-      AccessKey = "AKIA6OTSA*******"
-      SecretKey = "lmOGwH/+0mTxTTCXU******"
+      AccessKey = "Your Access Key"
+      SecretKey = "Your Secret Key"
       BucketName = "tho-s3-demo"
-      BucketLocation = "tho-s3-demo-location"
+      BucketLocation = "us-east-1"
   [runners.machine]
     MachineDriver = "amazonec2"
     MachineName = "gitlab-ci-machine-%s"
@@ -158,20 +158,20 @@ check_interval = 0
     OffPeakIdleTime = 0
     IdleCount = 0
     MachineOptions = [
-      "amazonec2-access-key=AKIA6OTSA*******",
-      "amazonec2-secret-key=lmOGwH/+0mTxTTCXU0******",
-      "amazonec2-region=us-east-1",
-      "amazonec2-vpc-id=vpc-8e3d57f3",
-      "amazonec2-subnet-id=subnet-e56a4ec4",
+      "amazonec2-access-key=*****",
+      "amazonec2-secret-key=**********",
+      "amazonec2-region=us-east-2",
+      "amazonec2-vpc-id=vpc-9fec8ef4",
+      "amazonec2-subnet-id=subnet-af179dc4",
       "amazonec2-zone=a",
       "amazonec2-use-private-address=true",
       "amazonec2-tags=gitlab-runner-autoscaler,gitlab,group-runner",
       "amazonec2-security-group=kube",
-      "amazonec2-instance-type=t2.medium",
+      "amazonec2-instance-type=t2.micro",
       "amazonec2-request-spot-instance=true",
-      "amazonec2-spot-price=0.05",
-      "amazonec2-block-duration-minutes=60"
+      "amazonec2-spot-price=0.05"
     ]
+
 ``` 
 <h3> Global Section </h3>
 
@@ -208,8 +208,22 @@ The runner manager instance (gitlab in the t.micro instance) needs to have netwo
 
 <h1> Running CICD pipeline in gitlab </h1>
 
-So I go to the project in gitlab and create a .gitlab-ci.yml file as shown below.
+So I will go to the demo project in gitlab and create a .gitlab-ci.yml file as shown below.
 
 ![ci](ci.png)
 
-A job will be running in the pipeline soon. If the pipeline is pending, run gitlab-runner –debug on runner manager. Once in the running state, you can access the runner logs. When the job is done you will see the following
+A job will be running in the pipeline soon. If the pipeline is pending, run command 'gitlab-runner –debug run ' on runner manager. Once in the running state, you can access the runner logs. When the job is done you will see the following
+
+![job22running](job22running.png)
+
+Also you will see one ec2 spot instance with size t2.micro running as below 
+
+![ec2running](ec2spotunning.png)
+
+Pipeline will be passed after a couple of minutes
+
+![22pipepass](22pipepass.png)
+
+If you go back to the spot instance when the pipelie is passed, you will see that it is closed and the status is terminated.
+
+
