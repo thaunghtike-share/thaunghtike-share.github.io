@@ -235,11 +235,6 @@ Pipeline will be passed after a couple of minutes
 If you go back to the spot instance when the pipelie is passed, you will see that it is closed and the status is terminated.
 
 In this way, it will create a spot instance for each pipeline and it will scale in automatically when the pipeline is completed. Also you do not need to spend a lot of money. 
-
-<h2> References </h2>
-
-[dopevs](https://blog.dopevs.cloud/2019-08-02-Gitlab-Runner-Autoscaling-with-aws-spot-instances)
-[makerden](https://makersden.io/blog/reducing-gitlab-runner-cost-with-aws-spot-instance)
  
 Thanks for your time !!! 
 
