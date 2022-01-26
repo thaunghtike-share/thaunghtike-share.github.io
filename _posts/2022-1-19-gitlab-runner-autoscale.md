@@ -71,7 +71,7 @@ base=https://github.com/docker/machine/releases/download/v0.16.0 \
 
 Having installed all the necessary tools, it is time to register a runner. By registering a runner, we establish a connection between our gitlab host and our runner manager. There are various ways to register runners in gitlab, it all depends on your use case. Runners can be registered on a project level, or group level. Group level runners are available for all projects in the group, while project specific runners are just for a single repository. Select the project or group, navigate to Settings >> Runners, expand the runners section, scroll down and grab the registration token shown.
 
-![22runtoken](2022runtoken.png)
+![22runtoken](https://raw.githubusercontent.com/thaunghtike-share/thaunghtike-share.github.io/master/images/2022runtoken.png)
 
 With the token at hand, ssh once again to the instance, lets register the runner by running the interactive command:
 
@@ -210,27 +210,27 @@ The runner manager instance (gitlab in the t.micro instance) needs to have netwo
 
 So I will go to the demo project in gitlab and create a .gitlab-ci.yml file as shown below.
 
-![ci](ci.png)
+![ci](https://raw.githubusercontent.com/thaunghtike-share/thaunghtike-share.github.io/master/images/c1.png)
 
 A job will be running in the pipeline soon. If the pipeline is pending, run command 'gitlab-runner –debug run ' on runner manager. Once in the running state, you can access the runner logs. When the job is done you will see the following
 
-![job22running](job22running.png)
+![job22running](https://raw.githubusercontent.com/thaunghtike-share/thaunghtike-share.github.io/master/images/job22running.png)
 
 Also you will see one ec2 spot instance with size t2.micro running as below 
 
-![ec2running](ec2spotunning.png)
+![ec2running](https://raw.githubusercontent.com/thaunghtike-share/thaunghtike-share.github.io/master/images/ec2spotunning.png)
 
 Here you can use any type you like, not just t2.micro. If you want to modify it, you can not just modify the type. For example, let's say you have a lot of jobs to run. We will convert from t2.micro to m4.xlarge. To do so, you will need to make two changes in config.toml. amazonec2-instance-type and amazonec2-spot-price. How to make a change? Look at the pricing on the spot instance. Compare the two pictures below.
 
-![t2microprice](t2microprice.png)
+![t2microprice](https://raw.githubusercontent.com/thaunghtike-share/thaunghtike-share.github.io/master/images/t2microprice.png)
 
-![m4xlargeprice](m4xlargeprice.png)
+![m4xlargeprice](https://raw.githubusercontent.com/thaunghtike-share/thaunghtike-share.github.io/master/images/m4xlargeprice.png)
 
 In first picture, hourly price for t2.micro is $ 0.0035. In the next picture, the pricing for the m4.xlarge will be $ 0.040. So if we only use m4.xlarge, we need to set amazonec2-spot-price in the config to 0.05. Simply adjust the pricing to the instance type you want to use. 
 
 Pipeline will be passed after a couple of minutes
 
-![22pipepass](22pipepass.png)
+![22pipepass](https://raw.githubusercontent.com/thaunghtike-share/thaunghtike-share.github.io/master/images/22pipepass.png)
 
 If you go back to the spot instance when the pipelie is passed, you will see that it is closed and the status is terminated.
 
