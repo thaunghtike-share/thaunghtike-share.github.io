@@ -19,7 +19,7 @@ GitLab Runner is an application that works with GitLab CI/CD to run jobs in a pi
 
 <h1> Why Runner Needs Autoscaling </h1>
 
-So why do we need to autoscale GitLab runners? Normally we register runners using Docker executor on another machine that’s separate from the one that hosts the GitLab instance for security and performance reason. It is not an issue when we run a small number of jobs. But when we run multiple jobs by multiple engineers parallelly, this machine which is used to register runner can't work well due to CPU overloading. Using a lot of machines to register gitlab runners does not seems a good option in technical view. If we are also using cloud service provider instances, why would you cost much for VMs monthly? We don't need the runners to active for the whole time. We can solve that problem by autoscaling AWS spot instances to install GitLab runners. Spot instances are almost 70-90% cheaper than normal instances. You can run it whenever you want and it will be terminated after processing the job automatically. Spot instances are used especially when we run batch jobs.  
+So why do we need to autoscale GitLab runners? Normally we register runners using Docker executor on another machine that’s separate from the one that hosts the GitLab instance for security and performance reason. It is not an issue when we run a small number of jobs. But when we run multiple jobs by multiple engineers parallelly, this machine which is used to register runner can't work well due to CPU overloading. Using a lot of machines to register gitlab runners does not seems a good option in technical view. If we are also using cloud service provider instances, why would you cost much for VMs monthly? We don't need the runners to active for the whole time. We can solve that problem by autoscaling AWS spot instances to install GitLab runners. Spot instances are almost 70-90% cheaper than normal instances. You can run it whenever you want and it will be terminated after processing the job automatically. Spot instances are used especially when we run batch jobs.
 
 <h1> Runner Manager (or) Bastion Host </h1>
 
@@ -146,8 +146,8 @@ check_interval = 0
     Shared = true
     [runners.cache.s3]
       ServerAddress = "s3.amazonaws.com"
-      AccessKey = "AKIA6OTSARAVHZPAKGNI"
-      SecretKey = "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"
+      AccessKey = "AKIA6OTSA*******"
+      SecretKey = "lmOGwH/+0mTxTTCXU******"
       BucketName = "tho-s3-demo"
       BucketLocation = "tho-s3-demo-location"
   [runners.machine]
@@ -158,8 +158,8 @@ check_interval = 0
     OffPeakIdleTime = 0
     IdleCount = 0
     MachineOptions = [
-      "amazonec2-access-key=AKIA6OTSARAVHZPAKGNI",
-      "amazonec2-secret-key=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",
+      "amazonec2-access-key=AKIA6OTSA*******",
+      "amazonec2-secret-key=lmOGwH/+0mTxTTCXU0******",
       "amazonec2-region=us-east-1",
       "amazonec2-vpc-id=vpc-8e3d57f3",
       "amazonec2-subnet-id=subnet-e56a4ec4",
