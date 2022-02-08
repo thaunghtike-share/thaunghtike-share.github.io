@@ -1,8 +1,8 @@
 ---
 layout:     post
-title:   "Terrformr"
+title:   "Terraform Function, Expression And Loop Examples"
 date:       2022-01-10 15:13:18 +0200
-image: 31.jpg
+image: 36.jpg
 tags:
     - Kubernetes
     - EKS
