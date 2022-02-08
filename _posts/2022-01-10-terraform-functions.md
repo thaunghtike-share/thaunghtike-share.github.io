@@ -271,3 +271,7 @@ This expression produces an object whose attributes are the original elements fr
    baz = "BAZ"
 }
 ```
+<h3> References </h3>
+
+-  https://spacelift.io/blog/terraform-functions-expressions-loops
+-  https://terraform.io
