@@ -86,7 +86,60 @@ ay
 > lookup({a="ay", b="bee"}, "c", "what?")
 what?
 ```
-**NOTE Terraform does not allow you to create your own functions, so you’re bound to using what is provided by default.
-**
+NOTE: Terraform does not allow you to create your own functions, so you’re bound to using what is provided by default.
 
+<h1> Terraform Expressions </h1>
 
+Expressions are used to refer to or compute values within a configuration. The simplest expressions are just literal values, like "hello" or 5, but the Terraform language also allows more complex expressions such as references to data exported by resources, arithmetic, conditional evaluation, and a number of built-in functions.
+
+Expressions can be used in a number of places in the Terraform language, but some contexts limit which expression constructs are allowed, such as requiring a literal value of a particular type or forbidding references to resource attributes. Each language feature's documentation describes any restrictions it places on expressions.
+
+You can experiment with the behavior of Terraform's expressions from the Terraform expression console, by running the terraform console command.
+
+<h2> Terraform Operators </h2>
+
+<h3> Arithmetic Operators </h3>
+
+The arithmetic operators all expect number values and produce number values as results:
+
+- a + b returns the result of adding a and b together.
+- a - b returns the result of subtracting b from a.
+- a * b returns the result of multiplying a and b.
+- a / b returns the result of dividing a by b.
+- a % b returns the remainder of dividing a by b. This operator is generally useful only when used with whole numbers.
+- -a returns the result of multiplying a by -1.
+
+Terraform supports some other less-common numeric operations as functions. For example, you can calculate exponents using the pow function.
+
+```bash
+> pow(3, 2)
+9
+> pow(4, 0)
+1
+```
+<h3> Equality Operators </h3>
+
+The equality operators both take two values of any type and produce boolean values as results.
+
+- a == b returns true if a and b both have the same type and the same value, or false otherwise.
+- a != b is the opposite of a == b.
+
+<h3> Comparison Operators </h3>
+
+The comparison operators all expect number values and produce boolean values as results.
+
+- a < b returns true if a is less than b, or false otherwise.
+- a <= b returns true if a is less than or equal to b, or false otherwise.
+- a > b returns true if a is greater than b, or false otherwise.
+- a >= b returns true if a is greater than or equal to b, or false otherwise.
+
+<h3> Logical Operators <h3>
+
+The logical operators all expect bool values and produce bool values as results.
+    
+- a || b returns true if either a or b is true, or false if both are false.
+- a && b returns true if both a and b are true, or false if either one is false.
+- !a returns true if a is false, and false if a is true.
+    
+Terraform does not have an operator for the "exclusive OR" operation. If you know that both operators are boolean values then exclusive OR is equivalent to the != ("not equal") operator.    
+    
