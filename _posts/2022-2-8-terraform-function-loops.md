@@ -1,6 +1,6 @@
 ---
 layout:     post
-title:   "Gitlab Runner Autoscaling"
+title:   "Terraform Functions "
 date:       2022-02-11 15:13:18 +0200
 image: 35.jpg
 tags:
