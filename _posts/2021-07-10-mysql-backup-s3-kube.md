@@ -4,7 +4,7 @@ title:      "Backup Mysql To S3 On K8s"
 subtitle:   "Backup MySql DB To S3 On Kubernetes Using CronJob"
 date:       2021-07-10 4:00:00
 author:     "Thaung Htike Oo"
-image: 8.jpg
+image: 8.png
 categories: kubernetes
 catalog: true
 tags:
