@@ -206,3 +206,51 @@ When count is in use, each instance of a resource or module gets a separate inde
 aws_s3_bucket.test[5].id
 ```
 Although this is fine for identical, or nearly identical objects, as previously mentioned, count is pretty primitive. When you need to use more distinct, complex values – count yields to for_each.
+
+<h3> Terraform For_each </h3>
+
+As mentioned earlier, sometimes you might want to create resources with distinct values associated with each one – such as names or parameters (memory or disk size for example). For_each will let you do just that. Merely provide a variable—map, or a set of strings, and the resources can access values contained within, via each.key and each.value:
+
+```bash
+test_map = {
+ test1 = "test2",
+ test2 = "test4"
+}
+
+resource "test_resource" "thing" {
+  for_each = var.test_map
+
+  test_attribute_1 = each.key
+  test_attribute_2 = each.value
+}
+```
+As you can see, for_each is quite powerful, but you haven’t seen the best yet. By constructing a map of objects, you can leverage a resource or module to create multiple instances of itself, each with multiple declared variable values:
+
+```bash
+my_instances = {
+ instance_1 = {
+   ami   = "ami-00124569584abc",
+   type  = "t2.micro"
+ },
+ instance_2 = {
+   ami   = "ami-987654321xyzab",
+   type  = "t2.large"
+ },
+}
+
+resource "aws_instance" "test" {
+ for_each = var.my_instances
+
+ ami           = each.value["ami"]
+ instance_type = each.value["type"]
+}
+```
+<h3> Terraform For Loop </h3>
+
+A for expression creates a complex type value by transforming another complex type value. Each element in the input value can correspond to either one or zero values in the result, and an arbitrary expression can be used to transform each input element into an output element.
+
+For example, if var.list were a list of strings, then the following expression would produce a tuple of strings with all-uppercase letters:
+```bash
+[for s in var.list : upper(s)]
+```
+This for expression iterates over each element of var.list, and then evaluates the expression upper(s) with s set to each respective element. It then builds a new tuple value with all of the results of executing that expression in the same order.
