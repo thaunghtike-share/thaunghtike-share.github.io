@@ -133,7 +133,7 @@ The comparison operators all expect number values and produce boolean values as 
 - a > b returns true if a is greater than b, or false otherwise.
 - a >= b returns true if a is greater than or equal to b, or false otherwise.
 
-<h3> Logical Operators <h3>
+<h3> Logical Operators </h3>
 
 The logical operators all expect bool values and produce bool values as results.
     
