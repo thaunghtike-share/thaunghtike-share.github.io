@@ -3,7 +3,7 @@ layout:     post
 title:   "How To Setup Let's Encrypt SSL Certificate On Nginx Ingress Controller On Kubernetes"
 date:       2021-07-30 4:00:00
 author:     "Thaung Htike Oo"
-image: 5.jpg
+image: 5.webp
 categories: kubernetes
 catalog: true
 tags:
