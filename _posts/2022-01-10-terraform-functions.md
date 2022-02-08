@@ -171,3 +171,38 @@ The condition part is constructed using previously described operators. In this 
 ```bash
 bucket_name = var.test == true ? "dev" : "prod"
 ```
+<h3> Splat Expressions </h3>
+
+A splat expression provides a more concise way to express a common operation that could otherwise be performed with a for expression.
+
+If var.list is a list of objects that all have an attribute id, then a list of the ids could be produced with the following for expression:
+
+```bash
+[for o in var.list : o.id]
+```
+This is equivalent to the following splat expression:
+
+```
+var.list[*].id
+```
+Do note, that this behavior applies only if splat was used on a list, set, or tuple. Anything else (Except null) will be transformed into a tuple, with a single element inside, null will simply stay as is. This may be good or bad, depending on your use case.
+
+<h3> Terraform Count </h3>
+
+Count is the most primitive—it allows you to specify a whole number, and produces as many instances of something as this number tells it to. For example, the following would order Terraform to create ten S3 buckets:
+
+```bash
+resource "aws_s3_bucket" "test" {
+
+ count = 10
+
+[...]
+
+}
+```
+When count is in use, each instance of a resource or module gets a separate index, representing its place in the order of creation. To get a value from a single resource created in this way, you must refer to it by its index value, e.g. if you wished to see the ID of the fifth created S3 bucket, you would need to call it as such:
+
+```bash
+aws_s3_bucket.test[5].id
+```
+Although this is fine for identical, or nearly identical objects, as previously mentioned, count is pretty primitive. When you need to use more distinct, complex values – count yields to for_each.
