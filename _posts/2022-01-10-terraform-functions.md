@@ -254,3 +254,19 @@ For example, if var.list were a list of strings, then the following expression w
 [for s in var.list : upper(s)]
 ```
 This for expression iterates over each element of var.list, and then evaluates the expression upper(s) with s set to each respective element. It then builds a new tuple value with all of the results of executing that expression in the same order.
+
+<h3> Result Types </h3>
+
+The type of brackets around the for expression decide what type of result it produces.
+
+The above example uses [ and ], which produces a tuple. If you use { and } instead, the result is an object and you must provide two result expressions that are separated by the => symbol:
+```bash
+{for s in var.list : s => upper(s)}
+```
+This expression produces an object whose attributes are the original elements from var.list and their corresponding values are the uppercase versions. For example, the resulting value might be as follows:
+```bash
+{  foo = "FOO"  
+   bar = "BAR" 
+   baz = "BAZ"
+}
+```
