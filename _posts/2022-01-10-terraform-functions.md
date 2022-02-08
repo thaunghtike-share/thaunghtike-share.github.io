@@ -71,6 +71,22 @@ split(separator, string)
   "",
 ]
 ```
+<h3> Length Function </h3>
+
+length determines the length of a given list, map, or string.
+
+If given a list or map, the result is the number of elements in that collection. If given a string, the result is the number of characters in the string.
+
+```bash
+> length([])
+0
+> length(["a", "b"])
+2
+> length({"a" = "b"})
+1
+> length("hello")
+5
+```
 <h3> Lookup Function </h3>
 
 lookup retrieves the value of a single element from a map, given its key. If the given key does not exist, the given default value is returned instead.
@@ -142,4 +158,16 @@ The logical operators all expect bool values and produce bool values as results.
 - !a returns true if a is false, and false if a is true.
     
 Terraform does not have an operator for the "exclusive OR" operation. If you know that both operators are boolean values then exclusive OR is equivalent to the != ("not equal") operator.    
-    
+ 
+<h3> Conditionals </h3>
+
+Sometimes, you might run into a scenario where you’d want the argument value to be different, depending on another value. The conditional syntax is as such:
+
+```bash
+condition ? true_val : false_val
+```
+The condition part is constructed using previously described operators. In this example, the bucket_name value is based on the “test” variable—if it’s set to true, the bucket will be named “dev” and if it’s false, the bucket will be named “prod”:
+
+```bash
+bucket_name = var.test == true ? "dev" : "prod"
+```
