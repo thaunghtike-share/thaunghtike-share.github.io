@@ -1,10 +1,10 @@
 ---
 layout:     post
-title:   "terraform functio"
-date:       2022-01-19 15:13:18 +0200
-image: 35.jpg
+title:   "Introduction To Terraform Functions, Expressions And Loops"
+date:       2022-02-8 15:13:18 +0200
+image: 36.jpg
 tags:
-    - CICD
-    - AWS
-categories: CICD
+    - Terraform
+    - IAC
+categories: Terraform
 ---
