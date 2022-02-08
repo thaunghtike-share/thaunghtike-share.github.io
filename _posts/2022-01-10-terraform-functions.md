@@ -273,5 +273,5 @@ This expression produces an object whose attributes are the original elements fr
 ```
 <h3> References </h3>
 
--  https://spacelift.io/blog/terraform-functions-expressions-loops
+-  [https://spacelift.io/blog/terraform-functions-expressions-loops](https://spacelift.io/blog/terraform-functions-expressions-loops)
 -  https://terraform.io
