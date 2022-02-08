@@ -1,8 +1,8 @@
 ---
 layout:     post
 title:   "Gitops At Scale With Jenkins And ArgoCD On Kubernetes"
-date:       2021-07-06 15:13:18 +0200
-image: 9.jpg
+date:       2021-07-12 15:13:18 +0200
+image: 39.avif
 tags:
     - Kubernetes
     - Jenkins
