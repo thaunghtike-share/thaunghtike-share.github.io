@@ -46,4 +46,49 @@ foo, bar, baz
 > join(", ", ["foo"])
 foo
 ```
+<h3> Split Function </h3>
+
+split produces a list by dividing a given string at all occurrences of a given separator.
+
+```bash
+split(separator, string)
+```
+<h4> Examples </h4>
+
+```bash
+> split(",", "foo,bar,baz")
+[
+  "foo",
+  "bar",
+  "baz",
+]
+> split(",", "foo")
+[
+  "foo",
+]
+> split(",", "")
+[
+  "",
+]
+```
+<h3> Lookup Function </h3>
+
+lookup retrieves the value of a single element from a map, given its key. If the given key does not exist, the given default value is returned instead.
+
+```bash
+lookup(map, key, default)
+```
+<h4> Examples </h4>
+
+```
+> lookup({a="ay", b="bee"}, "a", "what?")
+ay
+> lookup({a="ay", b="bee"}, "c", "what?")
+what?
+```
+---
+**NOTE**
+
+Terraform does not allow you to create your own functions, so you’re bound to using what is provided by default.
+---
 
