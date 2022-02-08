@@ -86,9 +86,7 @@ ay
 > lookup({a="ay", b="bee"}, "c", "what?")
 what?
 ```
----
-**NOTE**
+**NOTE Terraform does not allow you to create your own functions, so you’re bound to using what is provided by default.
+**
 
-Terraform does not allow you to create your own functions, so you’re bound to using what is provided by default.
----
 
