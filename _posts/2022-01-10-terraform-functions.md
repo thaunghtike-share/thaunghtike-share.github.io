@@ -265,7 +265,8 @@ The above example uses [ and ], which produces a tuple. If you use { and } inste
 ```
 This expression produces an object whose attributes are the original elements from var.list and their corresponding values are the uppercase versions. For example, the resulting value might be as follows:
 ```bash
-{  foo = "FOO"  
+{  
+   foo = "FOO"  
    bar = "BAR" 
    baz = "BAZ"
 }
