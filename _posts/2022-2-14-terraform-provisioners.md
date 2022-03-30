@@ -1,6 +1,6 @@
 ---
 layout:     post
-title:   "Introduction To Terraoform Provisioners"
+title:   "Introduction To Terraform Provisioners"
 date:       2022-02-14 15:13:18 +0200
 image: 36.png
 tags:
@@ -9,7 +9,7 @@ tags:
 categories: Terraform
 ---
 
-<h1> Introduction To Terraforn Provisioners </h1>
+<h1> Introduction To Terraform Provisioners </h1>
 
 As you continue learning about Terraform, you will start hearing about provisioners. Terraform provisioners can be created on any resource and provide a way to execute actions on local or remote machines. Provisioners can be used to model specific actions on the local machine or on a remote machine in order to prepare servers or other infrastructure objects for service.
 
