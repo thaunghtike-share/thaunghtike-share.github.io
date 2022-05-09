@@ -1,5 +1,5 @@
 title: Thaung Htike Oo's Blog
-description: Just a blog to share knowledges about DevOps and Cloud.
+description: Learn DevOps With Me
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "thaunghtike-share.github.io" # the base hostname & protocol for your site, e.g. http://example.com
 
@@ -9,7 +9,7 @@ author-image:   home.jpeg
 author-job:     DevOps Engineer
 author-email:   thaunghtikeoo.tho1234@gmail.com # Add your email for contant form.
 author-twitter:  thaunghtike_oo # Add your twitter account
-about-author:   A final year student at the University of Information Technology Myanmar. Devops and Cloud enthusiast.
+about-author:   DevOps Engineer at OpsZero. Devops and Cloud enthusiast.
 
 # Social settings
 social-twitter:   thaunghtike_oo
