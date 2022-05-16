@@ -59,5 +59,6 @@ Terraform နဲ့ resource တွေကို create လုပ်ပြီး�
 
 <h2>👉 Reference</h2>
 <ul>
-    <li> [Terraform Provisioners](https://www.terraform.io/language/resources/provisioners/syntax?fbclid=IwAR3dfbfsRCbT1Cmqp8MsO5TTENANMGVnuY3rhKExpjKT6gneSoeKJ4fqMlA)</li>
+    <li> [An Internal Link to a Section Heading](/guides/content/editing-an-existing-page#modifying-front-matter)
+</li>
 </ul>
