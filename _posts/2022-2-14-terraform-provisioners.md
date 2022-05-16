@@ -142,6 +142,6 @@ resource "aws_instance" "web" {
 <h2>👉 Reference</h2>
 
 <ul> 
-    <li><li> <a href="https://www.terraform.io/language/resources/provisioners/syntax?fbclid=IwAR3dfbfsRCbT1Cmqp8MsO5TTENANMGVnuY3rhKExpjKT6gneSoeKJ4fqMlA">https://www.terraform.io/language/resources/provisioners/syntax?fbclid=IwAR3dfbfsRCbT1Cmqp8MsO5TTENANMGVnuY3rhKExpjKT6gneSoeKJ4fqMlA</a> </li> 
+    <li><a href="https://www.terraform.io/language/resources/provisioners/syntax?fbclid=IwAR3dfbfsRCbT1Cmqp8MsO5TTENANMGVnuY3rhKExpjKT6gneSoeKJ4fqMlA">https://www.terraform.io/language/resources/provisioners/syntax?fbclid=IwAR3dfbfsRCbT1Cmqp8MsO5TTENANMGVnuY3rhKExpjKT6gneSoeKJ4fqMlA</a> </li> 
 </ul>    
 
