@@ -1,7 +1,7 @@
 ---
 layout:     post
 title:   "Gitlab Runner Autoscaling With GCP Preemptible VMs"
-date:       2022-05-16 15:13:18 +0200
+date:       2022-05-14 15:13:18 +0200
 image: gitlab_runner_gcp.png
 tags:
     - GCP
