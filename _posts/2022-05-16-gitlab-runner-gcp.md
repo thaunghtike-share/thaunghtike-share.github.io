@@ -152,6 +152,6 @@ job complete ဖြစ်ပြီး second 30 ကြာတော့ scale out 
 
 <h2>👉 References </h2>
 <ul>
-    <li><a href="https://medium.com/@webnugget/setup-a-costeffective-autoscaling-ci-solution-with-gitlab-ci-5a6ac52a5baa">https://medium.com/@webnugget/setup-a-costeffective-autoscaling-ci-solution-with-gitlab-ci-5a6ac52a5baa</li>
-    <li><a href="https://blog.dopevs.cloud/2019-08-02-Gitlab-Runner-Autoscaling-with-aws-spot-instances/">https://blog.dopevs.cloud/2019-08-02-Gitlab-Runner-Autoscaling-with-aws-spot-instances/</li>    
+    <li><a href="https://medium.com/@webnugget/setup-a-costeffective-autoscaling-ci-solution-with-gitlab-ci-5a6ac52a5baa">https://medium.com/@webnugget/setup-a-costeffective-autoscaling-ci-solution-with-gitlab-ci-5a6ac52a5baa</a></li>
+    <li><a href="https://blog.dopevs.cloud/2019-08-02-Gitlab-Runner-Autoscaling-with-aws-spot-instances/">https://blog.dopevs.cloud/2019-08-02-Gitlab-Runner-Autoscaling-with-aws-spot-instances</a></li>    
 </ul>
