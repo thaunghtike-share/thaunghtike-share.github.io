@@ -54,7 +54,7 @@ base=https://github.com/docker/machine/releases/download/v0.16.0 \
   && sudo mv /tmp/docker-machine /usr/local/bin/docker-machine \
   && chmod +x /usr/local/bin/docker-machine
 ```
-<h2>👉 Register RUnner</h2>
+<h2>👉 Register Runner</h2>
 
 အားလုံးပြီးသွားတဲ့အခါ gitlab ထဲကိုသွားပါ မိမိ runner ကို register လုပ်ချင်တဲ့ project (သို့) group အောက်က settings >> CI CD >> runners အထဲမှာ expand ကို click လိုက်ရင် အောက်ကလို runner token ရလာပါလိမ့်မယ်။ token ရရင် runner manager vm ထဲမှာ runner-manager register command နဲ့ runner ကို register လုပ်ပါ။ executor မှာ docker+machine  ကိုရွေးပါ။ 
 
@@ -77,7 +77,7 @@ Enter the default Docker image (for example, ruby:2.6):
 alpine:latest
 Runner registered successfully. Feel free to start it, but if it's running already the config should be automatically reloaded! 
 ```
-ပြီးသွားရင်  gitlab-runner verify နဲ့ ကြည့်လိုက်ပါ။ runner တစ်ခု active ဖြစ်နေတာကိုတွေ့ရပါလိမ့်မယ်။ ဒါက ရိုးရိုး runner register အပိုင်းပဲရှိပါသေးတယ်။ autoscale အတွက်ဆို /etc/gitlab-runner/config.toml file ကိုအောက်ကအတိုင်းပြင်ပေးရပါမယ်။ client_secret.json ဆိုတာ create ခဲ့တဲ့ service account ရဲ့ keys ပါ။ bucket ကတော့ create ခဲ့တဲ့ bucket ထည့်ပေးပါ။ အရင်ဆုံး /etc/gitlab-runner အောက်မှာ client_secret.jsonဆိုတဲ့ file ဆောက်ပေးပါ download ခဲ့တဲ့ keys ကို cat နဲ့ဖွင့်ပြီးကူးထည့်လိုက်ပါ။ +x permissions ပေးလိုက်ပါ။
+ပြီးသွားရင်  gitlab-runner verify နဲ့ ကြည့်လိုက်ပါ။ runner တစ်ခု active ဖြစ်နေတာကိုတွေ့ရပါလိမ့်မယ်။ ဒါက ရိုးရိုး runner register အပိုင်းပဲရှိပါသေးတယ်။ autoscale အတွက်ဆို /etc/gitlab-runner/config.toml file ကိုအောက်ကအတိုင်းပြင်ပေးရပါမယ်။ client_secret.json ဆိုတာ create ခဲ့တဲ့ service account ရဲ့ keys ပါ။ bucket ကတော့ create ခဲ့တဲ့ bucket ထည့်ပေးပါ။ အရင်ဆုံး /etc/gitlab-runner အောက်မှာ client_secret.jsonဆိုတဲ့ file ဆောက်ပေးပါ download ခဲ့တဲ့ keys ကိုထည့်လိုက်ပါ။ +x permissions ပေးလိုက်ပါ။
 
 ```yaml
 vim /etc/gitlab-runner/client_secret.json
