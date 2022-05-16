@@ -17,7 +17,7 @@ categories: CICD
 
 <h2> 👉 Why Runner Needs Autoscaling </h2>
 
-Runners တွေဟာ ဘာလို့ autoscale လုပ်ဖို့လိုတာလဲ။ များသောအားဖြင့် ကျွန်တော်တို့တွေဟာ runners တွေကို docker executor နဲ့ပဲ register လုပ်ကြပါတယ်။ pipeline ထဲမှာ run မယ့် jobs ကနည်းရင် သိပ်မသိသာပါဘူး။ CI CD pipeline တွေကို လူတွေအများကြီးက ပြိုင်တူ run တဲ့အခါ docker နဲ့ register လုပ်ထားတဲ့စက်က CPU overload ဖြစ်ပြီး ကောင်းကောင်းအလုပ်မလုပ်နိုင်တော့ပါဘူး။ ဒါဆို cloud ပေါ်က compute engine ကို scale up လုပ်ဖို့ဆိုရင်လည်း စဥ်းစားစရာဖြစ်လာပြန်ရော။ runner လေးတစ်ခုအတွက်ပဲသုံးမယ့် vm အတွက် ဘာလို့ တစ်လ ကို ပိုက်ဆံတွေအများကြီးပေးနေရမှာလဲ။ အဲ့ဒီအတွက် ဖြေရှင်းဖို့ အဖြေကတော့ spot instances တွေနဲ့ autoscale လုပ်ခြင်းပဲဖြစ်ပါတယ်။ spot instance ဆိုတာ normal instance တွေထက်  70-90% လောက်အထိ စျေးသက်သာပါတယ်။ ကိုယ်လိုတဲ့အချိန်မှာသာ run နိုင်ပြီး ပြီးသွားရင်ပြန်ပိတ်ခဲ့လို့ရပါတယ်။ အထူးသဖြင့် batch job တွေ run တဲ့အခါသုံးကြပါတယ်။ 
+Runners တွေဟာ ဘာလို့ autoscale လုပ်ဖို့လိုတာလဲ။ များသောအားဖြင့် ကျွန်တော်တို့တွေဟာ runners တွေကို docker executor နဲ့ပဲ register လုပ်ကြပါတယ်။ pipeline ထဲမှာ run မယ့် jobs ကနည်းရင် သိပ်မသိသာပါဘူး။ CI CD pipeline တွေကို လူတွေအများကြီးက ပြိုင်တူ run တဲ့အခါ docker နဲ့ register လုပ်ထားတဲ့စက်က CPU overload ဖြစ်ပြီး ကောင်းကောင်းအလုပ်မလုပ်နိုင်တော့ပါဘူး။ ဒါဆို cloud ပေါ်က compute engine ကို scale up လုပ်ဖို့ဆိုရင်လည်း စဥ်းစားစရာဖြစ်လာပြန်ရော။ runner အဖြစ်ပဲသုံးမယ့် vm အတွက် ဘာလို့ တစ်လ ကို ပိုက်ဆံတွေအများကြီးပေးနေရမှာလဲ။ runner အသုံးတဲ့အချိန်တွေမှာ အလကားပိုက်ဆံပေးနေရမှာပါ။ အဲ့ဒီအတွက် ဖြေရှင်းဖို့ အဖြေကတော့ spot instances တွေနဲ့ autoscale လုပ်ခြင်းပဲဖြစ်ပါတယ်။ spot instance ဆိုတာ normal instance တွေထက်  70-90% လောက်အထိ စျေးသက်သာပါတယ်။ ကိုယ်လိုတဲ့အချိန်မှာသာ run နိုင်ပြီး ပြီးသွားရင်ပြန်ပိတ်ခဲ့လို့ရပါတယ်။ အထူးသဖြင့် batch job တွေ run တဲ့အခါသုံးကြပါတယ်။ 
 
 <h2>👉 Runner Manager Setup</h2>
 
@@ -153,4 +153,5 @@ job complete ဖြစ်ပြီး second 30 ကြာတော့ scale out 
 <h2>👉 References </h2>
 <ul>
     <li><a href="https://medium.com/@webnugget/setup-a-costeffective-autoscaling-ci-solution-with-gitlab-ci-5a6ac52a5baa">https://medium.com/@webnugget/setup-a-costeffective-autoscaling-ci-solution-with-gitlab-ci-5a6ac52a5baa</li>
+    <li><a href="https://blog.dopevs.cloud/2019-08-02-Gitlab-Runner-Autoscaling-with-aws-spot-instances/">https://blog.dopevs.cloud/2019-08-02-Gitlab-Runner-Autoscaling-with-aws-spot-instances/</li>    
 </ul>
