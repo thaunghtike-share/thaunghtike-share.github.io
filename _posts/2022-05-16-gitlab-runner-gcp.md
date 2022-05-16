@@ -23,17 +23,17 @@ Runners တွေဟာ ဘာလို့ autoscale လုပ်ဖို့လ
 
 Runner manager လို့ပဲခေါ်ခေါ် bastion host လို့ပဲခေါ်ခေါ် အတူတူပါပဲ။ သူရဲ့အဓိက တာဝန်က runner တွေကို scale in ၊ scale out လုပ်ပေးဖို့ပါပဲ။ ဒါဆိုရင် ပထမဆုံးအနေနဲ့ runner manager အတွက် compute engine တစ်ခုကို create လုပ်ပေးရပါမယ်။ ec2-micro လောက်ဆို လုံလောက်ပါပြီ။ runner manager ကနေ runner vm တွေကို create လုပ်နိုင်ဖို့ Compute API ကို access ရအောင် Access Scopes မှာရွေးပေးပါ။ ssh နဲ့ တစ်ခြား services တွေအတွက် firewall rules တွေသတ်မှတ်ပေးပါ။ အားလုံးပြီးသွားရင်တော့ အောက်က လို vm တစ်ခု ရလာပါလိမ့်မယ်။
 
-![vm](https://raw.githubusercontent.com/thaunggyee/thaunggyee.github.io/master/img/vm.png)
+![vm](https://raw.githubusercontent.com/thaunghtike-share/thaunghtike-share.github.io/main/images/vm)
 
 <h2>👉 Create Bucket</h2>
 
 vm create ပြီးရင် vm ထဲကို ssh ဝင်ပြီး runner register ရပါတော့မယ်။ register မလုပ်ခင်မှာ autoscaling အတွက်လိုအပ်တာတွေလုပ်ပေးရပါဦးမယ်။ runner config ထဲမှာ runner cache တွေသိမ်းဖို့အတွက် လိုအပ်တဲ့ bucket တစ်ခု create ရပါမယ်။ ဒါကြောင့် bucket တစ်ခုကို create လိုက်ပါမယ်။ bucket နာမည်ကိုတော့ tho-gcs လို့ပေးလိုက်ပါတော့မယ်။
 
-![gcs](https://raw.githubusercontent.com/thaunggyee/thaunggyee.github.io/master/img/gcs.png)
+![gcs](https://raw.githubusercontent.com/thaunghtike-share/thaunghtike-share.github.io/main/images/gcs)
 
 bucket create ပြီးရင် runner config ထဲမှာ compute engine တွေ scale လုပ်ဖို့ အတွက်ရယ် cache တွေ bucket ထဲမှာ သိမ်းဖို့ အတွက်ရယ် api တွေနဲ့ access ရဖို့ service account တစ်ခုဆောက်ရပါမယ်။ အဲ့ service account ရဲ့ key ကို download ပြီး runner config ထဲမှာ ထည့်ပေးရပါမယ်။ ဒါမှသာ runner အတွက် vms တွေ scale in ၊ scale out လုပ်နိုင်မှာပါ။ 
 
-![sa](https://raw.githubusercontent.com/thaunggyee/thaunggyee.github.io/master/img/sa.png)
+![sa](https://raw.githubusercontent.com/thaunghtike-share/thaunghtike-share.github.io/main/images/sa)
 
 <h2>👉 Create Service Account</h2>
 
@@ -143,7 +143,7 @@ check_interval = 0
 
 complete ဖြစ်သွားတဲ့ job ကို အောက်ကပုံထဲမှာတွေ့ရသလို runner-scale vm ကနေ execute လုပ်ပေးခဲ့တာဖြစ်ပါတယ်။ runner vm တစ်ခု ကို runner manager vm ကနေ scale out လုပ်ပေးလိုက်တာပါ။ 
 
-![scalevm](https://raw.githubusercontent.com/thaunggyee/thaunggyee.github.io/master/img/scale.png)
+![scalevm](https://raw.githubusercontent.com/thaunghtike-share/thaunghtike-share.github.io/main/images/scale)
 
 <h2>👉 Summary</h2>
 
