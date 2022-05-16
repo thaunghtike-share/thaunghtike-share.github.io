@@ -59,6 +59,6 @@ Terraform နဲ့ resource တွေကို create လုပ်ပြီး�
 
 <h2>👉 Reference</h2>
 <ul>
-    <li> [This is an external link to genome.gov] (https://www.genome.gov/)
+    <li> [This is an external link to genome.gov](https://www.genome.gov/)
 </li>
 </ul>
