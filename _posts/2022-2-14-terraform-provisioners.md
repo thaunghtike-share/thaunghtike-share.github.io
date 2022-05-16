@@ -59,5 +59,5 @@ Terraform နဲ့ resource တွေကို create လုပ်ပြီး�
 
 <h2>👉 Reference</h2>
 <ul>
-    <li> [https://www.terraform.io/.../resources/provisioners/syntax](https://www.terraform.io/.../resources/provisioners/syntax)</li>
+    <li> [Terraform Provisioners](https://www.terraform.io/language/resources/provisioners/syntax?fbclid=IwAR3dfbfsRCbT1Cmqp8MsO5TTENANMGVnuY3rhKExpjKT6gneSoeKJ4fqMlA)</li>
 </ul>
