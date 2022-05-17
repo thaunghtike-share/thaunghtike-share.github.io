@@ -147,7 +147,7 @@ complete ဖြစ်သွားတဲ့ job ကို အောက်ကပ�
 
 <h2>👉 Summary</h2>
 
-job complete ဖြစ်ပြီး second 30 ကြာတော့ scale out ဖြစ်ခဲ့တဲ့ vm ဟာ auto teminated ဖြစ်သွားပါတယ်။ ဒီလိုနဲ့ job တွေ run တိုင်း vm တစ်ခု ထွက်လာမှာဖြစ်ပြီး job completed သွားတဲ့အခါ auto scale in ပြန်ဖြစ်သွားမှာဖြစ်ပါတယ်။ ဒီနည်းနဲ့ runner ကို docker executor နဲ့ deploy ခဲ့တဲ့ host ကိုလည်း cpu overload ဖြစ်ချင်းကကာကွယ်နိုင်သလို normal instance တွေ သုံးပြီး runner တွေ ဆောက်တာကိုလည်းကာကွယ်နိုင်ပါတယ်။
+job complete ဖြစ်ပြီး second 30 ကြာတော့ scale out ဖြစ်ခဲ့တဲ့ vm ဟာ auto teminated ဖြစ်သွားပါတယ်။ ဒီလိုနဲ့ job တွေ run တိုင်း vm တစ်ခု ထွက်လာမှာဖြစ်ပြီး job completed သွားတဲ့အခါ auto scale in ပြန်ဖြစ်သွားမှာဖြစ်ပါတယ်။ ဒီနည်းနဲ့ runner ကို docker executor နဲ့ deploy ခဲ့တဲ့ host ကိုလည်း cpu overload ဖြစ်ခြင်းကကာကွယ်နိုင်သလို normal instance တွေ သုံးပြီး runner တွေ create တာထက်အသုံးစရိတ်ကိုလည်း သက်သာစေပါတယ်။
 ပိုက်ဆံတွေလည်းမလိုအပ်ပဲ အများကြီးကုန်စရာမလိုတော့ပါဘူး။ အဆုံးထိဖတ်ပေးခဲ့ကြတဲ့ သူအားလုံးကိုကျေးဇူးတင်ပါတယ်။
 
 <h2>👉 References </h2>
