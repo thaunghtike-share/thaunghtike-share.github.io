@@ -202,7 +202,8 @@ terraform {
 infra module ထဲက vpc ၊ subnet စတာတွေကိုပြန်သုံးဖို့အတွက် remote state data source ကိုသုံးရပါတော့မယ်။ အဲ့လို data source ကိုသုံးမှသာလျှင် infra module ထဲက resource တွေကိုပြန်သုံးနိုင်မှာဖြစ်ပါတယ်။ infra module အတွက် state ကို သိမ်းထားတဲ့ s3 bucket ၊ key ၊ region တို့ကိုပြန်ထည့်ပေးလိုက်တာပါ။
 
 ```bash
--------------2_alb/data.tf
+-------------2_alb/data.tf---------
+
 data "terraform_remote_state" "infrastructure" {
   backend = "s3"
   config = {
@@ -213,3 +214,36 @@ data "terraform_remote_state" "infrastructure" {
 }
 ````
 ပြီးသွားရင်တော့ alb အတွက် လိုအပ်တဲ့ security group ကို အရင် create လုပ်ပါမယ်။
+
+```bash
+------------2_alb/alb.tf-----------
+
+module "alb_sg" {
+  source = "terraform-aws-modules/security-group/aws"
+
+  name        = "alb-sg"
+  description = "Security group for ALB"
+  vpc_id      = data.terraform_remote_state.infrastructure.outputs.vpc_id
+
+  egress_rules = ["all-all"]
+}
+```
+ဒီနေရာမှာ vpc_id နေရာမှာ data.terraform_remote_state.infrastructure.outputs.vpc_id ဆိုပြီးတော့ infra module က output ဖြစ်တဲ့ vpc_id ကိုခေါ်သုံးလိုက်တာပါ။ ပြီးရင် alb resource ကို create လုပ်ပါမည်။
+
+```bash
+------------2_alb/alb.tf-----------
+
+resource "aws_lb" "web" {
+  name            = "alb-demo"
+  subnets         = data.terraform_remote_state.infrastructure.outputs.public_subnets
+  security_groups = [module.alb_sg.security_group_id]
+
+  tags = {
+      Name = "alb-demo"
+  }
+}
+```
+ဒီနေရာမှာလည်း subnet နေရာကို infra moudle က public subnet တွေကို remote state data နဲ့ခေါ်သုံးလိုက်ပါတယ််။ ဒီလောက်ဆို Terraform ရဲ့ remote state data source အကြောင်းကိုနားလည်သဘောပေါက်လို့မယ်ထင်ပါတယ်။ အားလုံကိုကျေးဇူးတင်ပါတယ်။
+
+သင်ဆရာ မြင်ဆရာ ကြားဆရာများကိုလေးစားလျှက်
+သောင်းထိုက်ဥိး (UIT)
