@@ -13,7 +13,7 @@ categories: Terraform
 
  <p>✔️ ကျွန်တော်ဒီနေ့မှာတော့ Terraform ရဲ့ remote state data source အကြောင်းကိုနားလည်သလောက်လေးရှင်းပြပေးမှာဖြစ်ပါတယ်။ remote state data source ဆိုတာက ကျွန်တော်တို့ backend တစ်ခုခုမှာ သိမ်းထားတဲ့ state file ထဲက data တွေကို အခြား Terraform module တွေမှာပြန်သုံးဖို့အတွက်သုံးတာဖြစ်ပါတယ်။ </p>
  
- <h2>👉 Prerequities </h2>
+ <h2>👉 Prerequisities </h2>
  
  <p> ✔️ Terraform state file </p>
  <p>✔️ Terraform module</p>
