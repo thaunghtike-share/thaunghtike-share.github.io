@@ -145,3 +145,9 @@ resource "aws_instance" "web" {
     <li><a href="https://www.terraform.io/language/resources/provisioners/syntax?fbclid=IwAR3dfbfsRCbT1Cmqp8MsO5TTENANMGVnuY3rhKExpjKT6gneSoeKJ4fqMlA">https://www.terraform.io/language/resources/provisioners/syntax?fbclid=IwAR3dfbfsRCbT1Cmqp8MsO5TTENANMGVnuY3rhKExpjKT6gneSoeKJ4fqMlA</a> </li> 
 </ul>    
 
+<p style="text-align:center">
+    သင်ဆရာ မြင်ဆရာ ကြားဆရာများကိုလေးစားလျှက် 🙏🙏🙏
+</p>
+<p style="text-align:center">
+   သောင်းထိုက်ဥိး (UIT)
+</p>
