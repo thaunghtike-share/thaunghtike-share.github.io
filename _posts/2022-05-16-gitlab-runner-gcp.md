@@ -155,3 +155,10 @@ job complete ဖြစ်ပြီး second 30 ကြာတော့ scale out 
     <li><a href="https://medium.com/@webnugget/setup-a-costeffective-autoscaling-ci-solution-with-gitlab-ci-5a6ac52a5baa">https://medium.com/@webnugget/setup-a-costeffective-autoscaling-ci-solution-with-gitlab-ci-5a6ac52a5baa</a></li>
     <li><a href="https://blog.dopevs.cloud/2019-08-02-Gitlab-Runner-Autoscaling-with-aws-spot-instances/">https://blog.dopevs.cloud/2019-08-02-Gitlab-Runner-Autoscaling-with-aws-spot-instances</a></li>    
 </ul>
+
+<p style="text-align:center">
+    သင်ဆရာ မြင်ဆရာ ကြားဆရာများကိုလေးစားလျှက် 🙏🙏🙏
+</p>
+<p style="text-align:center">
+   သောင်းထိုက်ဥိး (UIT)
+</p>
