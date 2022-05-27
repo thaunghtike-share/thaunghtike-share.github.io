@@ -15,8 +15,8 @@ categories: Terraform
  
  <h2>👉 Prerequities </h2>
  
- ✔️ Terraform state file
- ✔️ Terraform module
+ <p> ✔️ Terraform state file </p>
+ <p>✔️ Terraform module</p>
  
  <h2>👉 State File ဆိုတာဘာလဲ?</h2>
  
@@ -88,8 +88,10 @@ terraform {
 ```
 backend configuration ထဲမှာသုံးထားတာကတော့ရိုးရှင်းပါတယ်။ 
 
-✔️terraform state file ကို  s3 bucket "my-terraform-remote-state-lab-s3" ထဲမှာ "tf-infrastructure.tfstate" နာမည်နဲ့ သိမ်းထားမယ်လို့ဆိုလိုတာပါ။ key ဆိုတာကတော့ file နာမည်ပါ။ 
-✔️ encrypt ဆိုတာက state file ကို encrypt လုပ်မယ်လို့ဆိုလိုတာပါ။
-✔️ dynamodb ကတော့ state file locking အတွက်သုံးတာပါ။
+<p> ✔️terraform state file ကို  s3 bucket "my-terraform-remote-state-lab-s3" ထဲမှာ "tf-infrastructure.tfstate" နာမည်နဲ့ သိမ်းထားမယ်လို့ဆိုလိုတာပါ။ key ဆိုတာကတော့ file နာမည်ပါ။ </p>
+<p>✔️ encrypt ဆိုတာက state file ကို encrypt လုပ်မယ်လို့ဆိုလိုတာပါ။ </p>
+<p>✔️ dynamodb ကတော့ state file locking အတွက်သုံးတာပါ။ </p>
 
-<p> backend configuration ပြီးရင်တော့ infra module ထဲမှာ vpc resource တွေကို create လုပ်ဖို့အတွက် <a href="https://registry.terraform.io/modules/terraform-aws-modules/vpc/aws/latest"VPC module</a> ကိုသုံးပါမယ်။ </p>
+<p> backend configuration ပြီးရင်တော့ infra module ထဲမှာ vpc resource တွေကို create လုပ်ဖို့အတွက် AWS VPC Module ကိုသုံးပါမယ်။ </p>
+
+
