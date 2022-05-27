@@ -53,7 +53,7 @@ categories: Terraform
 
 infra module ထဲမှာ ပထမဦးဆုံး provider နဲ့ backend configuration ကိုအရင်ချပါမယ်။ provider ကတော့ aws provider ကိုပဲ example အနေနဲ့ သုံးထားပါတယ်။ အောက်ကတော့ AWS provider အတွက် Terraform code ပါ။
 
-```yaml
+```bash
 -----------1_infrastructure/providers.tf-------------
 
 terraform {
@@ -72,7 +72,7 @@ provider "aws" {
 ```
 ပြီးသွားရင်တော့ backend configuration ရေးပါမယ်။ s3 backend ကို remote backend အနေနဲ့ သုံးလိုက်ပါမယ်။
 
-```yaml
+```bash
 
 -------------1_infrastructure/backend.tf-------------
 
@@ -96,7 +96,7 @@ backend configuration ထဲမှာသုံးထားတာကတော့�
 
 <p> backend configuration ပြီးရင်တော့ infra module ထဲမှာ vpc resource တွေကို create လုပ်ဖို့အတွက် AWS VPC Module ကိုသုံးပါမယ်။ </p>
 
-```yaml
+```bash
 ----------1_infrastructure/vpc.tf---------
 
 locals {
@@ -143,7 +143,7 @@ vpc module မှာ AZ (၂)ခု ၊ Private Subnet (၂)ခု ၊ Public Su
 
 အားလုံးပြီးသွားရင်တော့ output တွေထုတ်ခဲ့ပါမယ်။ အကြောင်းမဲ့ output တွေထုတ်တာတော့မဟုတ်ပါဘူး။ အဲ့ဒီ output တွေဖြစ်တဲ့ vpc id ၊ subnet တွေကို ALB module မှာပြန်သုံးဖို့အတွက်ပါ။
 
-```yaml
+```bash
 --------------1_infrstructure/outputs.tf-----------
 
 output "prefix" {
@@ -173,7 +173,7 @@ output "private_subnets" {
 ```
 ဒါဆိုရင်တော့ အောက်က command တွေကို သုံးပြီးတော့ infra module ကို provision လုပ်နိုင်ပါပြီ။
 
-```yaml
+```bash
 $ terraform init
 $ terraform fmt
 $ terraform validate
@@ -186,7 +186,7 @@ $ terraform apply --auto-approve
 
 <p>✔️ ဒီ lab မှာဆိုရင် alb module ကို create လုပ်တဲ့အခါမှာ vpc ၊ subnet စတာတွေကို infra module ကနေပြန်သုံးမှာပါ။ ဒါကြောင့် အခေါ်ခံရတဲ့ infra module က child module ဖြစ်ပြီး alb module က parent module ဒါမှမဟုတ် calling module လို့ခေါ်ပါတယ်။ alb module အတွက်လည်း backend configuration လုပ်ပါမယ်။</p>
 
-```yaml
+```bash
 ---------------2_alb/backend.tf---------
 
 terraform {
@@ -201,7 +201,7 @@ terraform {
 ```
 infra module ထဲက vpc ၊ subnet စတာတွေကိုပြန်သုံးဖို့အတွက် remote state data source ကိုသုံးရပါတော့မယ်။ အဲ့လို data source ကိုသုံးမှသာလျှင် infra module ထဲက resource တွေကိုပြန်သုံးနိုင်မှာဖြစ်ပါတယ်။ infra module အတွက် state ကို သိမ်းထားတဲ့ s3 bucket ၊ key ၊ region တို့ကိုပြန်ထည့်ပေးလိုက်တာပါ။
 
-```yaml
+```bash
 -------------2_alb/data.tf
 data "terraform_remote_state" "infrastructure" {
   backend = "s3"
