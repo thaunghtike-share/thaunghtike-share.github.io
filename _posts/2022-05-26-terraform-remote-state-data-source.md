@@ -245,6 +245,11 @@ resource "aws_lb" "web" {
 ```
 ဒီနေရာမှာလည်း subnet နေရာကို infra moudle က public subnet တွေကို remote state data နဲ့ခေါ်သုံးလိုက်ပါတယ််။ ဒီလောက်ဆို Terraform ရဲ့ remote state data source အကြောင်းကိုနားလည်သဘောပေါက်လို့မယ်ထင်ပါတယ်။ အားလုံကိုကျေးဇူးတင်ပါတယ်။
 
+<h2> References </h2>
+
+<ul>
+    <li><a href="https://www.terraform.io/language/state/remote-state-data">https://www.terraform.io/language/state/remote-state-data</a></li>
+</ul>
 <p>
 သင်ဆရာ မြင်ဆရာ ကြားဆရာများကိုလေးစားလျှက် 🙏🙏🙏
 </p>
