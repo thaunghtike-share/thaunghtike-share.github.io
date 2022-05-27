@@ -149,5 +149,5 @@ resource "aws_instance" "web" {
     သင်ဆရာ မြင်ဆရာ ကြားဆရာများကိုလေးစားလျှက် 🙏🙏🙏
 </p>
 <p style="text-align:center">
-   သောင်းထိုက်ဥိး (UIT)
+   သောင်းထိုက်ဦး (UIT)
 </p>
