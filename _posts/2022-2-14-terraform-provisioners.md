@@ -27,7 +27,7 @@ Provisioners are used to execute scripts on a local or remote machine as part of
 
 file နဲ့ remote-exec provisioner တွေမှာ remote resources တွေကို access လုပ်ဖို့အတွက် connection block ထဲမှာ သတ်မှတ်ပေးကြရပါတယ်။ connection type မှာ SSH နဲ့ WinRM (၂)ခုကို support လုပ်ပါတယ်။ connection block မှာတော့ remote machine ရဲ့ host, username, private_key တွေကို သတ်မှတ်ပေးရပါမယ်။
 
-```yaml
+```bash
 provisioner "file" {
   source      = "conf/myapp.conf"
   destination = "/etc/myapp.conf"
@@ -51,7 +51,7 @@ File provisioners တွေဆိုတာ အလွယ်ပြောရရင�
 
 The file provisioner is used to copy files or directories from the machine executing Terraform to the newly created resource. The file provisioner supports both ssh and WinRM type connections.
 
-```
+```bash
 provisioner "file" {
   source      = "conf/myapp.conf"
   destination = "/etc/myapp.conf"
@@ -69,7 +69,7 @@ provisioner "file" {
 
 Local-Exec provisioner တွေကတော့ Terraform နဲ့ resources တွေ create ပြီးတဲ့အခါမှာ ကိုယ့်ရဲ့ local machine ကနေ command တွေကို execute လုပ်ဖို့အတွက်သုံးတာဖြစ်ပါတယ်။ ဥပမာ - kubernetes cluster တွေကို kubectl နဲ့ သုံးတာမျိုးဖြစ်ပါတယ်။ သူ့မှာတော့ connection block သတ်မှတ်ပေးဖို့မလိုပါဘူး။
 
-```yaml
+```bash
 resource "aws_instance" "web" {
   # ...
 
@@ -83,7 +83,7 @@ resource "aws_instance" "web" {
 
 Terraform နဲ့ resource တွေကို create လုပ်ပြီးတဲ့အခါမှာ အဲ့ဒီ resource မှာ တစ်ခုခုကို execute လုပ်ဖို့သုံးပါတယ်။ ဥပမာ - configuration management တွေ run ဖို့ bash scripts တွေ run ဖို့အတွက်သုံးနိုင်ပါတယ်။
 
-```yaml
+```bash
 resource "aws_instance" "web" {
   # ...
 
@@ -109,7 +109,7 @@ resource "aws_instance" "web" {
 
 ပုံမှန်အားဖြင့်ဆို provisioner တွေက resource တွေကို creation လုပ်ပြီးတဲ့အခါမှာ run လုပ်တာပါ။ ဆိုတော့ destroy-time ဆိုတော့ရှင်းပါတယ်။ resource တွေကို terraform destroy နဲ့ destroy လုပ်ချင်တဲ့အခါမျိုးမှာ သုံးဖို့ပါ။ provisioner block မှာ when = destroy ဆိုပြီးသတ်မှတ်ပေးရင်ရပါတယ်။
 
-```yaml
+```bash
 resource "aws_instance" "web" {
   # ...
 
@@ -125,7 +125,7 @@ resource "aws_instance" "web" {
 
 ပုံမှန်အားဖြင့် provisioner error တက်ပြီး fail သွားရင် terraform apply ကလည်း fail ဖြစ်သွားမှာပါ။ on_failure = continue ဆိုတာက provisioner fail သွားလည်း terraform apply ကဆက်လက်အလုပ်လုပ်သွားမှာပါ။
 
-```yaml
+```bash
 resource "aws_instance" "web" {
   # ...
 
