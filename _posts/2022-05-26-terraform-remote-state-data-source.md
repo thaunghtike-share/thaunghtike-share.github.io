@@ -250,9 +250,9 @@ resource "aws_lb" "web" {
 <ul>
     <li><a href="https://www.terraform.io/language/state/remote-state-data">https://www.terraform.io/language/state/remote-state-data</a></li>
 </ul>
-<p>
-    <center>သင်ဆရာ မြင်ဆရာ ကြားဆရာများကိုလေးစားလျှက် 🙏🙏🙏</center>
+<p style="text-align:center">
+    သင်ဆရာ မြင်ဆရာ ကြားဆရာများကိုလေးစားလျှက် 🙏🙏🙏
 </p>
-<p>
-    <center>သောင်းထိုက်ဥိး (UIT)</center>
+<p style="text-align:center">
+   သောင်းထိုက်ဥိး (UIT)
 </p>
