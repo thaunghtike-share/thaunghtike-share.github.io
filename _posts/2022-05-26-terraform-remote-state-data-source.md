@@ -92,4 +92,4 @@ backend configuration ထဲမှာသုံးထားတာကတော့�
 ✔️ encrypt ဆိုတာက state file ကို encrypt လုပ်မယ်လို့ဆိုလိုတာပါ။
 ✔️ dynamodb ကတော့ state file locking အတွက်သုံးတာပါ။
 
-<p> backend configuration ပြီးရင်တော့ infra module ထဲမှာ vpc resource တွေကို create လုပ်ဖို့အတွက် <a href="https://registry.terraform.io/modules/terraform-aws-modules/vpc/aws/latest" VPC module</a> ကိုသုံးပါမယ်။ </p>
+<p> backend configuration ပြီးရင်တော့ infra module ထဲမှာ vpc resource တွေကို create လုပ်ဖို့အတွက် <a href="https://registry.terraform.io/modules/terraform-aws-modules/vpc/aws/latest"VPC module</a> ကိုသုံးပါမယ်။ </p>
