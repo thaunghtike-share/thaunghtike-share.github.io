@@ -1,6 +1,6 @@
 ---
 layout:     post
-title:   "The terraform_remote_state Data Source"
+title:   "Terraform Remote State Data Source"
 date:       2022-05-26 15:13:18 +0200
 image: 36.png
 tags:
@@ -54,7 +54,7 @@ categories: Terraform
 infra module ထဲမှာ ပထမဦးဆုံး provider နဲ့ backend configuration ကိုအရင်ချပါမယ်။ provider ကတော့ aws provider ကိုပဲ example အနေနဲ့ သုံးထားပါတယ်။ အောက်ကတော့ AWS provider အတွက် Terraform code ပါ။
 
 ```yaml
-************1_infrastructure/providers.tf****************
+-----------1_infrastructure/providers.tf-------------
 
 terraform {
   required_providers {
@@ -74,7 +74,7 @@ provider "aws" {
 
 ```yaml
 
-***********1_infrastructure/backend.tf****************
+-------------1_infrastructure/backend.tf-------------
 
 terraform {
   backend "s3" {
@@ -92,6 +92,124 @@ backend configuration ထဲမှာသုံးထားတာကတော့�
 <p>✔️ encrypt ဆိုတာက state file ကို encrypt လုပ်မယ်လို့ဆိုလိုတာပါ။ </p>
 <p>✔️ dynamodb ကတော့ state file locking အတွက်သုံးတာပါ။ </p>
 
+<h2>👉 VPC module</h2>
+
 <p> backend configuration ပြီးရင်တော့ infra module ထဲမှာ vpc resource တွေကို create လုပ်ဖို့အတွက် AWS VPC Module ကိုသုံးပါမယ်။ </p>
 
+```yaml
+----------1_infrastructure/vpc.tf---------
 
+locals {
+  prefix   = "manage-alb-terraform"
+  vpc_name = "${local.prefix}-vpc"
+  vpc_cidr = "10.10.0.0/16"
+  common_tags = {
+    Environment = "dev"
+    ManagedBy   = "Terraform"
+  }
+}
+
+module "vpc" {
+  source = "terraform-aws-modules/vpc/aws"
+
+  name = local.vpc_name
+  cidr = local.vpc_cidr
+
+  azs = ["${var.aws_region}a", "${var.aws_region}b"]
+  public_subnets = [
+    cidrsubnet(local.vpc_cidr, 8, 0),
+    cidrsubnet(local.vpc_cidr, 8, 1)
+  ]
+
+  private_subnets = [
+    cidrsubnet(local.vpc_cidr, 8, 2),
+    cidrsubnet(local.vpc_cidr, 8, 3)
+  ]
+
+  enable_nat_gateway   = true
+  single_nat_gateway   = true
+  enable_dns_hostnames = true
+
+
+  tags = merge(
+    {
+      Name = local.vpc_name
+    },
+    local.common_tags
+  )
+}
+```
+vpc module မှာ AZ (၂)ခု ၊ Private Subnet (၂)ခု ၊ Public Subnet (၂)ခုသုံးထားပါတယ်။ Private Subent တွေအတွက် NAT gateway တစ်ခုပါ enable လုပ်ထားပါတယ်။ 
+
+အားလုံးပြီးသွားရင်တော့ output တွေထုတ်ခဲ့ပါမယ်။ အကြောင်းမဲ့ output တွေထုတ်တာတော့မဟုတ်ပါဘူး။ အဲ့ဒီ output တွေဖြစ်တဲ့ vpc id ၊ subnet တွေကို ALB module မှာပြန်သုံးဖို့အတွက်ပါ။
+
+```yaml
+--------------1_infrstructure/outputs.tf-----------
+
+output "prefix" {
+  value       = local.prefix
+  description = "Exported common resources prefix"
+}
+
+output "common_tags" {
+  value       = local.common_tags
+  description = "Exported common resources tags"
+}
+
+output "vpc_id" {
+  value       = module.vpc.vpc_id
+  description = "VPC ID"
+}
+
+output "public_subnets" {
+  value       = module.vpc.public_subnets
+  description = "VPC public subnets' IDs list"
+}
+
+output "private_subnets" {
+  value       = module.vpc.private_subnets
+  description = "VPC private subnets' IDs list"
+}
+```
+ဒါဆိုရင်တော့ အောက်က command တွေကို သုံးပြီးတော့ infra module ကို provision လုပ်နိုင်ပါပြီ။
+
+```yaml
+$ terraform init
+$ terraform fmt
+$ terraform validate
+$ terraform plan
+$ terraform apply --auto-approve
+```
+<h2>👉 ALB Moduel </h2>
+
+<p>✔️ module တွေဟာ တစ်ခုနဲ့တစ်ခု ဆက်စပ်မှုမရှိတာကြောင့် module တစ်ခုကနေတစ်ခု resource တွေကို ခေါ်သုံးဖို့ဆိုရင် remote state data source ဖြစ်ဖြစ် module တွေကို initialize လုပ်ပြီးပဲဖြစ်ဖြစ်တစ်နည်းနည်းနဲ့ခေါ်သုံးရပါမယ်။ ကျွန်တော်တို့ခေါ်သုံးမယ့် child module ထဲမှာ တခြား moduel မှာပြန်သုံးနိုင်ဖို့အတွက် output တွေထုတ်ပေးရပါမယ်။ ဒါကြောင့် ကျွန်တော်အပေါ်က infra module ထဲမှာ outputs တွေထုတ်ခဲ့ပါတယ်၊ ဟုတ်ပြီ ဒါဆို child module ကဘယ်သူလဲ parent module ကဘယ်သူလဲ</p>
+
+<p>✔️ ဒီ lab မှာဆိုရင် alb module ကို create လုပ်တဲ့အခါမှာ vpc ၊ subnet စတာတွေကို infra module ကနေပြန်သုံးမှာပါ။ ဒါကြောင့် အခေါ်ခံရတဲ့ infra module က child module ဖြစ်ပြီး alb module က parent module ဒါမှမဟုတ် calling module လို့ခေါ်ပါတယ်။ alb module အတွက်လည်း backend configuration လုပ်ပါမယ်။</p>
+
+```yaml
+---------------2_alb/backend.tf---------
+
+terraform {
+  backend "s3" {
+    bucket  = "my-terraform-remote-state-s3"
+    key     = "terraform-alb.tfstate"
+    region  = "us-west-2"
+    encrypt = "true"
+    dynamodb_table = "my-terraform-remote-state-dynamodb"
+  }
+}
+```
+infra module ထဲက vpc ၊ subnet စတာတွေကိုပြန်သုံးဖို့အတွက် remote state data source ကိုသုံးရပါတော့မယ်။ အဲ့လို data source ကိုသုံးမှသာလျှင် infra module ထဲက resource တွေကိုပြန်သုံးနိုင်မှာဖြစ်ပါတယ်။ infra module အတွက် state ကို သိမ်းထားတဲ့ s3 bucket ၊ key ၊ region တို့ကိုပြန်ထည့်ပေးလိုက်တာပါ။
+
+```yaml
+-------------2_alb/data.tf
+data "terraform_remote_state" "infrastructure" {
+  backend = "s3"
+  config = {
+    bucket = "my-terraform-remote-state-s3"
+    region = "us-west-2"
+    key    = "tf-infrastructure.tfstate"
+  }
+}
+````
+ပြီးသွားရင်တော့ alb အတွက် လိုအပ်တဲ့ security group ကို အရင် create လုပ်ပါမယ်။
