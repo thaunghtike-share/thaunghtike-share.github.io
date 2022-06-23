@@ -8,7 +8,7 @@ tags:
 categories: Kubernetes
 ---
 
-ကျွန်တော်ဒီနေ့မှာတော့ Sonarqube ကို EKS cluster ပေါ်မှာ install လုပ်တဲ့အကြောင်းကို ရှင်းပြပေးမှာပါ။ Sonarqube ဆိုတာက ကျွန်တော်တို့ ရဲ့ application code တွေထဲက bug တွေ vulnerabilities တွေကို automatic detect လုပ်ဖို့အတွက် သုံးတာပါ။ Open Source project ဖြစ်ပြီး language language တော်တော်များများနဲ့ integrate လုပ်ပြီးအသုံးပြုနိုင်ပါတယ်။
+ကျွန်တော်ဒီနေ့မှာတော့ Sonarqube ကို EKS cluster ပေါ်မှာ install လုပ်တဲ့အကြောင်းကို ရှင်းပြပေးမှာပါ။ Sonarqube ဆိုတာက ကျွန်တော်တို့ ရဲ့ application code တွေထဲက bug တွေ vulnerabilities တွေကို automatic detect လုပ်ဖို့အတွက် သုံးတာပါ။ Open Source project ဖြစ်ပြီး programming language တော်တော်များများနဲ့ integrate လုပ်ပြီးအသုံးပြုနိုင်ပါတယ်။
 
 <h2> Create EKS Cluster using eksctl </h2>
 
@@ -53,7 +53,12 @@ eksctl create nodegroup --cluster=eksdemo \
                        --alb-ingress-access
 ```                       
 
-kubeconfig file ကို ~/.kue/config ထဲကို ထည့်ပါလိုက်မယ်။ ပြီးသွားရင်တော့ kubectl get nodes နဲ့ကြည့်လိုက်ရင် worker ၃လုံး ready ဖြစ်နေတာကိုတွေ့ရပါလိမ့်မယ်။
+kubeconfig file ကို ~/.kue/config ထဲကို ထည့်ပါလိုက်မယ်။ 
+
+```bash
+~ % aws eks update-kubeconfig --name eksdemo
+```
+ပြီးသွားရင်တော့ kubectl get nodes နဲ့ကြည့်လိုက်ရင် worker ၃လုံး ready ဖြစ်နေတာကိုတွေ့ရပါလိမ့်မယ်။
 
 ```bash
 ~ % kubectl get nodes
