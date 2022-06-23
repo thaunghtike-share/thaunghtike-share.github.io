@@ -97,6 +97,7 @@ service:
 nodeSelector: 
   sonarqube: "true"  
 ```
+<h2> Deploy Sonarqube Helm Chart </h2>
 
 ဒါဆို sonarqube helm chart ကို deploy လို့ရပါပြီ။ sonarqube namespace တစ်ခု create လိုက်ပါမယ်။
 
@@ -106,4 +107,16 @@ helm repo update
 kubectl create namespace sonarqube
 helm upgrade -f values.yaml --install -n sonarqube sonarqube sonarqube/sonarqube
 ```    
+<h2> Access Sonarqube Dashboard </h2>
+
+sonarqube dashboard ကို access လုပ်ဖို့အတွက် kubectl get svc နဲ့ ကြည့်လို့ရပါတယ်။
+
+```bash
+% kubectl get svc -n sonarqube
+NAME                            TYPE           CLUSTER-IP      EXTERNAL-IP                                                              PORT(S)      
+sonarqube-postgresql            ClusterIP      10.100.36.211   <none>                                                                   5432/TCP       
+sonarqube-postgresql-headless   ClusterIP      None            <none>                                                                   5432/TCP       
+sonarqube-sonarqube             LoadBalancer   10.100.66.15    ae75224a4660543c2895dbe574db5877-225847540.us-east-1.elb.amazonaws.com   80:30506/TCP   
+```
+load balancer ရဲ့ address ကို browser ကနေခေါ်လိုက်ရင် login page ထဲကိုရောက်သွားပါလိမ့်မယ်။ username နဲ့ password က admin ဖြစ်ပါတယ်။ 
 
