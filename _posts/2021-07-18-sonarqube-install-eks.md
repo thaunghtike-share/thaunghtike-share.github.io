@@ -107,6 +107,16 @@ helm repo update
 kubectl create namespace sonarqube
 helm upgrade -f values.yaml --install -n sonarqube sonarqube sonarqube/sonarqube
 ```    
+
+ဒါဆိုရင် pods တွေကို list ကြည့်လို့ရပါပြီ။ sonarqube ဟာ သူ့ရဲ့ analysis လုပ်ခဲ့တဲ့ information တွေကို store လုပ်ဖို့အတွက် database ကိုသုံးရပါတယ်။ ဒီမှာတော့ postgres ကိုပဲသုံးလိုက်ပါတယ်။
+
+```bash
+% kubectl get pods -n sonarqube
+NAME                     READY   STATUS    RESTARTS   AGE
+sonarqube-postgresql-0   1/1     Running   0          18m
+sonarqube-sonarqube-0    1/1     Running   0          18m
+```
+
 <h2> Access Sonarqube Dashboard </h2>
 
 sonarqube dashboard ကို access လုပ်ဖို့အတွက် kubectl get svc နဲ့ ကြည့်လို့ရပါတယ်။
@@ -118,5 +128,12 @@ sonarqube-postgresql            ClusterIP      10.100.36.211   <none>           
 sonarqube-postgresql-headless   ClusterIP      None            <none>                                                                   5432/TCP       
 sonarqube-sonarqube             LoadBalancer   10.100.66.15    ae75224a4660543c2895dbe574db5877-225847540.us-east-1.elb.amazonaws.com   80:30506/TCP   
 ```
-load balancer ရဲ့ address ကို browser ကနေခေါ်လိုက်ရင် login page ထဲကိုရောက်သွားပါလိမ့်မယ်။ username နဲ့ password က admin ဖြစ်ပါတယ်။ 
+load balancer ရဲ့ address ကို browser ကနေခေါ်လိုက်ရင် login page ထဲကိုရောက်သွားပါလိမ့်မယ်။ username နဲ့ password က admin ဖြစ်ပါတယ်။ value တွေက helm chart ထဲမှာပြင်နိုင်ပါတယ်။
+
+![sonar login](https://raw.githubusercontent.com/thaunghtike-share/thaunghtike-share.github.io/master/images/sonarlogin.png)
+
+login ဝင်ပြီးသွားရင်တော့ dashboard ထဲကိုရောက်သွားမှာဖြစ်ပြီး code တွေကို စပြီး review လုပ်နိုင်ပါပြီခင်ဗျာ။
+
+![sonar dashboard](https://raw.githubusercontent.com/thaunghtike-share/thaunghtike-share.github.io/master/images/sonardash.png)
+
 
