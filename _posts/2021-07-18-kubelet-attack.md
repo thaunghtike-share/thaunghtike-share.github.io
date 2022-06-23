@@ -63,4 +63,47 @@ ip-192-168-52-205.ec2.internal   Ready    <none>   107m   v1.21.12-eks-5308cf7
 ip-192-168-7-38.ec2.internal     Ready    <none>   107m   v1.21.12-eks-5308cf7
 ```
 
-                      
+<h2>Apply Node Taint </h2>
+
+sonarqube ကို deploy မလုပ်ခင်မှာ အရင်ဆုံး Node တစ်ခုကို taint လုပ်ပေးဖို့လိုပါတယ်။ ဘာလို့လဲဆိုရင် service ကို stable ဖြစ်ဖို့အတွက်ပါ။ အဲ့ taint လုပ်မယ့် node ပေါ်မှာ sonarqube တစ်ခုကိုပဲထားပြီး ကျန်တဲ့ service တွေကို schedule လုပ်ခွင့်မပေးတော့ပါဘူး။
+
+```bash
+kubectl taint node ip-192-168-7-38.ec2.internal sonarqube=true:NoSchedule 
+kubectl label node ip-192-168-7-38.ec2.internal sonarqube=true
+```
+<h2> Update Helm Values </h2>
+
+sonarqube helm chart ကို clone လိုက်ပါ။ ပြီးရင် values.yaml မှာအောက်ပါ value တွေကို update ပေးရပါမယ်။ 
+
+```bash
+git clone https://github.com/SonarSource/helm-chart-sonarqube.git
+cd helm-chart-sonarqube
+```
+toleration ထည့်ပေးရမယ်။ ပြီးရင် service ကို LoadBalancer ပြောင်းပေးရပါမယ်။
+
+```bash
+tolerations: 
+  - key: "sonarqube"
+    operator: "Exists"
+    effect: "NoSchedule
+    
+service:
+  type: LoadBalancer
+  externalPort: 9000
+  internalPort: 9000
+  labels:
+  annotations: {}
+  
+nodeSelector: 
+  sonarqube: "true"  
+```
+
+ဒါဆို sonarqube helm chart ကို deploy လို့ရပါပြီ။ sonarqube namespace တစ်ခု create လိုက်ပါမယ်။
+
+```bash
+helm repo add sonarqube https://SonarSource.github.io/helm-chart-sonarqube
+helm repo update
+kubectl create namespace sonarqube
+helm upgrade -f values.yaml --install -n sonarqube sonarqube sonarqube/sonarqube
+```    
+
