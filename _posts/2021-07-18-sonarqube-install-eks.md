@@ -2,7 +2,7 @@
 layout:     post
 title:   "Install Sonarqube On Kubernetes EKS cluster"
 date:       2022-06-12 15:13:18 +0200
-image: 36.png
+image: sonark8s.png
 tags:
     - Kubernetes
 categories: Kubernetes
