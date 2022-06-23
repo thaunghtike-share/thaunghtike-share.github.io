@@ -136,4 +136,19 @@ login ဝင်ပြီးသွားရင်တော့ dashboard ထဲက
 
 ![sonar dashboard](https://raw.githubusercontent.com/thaunghtike-share/thaunghtike-share.github.io/master/images/sonardash.png)
 
+အဆုံးထိဖတ်ရှူပေးကြသူများအားလုံးကျေးဇူးတင်ပါတယ်။ နောက်လည်း ဒီလို sharing လေးတွေရေးသွားပါဦးမယ်။
+
+<h2>👉 Reference</h2>
+
+<ul> 
+    <li><a href="https://dev.to/lakkimartin/install-sonarqube-on-kubernetes-aks-49o7">https://dev.to/lakkimartin/install-sonarqube-on-kubernetes-aks-49o7</a> </li> 
+</ul>    
+
+<p style="text-align:center">
+    သင်ဆရာ မြင်ဆရာ ကြားဆရာများကိုလေးစားလျှက် 🙏🙏🙏
+</p>
+<p style="text-align:center">
+   သောင်းထိုက်ဦး (UIT)
+</p>
+
 
