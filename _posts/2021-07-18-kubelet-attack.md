@@ -32,5 +32,35 @@ cluster ပြီးသွားရင်တော့ OIDC provider ကို cr
     --approve
 ```
 
+<h2> Create Node Group with additional Add-Ons in Public Subnets </h2>
+
+ပြီးရင်တော့ eks cluster မှာသုံးဖို့ node group တစ်ခု create လိုက်ပါမယ်။
+
+```bash
+eksctl create nodegroup --cluster=eksdemo \
+                       --region=us-east-1 \
+                       --name=eksdemo1-ng-public1 \
+                       --node-type=t3.medium \
+                       --nodes=3 \
+                       --nodes-min=3 \
+                       --nodes-max=4 \
+                       --node-volume-size=20 \
+                       --managed \
+                       --asg-access \
+                       --external-dns-access \
+                       --full-ecr-access \
+                       --appmesh-access \
+                       --alb-ingress-access
+```                       
+
+kubeconfig file ကို ~/.kue/config ထဲကို ထည့်ပါလိုက်မယ်။ ပြီးသွားရင်တော့ kubectl get nodes နဲ့ကြည့်လိုက်ရင် worker ၃လုံး ready ဖြစ်နေတာကိုတွေ့ရပါလိမ့်မယ်။
+
+```bash
+~ % kubectl get nodes
+NAME                             STATUS   ROLES    AGE    VERSION
+ip-192-168-28-242.ec2.internal   Ready    <none>   107m   v1.21.12-eks-5308cf7
+ip-192-168-52-205.ec2.internal   Ready    <none>   107m   v1.21.12-eks-5308cf7
+ip-192-168-7-38.ec2.internal     Ready    <none>   107m   v1.21.12-eks-5308cf7
+```
 
                       
