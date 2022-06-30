@@ -18,7 +18,7 @@ Docker ဆိုတာ ကျွန်တော်တို့ရဲ့ applicat
 
 Docker က client-server architecture ပုံစံအလုပ်လုပ်ပါတယ်။ Docker daemon က server-side ဖြစ်ပြီး users တွေခေါ်လိုက်တဲ့ docker client cli ကနေတစ်ဆင့် host ပေါ်မှာ containers တွေ image တွေ volumes တွေနဲ့ဆိုင်တဲ့ operations ကို manage လုပ်ပေးသွားပါတယ်။ Docker client က system တစ်ခုတည်းမှာရှိနေတဲ့ docke daemon ကို interact လုပ်နိုင်သလို remote system ပေါ်က docker daemon ကိုလည်း interact လုပ်နိုင်ပါတယ်။
 
-[docker architecture)(https://raw.githubusercontent.com/thaunghtike-share/thaunghtike-share.github.io/master/images/dact.png)
+![dact](https://raw.githubusercontent.com/thaunghtike-share/thaunghtike-share.github.io/master/images/dact.png)
 
 Docker daemon နဲ့ client ဟာ REST API တွေကိုအသုံးပြုပြီး unix socket ကနေ communicate လုပ်ပါတယ်။ ပုံမှန်အားဖြင့် docker daemon ဟာ unix socket တစ်ခုကို /var/run/docker.sock မှာ create လုပ်ပေးပါတယ်။ အဲ့ဒီ socker ပေါ်မှာ client နဲ့ daemon က communicate လုပ်သွားတာပါ။ 
 
@@ -26,5 +26,80 @@ Docker daemon နဲ့ client ဟာ REST API တွေကိုအသုံး
 
 ဒီနေရာမှာ client နဲ့ daemon ဟာ system တစ်ခုတည်းမှာဆို ပြသနာမရှိပါဘူး။ remote sytem က client တစ်ခုနေ access လုပ်ဖို့လိုလာပြီဆို TCP socket တစ်ခုကို docker daemon မှာ create ပေးရပါမယ်။ Daemon ကို access ရသွားတဲ့သူတိုင်းဟာ container တွေကို ကြိုက်သလို manage လုပ်ဖို့ အခွင့်ရေးရသွားပါတယ်။ container တွေ volumes တွေကို ဖျက်နိုင်တယ်။ privileged container ကိုသုံးပြီး root system ကိုပါ access ရသွားမှာပါ။ 
 
-ဒါကြောင့် TCP socket ကို create တဲ့အခါမှာ docker daemon ကို secure ဖြစ်ဖို့လိုအပ်လာပါတယ်။ secure ဖြစ်ဖို့ဆို tls encryption အတွက်လိုအပ်တဲ့ CA တွေ certificate တွေကို create ရပါမယ်။ tls encrypt သာမလုပ်ဘူးဆိုရင် docker daemon ရဲ့ host ကိုသီတဲ့ ဘယ်သူမဆို access ပေးသလိုဖြစ်သွားမှာပါ။ Docker ရဲ့ port က 2375 ဖြစ်ပြီး tls ကိုသုံးထားရင်တော့ 2376 ဖြစ်ပါတယ်။
+ဒါကြောင့် TCP socket ကို create တဲ့အခါမှာ docker daemon ကို secure ဖြစ်ဖို့လိုအပ်လာပါတယ်။ secure ဖြစ်ဖို့ဆို tls encryption အတွက်လိုအပ်တဲ့ CA တွေ certificate တွေကို create ရပါမယ်။ tls encrypt သာမလုပ်ဘူးဆိုရင် docker daemon ရဲ့ host ip ကိုသီတဲ့ ဘယ်သူမဆို access ပေးသလိုဖြစ်သွားမှာပါ။ Docker ရဲ့ port က 2375 ဖြစ်ပြီး tls ကိုသုံးထားရင်တော့ 2376 ဖြစ်ပါတယ်။
+
+<h2> Create CA, client and server certificates </h2>
+
+ဒီအဆင့်မှာတော့ ကျွန်တော်တို့က tls encrypt ဖို့လိုအပ်တဲ့ CA နဲ့ server အတွက် certificates တွေကို create ပေးရပါမယ်။ CA ကနေ server အတွက် cert ကို sign ထိုးပေးမှာဖြစ်ပြီး client အတွက်လည်း cert ကိုလည်း အဲ့ဒီ CA ကနေပဲ sign ထိုးပေးရမှာဖြစ်ပါတယ်။ အရင်ဆုံး အောက်က script ကို run လိုက်ပါမယ်။ 
+
+```bash
+set -eu
+
+#set -x ; debugging
+
+cd ~
+echo "you are now in $PWD"
+
+if [ ! -d ".docker/" ] 
+then
+    echo "Directory ./docker/ does not exist"
+    echo "Creating the directory"
+    mkdir .docker
+fi
+
+cd .docker/
+echo "type in your certificate password (characters are not echoed)"
+read -p '>' -s PASSWORD
+
+echo "Type in the server name you’ll use to connect to the Docker server"
+read -p '>' SERVER
+
+# 256bit AES (Advanced Encryption Standard) is the encryption cipher which is used for generating certificate authority (CA) with 2048-bit security.
+openssl genrsa -aes256 -passout pass:$PASSWORD -out ca-key.pem 2048 
+
+# Sign the the previously created CA key with your password and address for a period of one year.
+# i.e. generating a self-signed certificate for CA
+# X.509 is a standard that defines the format of public key certificates, with fixed size 256-bit (32-byte) hash
+openssl req -new -x509 -days 365 -key ca-key.pem -passin pass:$PASSWORD -sha256 -out ca.pem -subj "/C=TR/ST=./L=./O=./CN=$SERVER"
+
+# Generating a server key with 2048-bit security
+openssl genrsa -out server-key.pem 2048
+
+# Generating a certificate signing request (CSR) for the the server key with the name of your host.
+openssl req -new -key server-key.pem -subj "/CN=$SERVER"  -out server.csr
+
+# Sign the key with your password for a period of one year
+# i.e. generating a self-signed certificate for the key
+openssl x509 -req -days 365 -in server.csr -CA ca.pem -CAkey ca-key.pem -passin "pass:$PASSWORD" -CAcreateserial -out server-cert.pem
+
+# For client authentication, create a client key and certificate signing request
+# Generate a client key with 2048-bit security
+openssl genrsa -out key.pem 2048
+# Process the key as a client key.
+openssl req -subj '/CN=client' -new -key key.pem -out client.csr
+
+# To make the key suitable for client authentication, create an extensions config file:
+sh -c 'echo "extendedKeyUsage = clientAuth" > extfile.cnf'
+
+# Sign the (public) key with your password for a period of one year
+openssl x509 -req -days 365 -in client.csr -CA ca.pem -CAkey ca-key.pem -passin "pass:$PASSWORD" -CAcreateserial -out cert.pem -extfile extfile.cnf
+
+echo "Removing unnecessary files i.e. client.csr extfile.cnf server.csr"
+rm ca.srl client.csr extfile.cnf server.csr
+
+echo "Changing the permissions to readonly by root for the server files."
+# To make them only readable by you: 
+chmod 0400 ca-key.pem key.pem server-key.pem
+
+echo "Changing the permissions of the client files to read-only by everyone"
+# Certificates can be world-readable, but you might want to remove write access to prevent accidental damage
+# these are all x509 certificates aka public key certificates
+# X.509 certificates are used in many Internet protocols, including TLS/SSL, which is the basis for HTTPS.
+chmod 0444 ca.pem server-cert.pem cert.pem
+```
+CA certificate အတွက်လိုအပ်တဲ့ password နဲ့ server ကိုထည့်ပေးပါ။ ပြီးသွားရင်တော့ home directory ရဲ့ .docker ဆိုတဲ့ path ထဲမှာအောက်ကအတိုင်း တွေ့ရမှာဖြစ်ပါတယ်။
+
+```bash
+```
+ပြီးသွားရင်တော့ docker service မှာ tls ကိုသုံးဖို့ update လုပ်ပေးရပါမယ်။
 
