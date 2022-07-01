@@ -142,4 +142,18 @@ tls flag တွေကို docker commands တွေခေါ်တိုင်
     docker ps -a
 ```
 
-အဆုံးထိဖတ်ရှုပေးခဲ့ကြသူတိုင်းကိုကျေးဇူးတင်ပါတယ်။
+အဆုံးထိဖတ်ရှုပေးခဲ့ကြသူတိုင်းကိုကျေးဇူးတင်ပါတယ်။ ကိုယ်တိုင် ပြန်စမ်းကြည့်လို့လည်းရပါတယ်။ error ပါရင် messenger buttom လေးကနေ မေးလိုက်နော်... bye !!!!
+
+<h2>👉 Reference</h2>
+
+<ul> 
+    <li><a href="https://docs.docker.com/engine/security/protect-access/">https://docs.docker.com/engine/security/protect-access/</a> </li> 
+    <li><a href="https://www.youtube.com/watch?v=70QOBVwLyC0&t=1837s">https://www.youtube.com/watch?v=70QOBVwLyC0&t=1837s</a></li>
+</ul>    
+
+<p style="text-align:center">
+    သင်ဆရာ မြင်ဆရာ ကြားဆရာများကိုလေးစားလျှက် 🙏🙏🙏
+</p>
+<p style="text-align:center">
+   သောင်းထိုက်ဦး (UIT)
+</p>
