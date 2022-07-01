@@ -16,7 +16,7 @@ Docker ဆိုတာ ကျွန်တော်တို့ရဲ့ applicat
 
 <h2> Docker Architecture </h2>
 
-Docker က client-server architecture ပုံစံအလုပ်လုပ်ပါတယ်။ Docker daemon က server-side ဖြစ်ပြီး users တွေခေါ်လိုက်တဲ့ docker client cli ကနေတစ်ဆင့် host ပေါ်မှာ containers တွေ image တွေ volumes တွေနဲ့ဆိုင်တဲ့ operations ကို manage လုပ်ပေးသွားပါတယ်။ Docker client က system တစ်ခုတည်းမှာရှိနေတဲ့ docke daemon ကို interact လုပ်နိုင်သလို remote system ပေါ်က docker daemon ကိုလည်း interact လုပ်နိုင်ပါတယ်။
+Docker က client-server architecture ပုံစံအလုပ်လုပ်ပါတယ်။ Docker daemon က server-side ဖြစ်ပြီး users တွေခေါ်လိုက်တဲ့ docker client cli ကနေတစ်ဆင့် host ပေါ်မှာ containers တွေ image တွေ volumes တွေနဲ့ဆိုင်တဲ့ operations ကို manage လုပ်ပေးသွားပါတယ်။ Docker client က system တစ်ခုတည်းမှာရှိနေတဲ့ docker daemon ကို interact လုပ်နိုင်သလို remote system ပေါ်က docker daemon ကိုလည်း interact လုပ်နိုင်ပါတယ်။
 
 ![dact](https://raw.githubusercontent.com/thaunghtike-share/thaunghtike-share.github.io/master/images/dact.png)
 
