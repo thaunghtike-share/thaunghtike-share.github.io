@@ -26,7 +26,7 @@ Docker daemon နဲ့ client ဟာ REST API တွေကိုအသုံး
 
 ဒီနေရာမှာ client နဲ့ daemon ဟာ system တစ်ခုတည်းမှာဆို ပြသနာမရှိပါဘူး။ remote sytem က client တစ်ခုကနေ access လုပ်ဖို့လိုလာပြီဆို TCP socket တစ်ခုကို docker daemon မှာ create ပေးရပါမယ်။ Daemon ကို access ရသွားတဲ့သူတိုင်းဟာ container တွေကို ကြိုက်သလို manage လုပ်ဖို့ အခွင့်ရေးရသွားပါတယ်။ container တွေ volumes တွေကို ဖျက်နိုင်တယ်။ privileged container ကိုသုံးပြီး root system ကိုပါ access ရသွားမှာပါ။ 
 
-ဒါကြောင့် TCP socket ကို create တဲ့အခါမှာ docker daemon ကို secure ဖြစ်ဖို့လိုအပ်လာပါတယ်။ secure ဖြစ်ဖို့ဆို tls encryption အတွက်လိုအပ်တဲ့ CA တွေ certificate တွေကို create ရပါမယ်။ tls encrypt သာမလုပ်ဘူးဆိုရင် docker daemon ရဲ့ host ip ကိုသီတဲ့ ဘယ်သူမဆို access ပေးသလိုဖြစ်သွားမှာပါ။ Docker ရဲ့ port က 2375 ဖြစ်ပြီး tls ကိုသုံးထားရင်တော့ 2376 ဖြစ်ပါတယ်။
+ဒါကြောင့် TCP socket ကို create တဲ့အခါမှာ docker daemon ကို secure ဖြစ်ဖို့လိုအပ်လာပါတယ်။ secure ဖြစ်ဖို့ဆို tls encryption အတွက်လိုအပ်တဲ့ CA တွေ certificate တွေကို create ရပါမယ်။ tls encrypt သာမလုပ်ဘူးဆိုရင် docker daemon ရဲ့ host IP ကိုသိတဲ့ ဘယ်သူမဆို access ပေးသလိုဖြစ်သွားမှာပါ။ Docker ရဲ့ port က 2375 ဖြစ်ပြီး tls ကိုသုံးထားရင်တော့ 2376 ဖြစ်ပါတယ်။
 
 <h2> Create CA, client and server certificates </h2>
 
