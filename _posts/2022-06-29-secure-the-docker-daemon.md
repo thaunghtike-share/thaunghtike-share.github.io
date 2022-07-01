@@ -8,7 +8,7 @@ tags:
 categories: Docker
 ---
 
-ကျွန်တော် ဒီနေ့ မှာတော့ Secure The Docker Daemon ဆိုတဲ့ ခေါင်းစဥ်အောက်မှာနားလည်သလောက်ရှင်းပြပေးသွားမှာဖြစ်ပါတယ်။ Secure လုပ်တာကိုမဆွေးနွေးခင်မှာ Docker Architecture အကြောင်းကိုအနည်းငယ်ပြန်စလိုက်ရအောင်ဗျာ။
+ကျွန်တော် ဒီနေ့ မှာတော့ CKS ဖြေဖို့လေ့လာနေတုန်း သိလိုက်ရတဲ့ Secure The Docker Daemon ဆိုတဲ့ ခေါင်းစဥ်အောက်မှာနားလည်သလောက်ရှင်းပြပေးသွားမှာဖြစ်ပါတယ်။ Secure လုပ်တာကိုမဆွေးနွေးခင်မှာ Docker Architecture အကြောင်းကိုအနည်းငယ်ပြန်စလိုက်ရအောင်ဗျာ။
 
 <h2> What is docker ? </h2>
 
@@ -24,7 +24,7 @@ Docker daemon နဲ့ client ဟာ REST API တွေကိုအသုံး
 
 <h2> Acess the docker daemon remotely </h2>
 
-ဒီနေရာမှာ client နဲ့ daemon ဟာ system တစ်ခုတည်းမှာဆို ပြသနာမရှိပါဘူး။ remote sytem က client တစ်ခုနေ access လုပ်ဖို့လိုလာပြီဆို TCP socket တစ်ခုကို docker daemon မှာ create ပေးရပါမယ်။ Daemon ကို access ရသွားတဲ့သူတိုင်းဟာ container တွေကို ကြိုက်သလို manage လုပ်ဖို့ အခွင့်ရေးရသွားပါတယ်။ container တွေ volumes တွေကို ဖျက်နိုင်တယ်။ privileged container ကိုသုံးပြီး root system ကိုပါ access ရသွားမှာပါ။ 
+ဒီနေရာမှာ client နဲ့ daemon ဟာ system တစ်ခုတည်းမှာဆို ပြသနာမရှိပါဘူး။ remote sytem က client တစ်ခုကနေ access လုပ်ဖို့လိုလာပြီဆို TCP socket တစ်ခုကို docker daemon မှာ create ပေးရပါမယ်။ Daemon ကို access ရသွားတဲ့သူတိုင်းဟာ container တွေကို ကြိုက်သလို manage လုပ်ဖို့ အခွင့်ရေးရသွားပါတယ်။ container တွေ volumes တွေကို ဖျက်နိုင်တယ်။ privileged container ကိုသုံးပြီး root system ကိုပါ access ရသွားမှာပါ။ 
 
 ဒါကြောင့် TCP socket ကို create တဲ့အခါမှာ docker daemon ကို secure ဖြစ်ဖို့လိုအပ်လာပါတယ်။ secure ဖြစ်ဖို့ဆို tls encryption အတွက်လိုအပ်တဲ့ CA တွေ certificate တွေကို create ရပါမယ်။ tls encrypt သာမလုပ်ဘူးဆိုရင် docker daemon ရဲ့ host ip ကိုသီတဲ့ ဘယ်သူမဆို access ပေးသလိုဖြစ်သွားမှာပါ။ Docker ရဲ့ port က 2375 ဖြစ်ပြီး tls ကိုသုံးထားရင်တော့ 2376 ဖြစ်ပါတယ်။
 
@@ -68,9 +68,11 @@ openssl genrsa -out server-key.pem 2048
 # Generating a certificate signing request (CSR) for the the server key with the name of your host.
 openssl req -new -key server-key.pem -subj "/CN=$SERVER"  -out server.csr
 
+echo subjectAltName = DNS:$SERVER,IP:$SERVER,IP:127.0.0.1 >> extfile.cnf
+echo extendedKeyUsage = serverAuth >> extfile.cnf
 # Sign the key with your password for a period of one year
 # i.e. generating a self-signed certificate for the key
-openssl x509 -req -days 365 -in server.csr -CA ca.pem -CAkey ca-key.pem -passin "pass:$PASSWORD" -CAcreateserial -out server-cert.pem
+openssl x509 -req -days 365 -in server.csr -CA ca.pem -CAkey ca-key.pem -passin "pass:$PASSWORD" -CAcreateserial -out server-cert.pem -extfile extfile.cnf
 
 # For client authentication, create a client key and certificate signing request
 # Generate a client key with 2048-bit security
@@ -100,6 +102,44 @@ chmod 0444 ca.pem server-cert.pem cert.pem
 CA certificate အတွက်လိုအပ်တဲ့ password နဲ့ server ကိုထည့်ပေးပါ။ ပြီးသွားရင်တော့ home directory ရဲ့ .docker ဆိုတဲ့ path ထဲမှာအောက်ကအတိုင်း တွေ့ရမှာဖြစ်ပါတယ်။
 
 ```bash
+~ % ls .docker/
+ca-key.pem  ca.pem  cert.pem  key.pem  server-cert.pem  server-key.pem
 ```
-ပြီးသွားရင်တော့ docker service မှာ tls ကိုသုံးဖို့ update လုပ်ပေးရပါမယ်။
+ပြီးသွားရင်တော့ docker service မှာ tls ကိုသုံးဖို့ update လုပ်ပေးရပါမယ်။ အရင်ဆုံး systemd configuration ကိုလုပ်ပေးပါမယ်။ directory တစ်ခုဆောက်လိုက်ပါ။
 
+```bash
+~ % sudo mkdir /etc/systemd/system/docker.service.d
+```
+ပြီးသွားရင်တော့ docker daemon မှာ tls encryption ကို configure အောက်ပါအတိုင်းလုပ်ပေးရပါမယ်။
+
+```bash
+~ % sudo vim /etc/systemd/system/docker.service.d/override.conf
+```
+အောက်က configuration ကို ထည့်လိုက်ပါ။
+
+```bash
+[Service]
+ExecStart=
+ExecStart=/usr/bin/dockerd -D -H unix:///var/run/docker.sock --tlsverify --tlscert=/home/ubuntu/.docker/server-cert.pem --tlscacert=/home/ubuntu/.docker/ca.pem --tlskey=/home/ubuntu/.docker/server-key.pem -H tcp://0.0.0.0:2376
+```
+အားလုံးပြီးသွားရင်တော့ systemctl ကို reload လုပ်ပေးလိုက်ပါ။
+
+```bash
+~ % sudo systemctl daemon-reload && sudo systemctl restart docker
+```
+<h2> Access the docker daemon remotely </h2>
+
+ဒါဆိုရင်တော့ remote client ကနေ ခုဏက docker daemon ကို access လုပ်ကြည့်ရအောင်။ access လုပ်ဖို့အတွက် remote client မှာ ca.pem နဲ့ CA ကနေ sign ထိုးပေးခဲ့တဲ့ client အတွက်  private key နဲ့ cert ရှိရပါမယ်။ အောက်ကအတိုင်း access လုပ်နိုင်ပါတယ်။
+
+```bash
+~ % docker --tlsverify --tlscacert=ca.pem --tlscert=cert.pem --tlskey=key.pem -H=tcp://10.0.6.67:2376 ps -a
+```
+tls flag တွေကို docker commands တွေခေါ်တိုင်းမသုံးချင်ဘူးဆိုရင် env var တွေ export လုပ်ပြီးသုံးနိုင်ပါတယ်။
+
+```bash
+~ % export HOST=10.0.6.67
+    export DOCKER_HOST=tcp://$HOST:2376 DOCKER_TLS_VERIFY=1
+    docker ps -a
+```
+
+အဆုံးထိဖတ်ရှုပေးခဲ့ကြသူတိုင်းကိုကျေးဇူးတင်ပါတယ်။
