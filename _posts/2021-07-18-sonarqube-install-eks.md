@@ -51,9 +51,9 @@ eksctl create nodegroup --cluster=eksdemo \
                        --full-ecr-access \
                        --appmesh-access \
                        --alb-ingress-access
-```                       
+```
 
-kubeconfig file ကို ~/.kue/config ထဲကို ထည့်ပါလိုက်မယ်။ 
+kubeconfig file ကို ~/.kue/config ထဲကို ထည့်ပါလိုက်မယ်။
 
 ```bash
 ~ % aws eks update-kubeconfig --name eksdemo
@@ -73,12 +73,12 @@ ip-192-168-7-38.ec2.internal     Ready    <none>   107m   v1.21.12-eks-5308cf7
 sonarqube ကို deploy မလုပ်ခင်မှာ အရင်ဆုံး Node တစ်ခုကို taint လုပ်ပေးဖို့လိုပါတယ်။ ဘာလို့လဲဆိုရင် service ကို stable ဖြစ်ဖို့အတွက်ပါ။ အဲ့ taint လုပ်မယ့် node ပေါ်မှာ sonarqube တစ်ခုကိုပဲထားပြီး ကျန်တဲ့ service တွေကို schedule လုပ်ခွင့်မပေးတော့ပါဘူး။
 
 ```bash
-kubectl taint node ip-192-168-7-38.ec2.internal sonarqube=true:NoSchedule 
+kubectl taint node ip-192-168-7-38.ec2.internal sonarqube=true:NoSchedule
 kubectl label node ip-192-168-7-38.ec2.internal sonarqube=true
 ```
 <h2> Update Helm Values </h2>
 
-sonarqube helm chart ကို clone လိုက်ပါ။ ပြီးရင် values.yaml မှာအောက်ပါ value တွေကို update ပေးရပါမယ်။ 
+sonarqube helm chart ကို clone လိုက်ပါ။ ပြီးရင် values.yaml မှာအောက်ပါ value တွေကို update ပေးရပါမယ်။
 
 ```bash
 git clone https://github.com/SonarSource/helm-chart-sonarqube.git
@@ -87,20 +87,20 @@ cd helm-chart-sonarqube
 toleration ထည့်ပေးရမယ်။ ပြီးရင် service ကို LoadBalancer ပြောင်းပေးရပါမယ်။
 
 ```bash
-tolerations: 
+tolerations:
   - key: "sonarqube"
     operator: "Exists"
     effect: "NoSchedule
-    
+
 service:
   type: LoadBalancer
   externalPort: 9000
   internalPort: 9000
   labels:
   annotations: {}
-  
-nodeSelector: 
-  sonarqube: "true"  
+
+nodeSelector:
+  sonarqube: "true"
 ```
 <h2> Deploy Sonarqube Helm Chart </h2>
 
@@ -111,7 +111,7 @@ helm repo add sonarqube https://SonarSource.github.io/helm-chart-sonarqube
 helm repo update
 kubectl create namespace sonarqube
 helm upgrade -f values.yaml --install -n sonarqube sonarqube sonarqube/sonarqube
-```    
+```
 
 ဒါဆိုရင် pods တွေကို list ကြည့်လို့ရပါပြီ။ sonarqube ဟာ သူ့ရဲ့ analysis လုပ်ခဲ့တဲ့ information တွေကို store လုပ်ဖို့အတွက် database ကိုသုံးရပါတယ်။ ဒီမှာတော့ postgres ကိုပဲသုံးလိုက်ပါတယ်။
 
@@ -128,10 +128,10 @@ sonarqube dashboard ကို access လုပ်ဖို့အတွက် kub
 
 ```bash
 % kubectl get svc -n sonarqube
-NAME                            TYPE           CLUSTER-IP      EXTERNAL-IP                                                              PORT(S)      
-sonarqube-postgresql            ClusterIP      10.100.36.211   <none>                                                                   5432/TCP       
-sonarqube-postgresql-headless   ClusterIP      None            <none>                                                                   5432/TCP       
-sonarqube-sonarqube             LoadBalancer   10.100.66.15    ae75224a4660543c2895dbe574db5877-225847540.us-east-1.elb.amazonaws.com   80:30506/TCP   
+NAME                            TYPE           CLUSTER-IP      EXTERNAL-IP                                                              PORT(S)
+sonarqube-postgresql            ClusterIP      10.100.36.211   <none>                                                                   5432/TCP
+sonarqube-postgresql-headless   ClusterIP      None            <none>                                                                   5432/TCP
+sonarqube-sonarqube             LoadBalancer   10.100.66.15    ae75224a4660543c2895dbe574db5877-225847540.us-east-1.elb.amazonaws.com   80:30506/TCP
 ```
 load balancer ရဲ့ address ကို browser ကနေခေါ်လိုက်ရင် login page ထဲကိုရောက်သွားပါလိမ့်မယ်။ username နဲ့ password က admin ဖြစ်ပါတယ်။ value တွေက helm chart ထဲမှာပြင်နိုင်ပါတယ်။
 
@@ -145,9 +145,9 @@ login ဝင်ပြီးသွားရင်တော့ dashboard ထဲက
 
 <h2>👉 Reference</h2>
 
-<ul> 
-    <li><a href="https://dev.to/lakkimartin/install-sonarqube-on-kubernetes-aks-49o7">https://dev.to/lakkimartin/install-sonarqube-on-kubernetes-aks-49o7</a> </li> 
-</ul>    
+<ul>
+    <li><a href="https://dev.to/lakkimartin/install-sonarqube-on-kubernetes-aks-49o7">https://dev.to/lakkimartin/install-sonarqube-on-kubernetes-aks-49o7</a> </li>
+</ul>
 
 <p style="text-align:center">
     သင်ဆရာ မြင်ဆရာ ကြားဆရာများကိုလေးစားလျှက် 🙏🙏🙏

@@ -12,7 +12,7 @@ categories: Docker
 
 <h2> What is docker ? </h2>
 
-Docker ဆိုတာ ကျွန်တော်တို့ရဲ့ application တွေကို containerized လုပ်ပြီး ship လုပ်ဖို့ run ဖို့အတွက် သုံံးတဲ့ platform တစ်ခုပါ။ ကျွန်တော်တို့ရဲ့ application တစ်ခုချင်းစီ run ဖို့အတွက် container လို့ခေါ်တဲ့ environment တစ်ခုကို create လုပ်ပေးသွားမှာဖြစ်တယ်။ 
+Docker ဆိုတာ ကျွန်တော်တို့ရဲ့ application တွေကို containerized လုပ်ပြီး ship လုပ်ဖို့ run ဖို့အတွက် သုံံးတဲ့ platform တစ်ခုပါ။ ကျွန်တော်တို့ရဲ့ application တစ်ခုချင်းစီ run ဖို့အတွက် container လို့ခေါ်တဲ့ environment တစ်ခုကို create လုပ်ပေးသွားမှာဖြစ်တယ်။
 
 <h2> Docker Architecture </h2>
 
@@ -20,17 +20,17 @@ Docker က client-server architecture ပုံစံအလုပ်လုပ်
 
 ![dact](https://raw.githubusercontent.com/thaunghtike-share/thaunghtike-share.github.io/master/images/dact.png)
 
-Docker daemon နဲ့ client ဟာ REST API တွေကိုအသုံးပြုပြီး unix socket ကနေ communicate လုပ်ပါတယ်။ ပုံမှန်အားဖြင့် docker daemon ဟာ unix socket တစ်ခုကို /var/run/docker.sock မှာ create လုပ်ပေးပါတယ်။ အဲ့ဒီ socker ပေါ်မှာ client နဲ့ daemon က communicate လုပ်သွားတာပါ။ 
+Docker daemon နဲ့ client ဟာ REST API တွေကိုအသုံးပြုပြီး unix socket ကနေ communicate လုပ်ပါတယ်။ ပုံမှန်အားဖြင့် docker daemon ဟာ unix socket တစ်ခုကို /var/run/docker.sock မှာ create လုပ်ပေးပါတယ်။ အဲ့ဒီ socker ပေါ်မှာ client နဲ့ daemon က communicate လုပ်သွားတာပါ။
 
 <h2> Acess the docker daemon remotely </h2>
 
-ဒီနေရာမှာ client နဲ့ daemon ဟာ system တစ်ခုတည်းမှာဆို ပြသနာမရှိပါဘူး။ remote sytem က client တစ်ခုကနေ access လုပ်ဖို့လိုလာပြီဆို TCP socket တစ်ခုကို docker daemon မှာ create ပေးရပါမယ်။ Daemon ကို access ရသွားတဲ့သူတိုင်းဟာ container တွေကို ကြိုက်သလို manage လုပ်ဖို့ အခွင့်ရေးရသွားပါတယ်။ container တွေ volumes တွေကို ဖျက်နိုင်တယ်။ privileged container ကိုသုံးပြီး root system ကိုပါ access ရသွားမှာပါ။ 
+ဒီနေရာမှာ client နဲ့ daemon ဟာ system တစ်ခုတည်းမှာဆို ပြသနာမရှိပါဘူး။ remote sytem က client တစ်ခုကနေ access လုပ်ဖို့လိုလာပြီဆို TCP socket တစ်ခုကို docker daemon မှာ create ပေးရပါမယ်။ Daemon ကို access ရသွားတဲ့သူတိုင်းဟာ container တွေကို ကြိုက်သလို manage လုပ်ဖို့ အခွင့်ရေးရသွားပါတယ်။ container တွေ volumes တွေကို ဖျက်နိုင်တယ်။ privileged container ကိုသုံးပြီး root system ကိုပါ access ရသွားမှာပါ။
 
 ဒါကြောင့် TCP socket ကို create တဲ့အခါမှာ docker daemon ကို secure ဖြစ်ဖို့လိုအပ်လာပါတယ်။ secure ဖြစ်ဖို့ဆို tls encryption အတွက်လိုအပ်တဲ့ CA တွေ certificate တွေကို create ရပါမယ်။ tls encrypt သာမလုပ်ဘူးဆိုရင် docker daemon ရဲ့ host IP ကိုသိတဲ့ ဘယ်သူမဆို access ပေးသလိုဖြစ်သွားမှာပါ။ Docker ရဲ့ port က 2375 ဖြစ်ပြီး tls ကိုသုံးထားရင်တော့ 2376 ဖြစ်ပါတယ်။
 
 <h2> Create CA, client and server certificates </h2>
 
-ဒီအဆင့်မှာတော့ ကျွန်တော်တို့က tls encrypt ဖို့လိုအပ်တဲ့ CA နဲ့ server အတွက် certificates တွေကို create ပေးရပါမယ်။ CA ကနေ server အတွက် cert ကို sign ထိုးပေးမှာဖြစ်ပြီး client အတွက်လည်း cert ကိုလည်း အဲ့ဒီ CA ကနေပဲ sign ထိုးပေးရမှာဖြစ်ပါတယ်။ အရင်ဆုံး အောက်က script ကို run လိုက်ပါမယ်။ 
+ဒီအဆင့်မှာတော့ ကျွန်တော်တို့က tls encrypt ဖို့လိုအပ်တဲ့ CA နဲ့ server အတွက် certificates တွေကို create ပေးရပါမယ်။ CA ကနေ server အတွက် cert ကို sign ထိုးပေးမှာဖြစ်ပြီး client အတွက်လည်း cert ကိုလည်း အဲ့ဒီ CA ကနေပဲ sign ထိုးပေးရမှာဖြစ်ပါတယ်။ အရင်ဆုံး အောက်က script ကို run လိုက်ပါမယ်။
 
 ```bash
 set -eu
@@ -40,7 +40,7 @@ set -eu
 cd ~
 echo "you are now in $PWD"
 
-if [ ! -d ".docker/" ] 
+if [ ! -d ".docker/" ]
 then
     echo "Directory ./docker/ does not exist"
     echo "Creating the directory"
@@ -55,7 +55,7 @@ echo "Type in the server name you’ll use to connect to the Docker server"
 read -p '>' SERVER
 
 # 256bit AES (Advanced Encryption Standard) is the encryption cipher which is used for generating certificate authority (CA) with 2048-bit security.
-openssl genrsa -aes256 -passout pass:$PASSWORD -out ca-key.pem 2048 
+openssl genrsa -aes256 -passout pass:$PASSWORD -out ca-key.pem 2048
 
 # Sign the the previously created CA key with your password and address for a period of one year.
 # i.e. generating a self-signed certificate for CA
@@ -90,7 +90,7 @@ echo "Removing unnecessary files i.e. client.csr extfile.cnf server.csr"
 rm ca.srl client.csr extfile.cnf server.csr
 
 echo "Changing the permissions to readonly by root for the server files."
-# To make them only readable by you: 
+# To make them only readable by you:
 chmod 0400 ca-key.pem key.pem server-key.pem
 
 echo "Changing the permissions of the client files to read-only by everyone"
@@ -146,10 +146,10 @@ tls flag တွေကို docker commands တွေခေါ်တိုင်
 
 <h2>👉 Reference</h2>
 
-<ul> 
-    <li><a href="https://docs.docker.com/engine/security/protect-access/">https://docs.docker.com/engine/security/protect-access/</a> </li> 
+<ul>
+    <li><a href="https://docs.docker.com/engine/security/protect-access/">https://docs.docker.com/engine/security/protect-access/</a> </li>
     <li><a href="https://www.youtube.com/watch?v=70QOBVwLyC0&t=1837s">https://www.youtube.com/watch?v=70QOBVwLyC0&t=1837s</a></li>
-</ul>    
+</ul>
 
 <p style="text-align:center">
     သင်ဆရာ မြင်ဆရာ ကြားဆရာများကိုလေးစားလျှက် 🙏🙏🙏

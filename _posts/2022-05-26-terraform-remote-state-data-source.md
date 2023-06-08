@@ -12,19 +12,19 @@ categories: Terraform
 <h2>👉 Introduction</h2>
 
  <p>✔️ ကျွန်တော်ဒီနေ့မှာတော့ Terraform ရဲ့ remote state data source အကြောင်းကိုနားလည်သလောက်လေးရှင်းပြပေးမှာဖြစ်ပါတယ်။ remote state data source ဆိုတာက ကျွန်တော်တို့ backend တစ်ခုခုမှာ သိမ်းထားတဲ့ state file ထဲက data တွေကို အခြား Terraform module တွေမှာပြန်သုံးဖို့အတွက်သုံးတာဖြစ်ပါတယ်။ </p>
- 
+
  <h2>👉 Prerequisities </h2>
- 
+
  <p> ✔️ Terraform state file </p>
  <p>✔️ Terraform module</p>
- 
+
  <h2>👉 State File ဆိုတာဘာလဲ?</h2>
- 
+
  <p> ✔️ Terraform state file ဆိုတာက ကျွန်တော်တို့ provision လုပ်လိုက်တဲ့ infrastructure တစ်ခုလုံးနဲ့သက်ဆိုင်တဲ့ information တွေပါဝင်ပါတယ်။ ဒါကြောင့် အဲ့ဒီ state file တွေကို safe ဖြစ်တဲ့ နေရာတစ်ခုခု ဆိုလိုတာက backend တစ်ခုခုမှာ သိမ်းထားဖို့လိုပါတယ်။ ဘာလို့လဲဆိုရင် sensitive data တွေ ဖြစ်တဲ့ DB password တွေ user password တွေပါဝင်နေလို့ပါ။ local backend ကိုသုံးတဲ့အခါမျိုးမှာဆိုရင် state file ကို plain-text json format နဲ့ store လုပ်ပါတယ်။ </p>
- 
+
  <p>✔️ ဒါကြောင့် security အတွက်ဆို remote backend တွေကိုသုံးဖို့အကြံပြုကြပါတယ်။ Remote Backend တွေကလည်းအမျိုးမျိုးရှိပါတယ်။ s3၊ Terraform Cloud စသည်ဖြင့်ပေါ့။ ကျွန်တော်ကတော့ Terraform Cloud နဲ့ s3 backend ကိုပဲအသုံးများပါတယ်။ Terraform Cloud ဆိုရင် state ကိုအမြဲ encrypt လုပ်ပေးပါတယ်။ ဒီလောက်ဆို backend အကြောင်းကို အနည်းငယ်သဘောပေါက်လောက်မယ်ထင်ပါတယ်။</p>
- 
-<h2>👉 Examples</h2> 
+
+<h2>👉 Examples</h2>
 
 ကျွန်တော် remote state data source အကြောင်းကိုပိုမြင်သွားအောင် lab လေးတစ်ခုနဲ့ ရှင်းပြပါမယ်။
 
@@ -86,7 +86,7 @@ terraform {
   }
 }
 ```
-backend configuration ထဲမှာသုံးထားတာကတော့ရိုးရှင်းပါတယ်။ 
+backend configuration ထဲမှာသုံးထားတာကတော့ရိုးရှင်းပါတယ်။
 
 <p> ✔️terraform state file ကို  s3 bucket "my-terraform-remote-state-lab-s3" ထဲမှာ "tf-infrastructure.tfstate" နာမည်နဲ့ သိမ်းထားမယ်လို့ဆိုလိုတာပါ။ key ဆိုတာကတော့ file နာမည်ပါ။ </p>
 <p>✔️ encrypt ဆိုတာက state file ကို encrypt လုပ်မယ်လို့ဆိုလိုတာပါ။ </p>
@@ -139,7 +139,7 @@ module "vpc" {
   )
 }
 ```
-vpc module မှာ AZ (၂)ခု ၊ Private Subnet (၂)ခု ၊ Public Subnet (၂)ခုသုံးထားပါတယ်။ Private Subent တွေအတွက် NAT gateway တစ်ခုပါ enable လုပ်ထားပါတယ်။ 
+vpc module မှာ AZ (၂)ခု ၊ Private Subnet (၂)ခု ၊ Public Subnet (၂)ခုသုံးထားပါတယ်။ Private Subent တွေအတွက် NAT gateway တစ်ခုပါ enable လုပ်ထားပါတယ်။
 
 အားလုံးပြီးသွားရင်တော့ output တွေထုတ်ခဲ့ပါမယ်။ အကြောင်းမဲ့ output တွေထုတ်တာတော့မဟုတ်ပါဘူး။ အဲ့ဒီ output တွေဖြစ်တဲ့ vpc id ၊ subnet တွေကို ALB module မှာပြန်သုံးဖို့အတွက်ပါ။
 

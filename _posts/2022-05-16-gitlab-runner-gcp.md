@@ -17,7 +17,7 @@ categories: CICD
 
 <h2> 👉 Why Runner Needs Autoscaling </h2>
 
-Runners တွေဟာ ဘာလို့ autoscale လုပ်ဖို့လိုတာလဲ။ များသောအားဖြင့် ကျွန်တော်တို့တွေဟာ runners တွေကို docker executor နဲ့ပဲ register လုပ်ကြပါတယ်။ pipeline ထဲမှာ run မယ့် jobs ကနည်းရင် သိပ်မသိသာပါဘူး။ CI CD pipeline တွေကို လူတွေအများကြီးက ပြိုင်တူ run တဲ့အခါ docker နဲ့ register လုပ်ထားတဲ့စက်က CPU overload ဖြစ်ပြီး ကောင်းကောင်းအလုပ်မလုပ်နိုင်တော့ပါဘူး။ ဒါဆို cloud ပေါ်က compute engine ကို scale up လုပ်ဖို့ဆိုရင်လည်း စဥ်းစားစရာဖြစ်လာပြန်ရော။ runner အဖြစ်ပဲသုံးမယ့် vm အတွက် ဘာလို့ တစ်လ ကို ပိုက်ဆံတွေအများကြီးပေးနေရမှာလဲ။ runner မသုံးတဲ့အချိန်တွေမှာ အလကားပိုက်ဆံပေးနေရမှာပါ။ အဲ့ဒီအတွက် ဖြေရှင်းဖို့ အဖြေကတော့ spot instances တွေနဲ့ autoscale လုပ်ခြင်းပဲဖြစ်ပါတယ်။ spot instance ဆိုတာ normal instance တွေထက်  70-90% လောက်အထိ စျေးသက်သာပါတယ်။ ကိုယ်လိုတဲ့အချိန်မှာသာ run နိုင်ပြီး ပြီးသွားရင်ပြန်ပိတ်ခဲ့လို့ရပါတယ်။ အထူးသဖြင့် batch job တွေ run တဲ့အခါသုံးကြပါတယ်။ 
+Runners တွေဟာ ဘာလို့ autoscale လုပ်ဖို့လိုတာလဲ။ များသောအားဖြင့် ကျွန်တော်တို့တွေဟာ runners တွေကို docker executor နဲ့ပဲ register လုပ်ကြပါတယ်။ pipeline ထဲမှာ run မယ့် jobs ကနည်းရင် သိပ်မသိသာပါဘူး။ CI CD pipeline တွေကို လူတွေအများကြီးက ပြိုင်တူ run တဲ့အခါ docker နဲ့ register လုပ်ထားတဲ့စက်က CPU overload ဖြစ်ပြီး ကောင်းကောင်းအလုပ်မလုပ်နိုင်တော့ပါဘူး။ ဒါဆို cloud ပေါ်က compute engine ကို scale up လုပ်ဖို့ဆိုရင်လည်း စဥ်းစားစရာဖြစ်လာပြန်ရော။ runner အဖြစ်ပဲသုံးမယ့် vm အတွက် ဘာလို့ တစ်လ ကို ပိုက်ဆံတွေအများကြီးပေးနေရမှာလဲ။ runner မသုံးတဲ့အချိန်တွေမှာ အလကားပိုက်ဆံပေးနေရမှာပါ။ အဲ့ဒီအတွက် ဖြေရှင်းဖို့ အဖြေကတော့ spot instances တွေနဲ့ autoscale လုပ်ခြင်းပဲဖြစ်ပါတယ်။ spot instance ဆိုတာ normal instance တွေထက်  70-90% လောက်အထိ စျေးသက်သာပါတယ်။ ကိုယ်လိုတဲ့အချိန်မှာသာ run နိုင်ပြီး ပြီးသွားရင်ပြန်ပိတ်ခဲ့လို့ရပါတယ်။ အထူးသဖြင့် batch job တွေ run တဲ့အခါသုံးကြပါတယ်။
 
 <h2>👉 Runner Manager Setup</h2>
 
@@ -31,7 +31,7 @@ vm create ပြီးရင် vm ထဲကို ssh ဝင်ပြီး run
 
 ![gcs](https://raw.githubusercontent.com/thaunghtike-share/thaunghtike-share.github.io/master/images/gcs.png)
 
-bucket create ပြီးရင် runner config ထဲမှာ compute engine တွေ scale လုပ်ဖို့ အတွက်ရယ် cache တွေ bucket ထဲမှာ သိမ်းဖို့ အတွက်ရယ် api တွေနဲ့ access ရဖို့ service account တစ်ခုဆောက်ရပါမယ်။ အဲ့ service account ရဲ့ key ကို download ပြီး runner config ထဲမှာ ထည့်ပေးရပါမယ်။ ဒါမှသာ runner အတွက် vms တွေ scale in ၊ scale out လုပ်နိုင်မှာပါ။ 
+bucket create ပြီးရင် runner config ထဲမှာ compute engine တွေ scale လုပ်ဖို့ အတွက်ရယ် cache တွေ bucket ထဲမှာ သိမ်းဖို့ အတွက်ရယ် api တွေနဲ့ access ရဖို့ service account တစ်ခုဆောက်ရပါမယ်။ အဲ့ service account ရဲ့ key ကို download ပြီး runner config ထဲမှာ ထည့်ပေးရပါမယ်။ ဒါမှသာ runner အတွက် vms တွေ scale in ၊ scale out လုပ်နိုင်မှာပါ။
 
 ![sa](https://raw.githubusercontent.com/thaunghtike-share/thaunghtike-share.github.io/master/images/sa.png)
 
@@ -56,26 +56,26 @@ base=https://github.com/docker/machine/releases/download/v0.16.0 \
 ```
 <h2>👉 Register Runner</h2>
 
-အားလုံးပြီးသွားတဲ့အခါ gitlab ထဲကိုသွားပါ မိမိ runner ကို register လုပ်ချင်တဲ့ project (သို့) group အောက်က settings >> CI CD >> runners အထဲမှာ expand ကို click လိုက်ရင် အောက်ကလို runner token ရလာပါလိမ့်မယ်။ token ရရင် runner manager vm ထဲမှာ runner-manager register command နဲ့ runner ကို register လုပ်ပါ။ executor မှာ docker+machine  ကိုရွေးပါ။ 
+အားလုံးပြီးသွားတဲ့အခါ gitlab ထဲကိုသွားပါ မိမိ runner ကို register လုပ်ချင်တဲ့ project (သို့) group အောက်က settings >> CI CD >> runners အထဲမှာ expand ကို click လိုက်ရင် အောက်ကလို runner token ရလာပါလိမ့်မယ်။ token ရရင် runner manager vm ထဲမှာ runner-manager register command နဲ့ runner ကို register လုပ်ပါ။ executor မှာ docker+machine  ကိုရွေးပါ။
 
 ```bash
 root@runner-manager:~# gitlab-runner register
 Runtime platform                                    arch=amd64 os=linux pid=15064 revision=c1edb478 version=14.0.1
-Running in system-mode.                            
-                                                   
+Running in system-mode.
+
 Enter the GitLab instance URL (for example, https://gitlab.com/):
 https://gitlab.com/
 Enter the registration token:
 WM4hpNGeEPxyoH1s79dC
 Enter a description for the runner:
-[runner-manager]: 
+[runner-manager]:
 Enter tags for the runner (comma-separated):
 Registering runner... succeeded                     runner=WM4hpNGe
 Enter an executor: docker+machine, docker-ssh+machine, custom, docker-ssh, parallels, virtualbox, docker, shell, ssh, kubernetes:
 docker+machine
 Enter the default Docker image (for example, ruby:2.6):
 alpine:latest
-Runner registered successfully. Feel free to start it, but if it's running already the config should be automatically reloaded! 
+Runner registered successfully. Feel free to start it, but if it's running already the config should be automatically reloaded!
 ```
 ပြီးသွားရင်  gitlab-runner verify နဲ့ ကြည့်လိုက်ပါ။ runner တစ်ခု active ဖြစ်နေတာကိုတွေ့ရပါလိမ့်မယ်။ ဒါက ရိုးရိုး runner register အပိုင်းပဲရှိပါသေးတယ်။ autoscale အတွက်ဆို /etc/gitlab-runner/config.toml file ကိုအောက်ကအတိုင်းပြင်ပေးရပါမယ်။ client_secret.json ဆိုတာ create ခဲ့တဲ့ service account ရဲ့ keys ပါ။ bucket ကတော့ create ခဲ့တဲ့ bucket ထည့်ပေးပါ။ အရင်ဆုံး /etc/gitlab-runner အောက်မှာ client_secret.jsonဆိုတဲ့ file ဆောက်ပေးပါ download ခဲ့တဲ့ keys ကိုထည့်လိုက်ပါ။ +x permissions ပေးလိုက်ပါ။
 
@@ -101,7 +101,7 @@ check_interval = 0
   [runners.cache]
     Type = "gcs"
     Path = "gitlab-runner"
-    Shared = false 
+    Shared = false
 
     [runners.cache.s3]
     [runners.cache.gcs]
@@ -128,20 +128,20 @@ check_interval = 0
       "google-machine-type=e2-highcpu-2",
       # When running the forked docker-machine, you should use cos-stable
       "google-machine-image=ubuntu-os-cloud/global/images/ubuntu-2004-focal-v20210510",
-      "google-preemptible=true",  
+      "google-preemptible=true",
       "google-zone=europe-north1-a",
       "engine-registry-mirror=https://mirror.gcr.io"
-    ] 
+    ]
 ```
-ဒါဆိုရင် ကျွန်တော် gitlab ထဲက project ထဲသွားပြီး .gitlab-ci.yml file ကို အောက်ကအတိုင်း create လိုက်ပါမယ်။ 
+ဒါဆိုရင် ကျွန်တော် gitlab ထဲက project ထဲသွားပြီး .gitlab-ci.yml file ကို အောက်ကအတိုင်း create လိုက်ပါမယ်။
 
 ![gitlab](https://raw.githubusercontent.com/thaunggyee/thaunggyee.github.io/master/img/ci.png)
 
-မကြာခင် pipeline ထဲမှာ job တစ်ခု run နေပါလိမ့်မယ်။ pending ဖြစ်နေရင် gitlab-runner --debug run ကို run  ပေးပါ။ running state ရောက်တဲ့အခါ runner logs တွေကို ဝင်ကြည့်လို့ရပါတယ်။ job ပြီးသွားတဲ့အခါ အောက်ကလိုတွေ့ရပါလိမ့်မယ်။ 
+မကြာခင် pipeline ထဲမှာ job တစ်ခု run နေပါလိမ့်မယ်။ pending ဖြစ်နေရင် gitlab-runner --debug run ကို run  ပေးပါ။ running state ရောက်တဲ့အခါ runner logs တွေကို ဝင်ကြည့်လို့ရပါတယ်။ job ပြီးသွားတဲ့အခါ အောက်ကလိုတွေ့ရပါလိမ့်မယ်။
 
 ![job](https://raw.githubusercontent.com/thaunggyee/thaunggyee.github.io/master/img/job.png)
 
-complete ဖြစ်သွားတဲ့ job ကို အောက်ကပုံထဲမှာတွေ့ရသလို runner-scale vm ကနေ execute လုပ်ပေးခဲ့တာဖြစ်ပါတယ်။ runner vm တစ်ခု ကို runner manager vm ကနေ scale out လုပ်ပေးလိုက်တာပါ။ 
+complete ဖြစ်သွားတဲ့ job ကို အောက်ကပုံထဲမှာတွေ့ရသလို runner-scale vm ကနေ execute လုပ်ပေးခဲ့တာဖြစ်ပါတယ်။ runner vm တစ်ခု ကို runner manager vm ကနေ scale out လုပ်ပေးလိုက်တာပါ။
 
 ![scalevm](https://raw.githubusercontent.com/thaunghtike-share/thaunghtike-share.github.io/master/images/scale.png)
 
@@ -153,7 +153,7 @@ job complete ဖြစ်ပြီး second 30 ကြာတော့ scale out 
 <h2>👉 References </h2>
 <ul>
     <li><a href="https://medium.com/@webnugget/setup-a-costeffective-autoscaling-ci-solution-with-gitlab-ci-5a6ac52a5baa">https://medium.com/@webnugget/setup-a-costeffective-autoscaling-ci-solution-with-gitlab-ci-5a6ac52a5baa</a></li>
-    <li><a href="https://blog.dopevs.cloud/2019-08-02-Gitlab-Runner-Autoscaling-with-aws-spot-instances/">https://blog.dopevs.cloud/2019-08-02-Gitlab-Runner-Autoscaling-with-aws-spot-instances</a></li>    
+    <li><a href="https://blog.dopevs.cloud/2019-08-02-Gitlab-Runner-Autoscaling-with-aws-spot-instances/">https://blog.dopevs.cloud/2019-08-02-Gitlab-Runner-Autoscaling-with-aws-spot-instances</a></li>
 </ul>
 
 <p style="text-align:center">

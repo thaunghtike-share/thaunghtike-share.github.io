@@ -9,7 +9,7 @@ tags:
 categories: Terraform
 ---
 
-ကျွန်တော်တို့ Infrastructure ကို provision လုပ်ဖို့အတွက် Terraform ကို သုံးကြတဲ့အခါမှာ provisioners တွေက အမြဲလိုလိုသုံးရလေ့ရှိပါတယ်။ provisioner ဆိုတာက ကျွန်တော်တို့ရဲ့ local ဒါမှမဟုတ် remote စက်တွေပေါ်မှာ action တွေ scripts တွေကို execute လုပ်ဖို့သုံးချင်တာပါ။ဒီနေရာမှာ local ဆိုတာ Terraform ကို run နေတဲ့ ကျွန်တော်တို့ရဲ့ machine ဖြစ်ပြီး remote ဆိုတာကတော့ Terraform နဲ့ provision လုပ်လို့ရလာတဲ့ resource တွေကိုဆိုလိုတာပါ။ 
+ကျွန်တော်တို့ Infrastructure ကို provision လုပ်ဖို့အတွက် Terraform ကို သုံးကြတဲ့အခါမှာ provisioners တွေက အမြဲလိုလိုသုံးရလေ့ရှိပါတယ်။ provisioner ဆိုတာက ကျွန်တော်တို့ရဲ့ local ဒါမှမဟုတ် remote စက်တွေပေါ်မှာ action တွေ scripts တွေကို execute လုပ်ဖို့သုံးချင်တာပါ။ဒီနေရာမှာ local ဆိုတာ Terraform ကို run နေတဲ့ ကျွန်တော်တို့ရဲ့ machine ဖြစ်ပြီး remote ဆိုတာကတော့ Terraform နဲ့ provision လုပ်လို့ရလာတဲ့ resource တွေကိုဆိုလိုတာပါ။
 
 Provisioners are used to execute scripts on a local or remote machine as part of resource creation or destruction. Provisioners can be used to bootstrap a resource, cleanup before destroying, run configuration management, etc.
 
@@ -47,7 +47,7 @@ Provisioner ရဲ့ connection block ကိုသတ်မှတ်တဲ့�
 
 <h2>👉 File Provisioner  တွေအကြာင်း</h2>
 
-File provisioners တွေဆိုတာ အလွယ်ပြောရရင်တော့ local machine ကနေ remote ကို files တွေကို copy လုပ်ဖို့သုံးတာဖြစ်ပါတယ်။ File Provisioner တွေမှာ source နဲ့ destination ဆိုပြီးသတ်မှတ်ပေးရပါတယ်။ source ကတော့ local machine က copy ကူးမယ့် file ရဲ့ path ဖြစ်ပြီး destination ကတော့ remote machine က path ဖြစ်ပါတယ်။ 
+File provisioners တွေဆိုတာ အလွယ်ပြောရရင်တော့ local machine ကနေ remote ကို files တွေကို copy လုပ်ဖို့သုံးတာဖြစ်ပါတယ်။ File Provisioner တွေမှာ source နဲ့ destination ဆိုပြီးသတ်မှတ်ပေးရပါတယ်။ source ကတော့ local machine က copy ကူးမယ့် file ရဲ့ path ဖြစ်ပြီး destination ကတော့ remote machine က path ဖြစ်ပါတယ်။
 
 The file provisioner is used to copy files or directories from the machine executing Terraform to the newly created resource. The file provisioner supports both ssh and WinRM type connections.
 
@@ -140,9 +140,9 @@ resource "aws_instance" "web" {
 
 <h2>👉 Reference</h2>
 
-<ul> 
-    <li><a href="https://www.terraform.io/language/resources/provisioners/syntax?fbclid=IwAR3dfbfsRCbT1Cmqp8MsO5TTENANMGVnuY3rhKExpjKT6gneSoeKJ4fqMlA">https://www.terraform.io/language/resources/provisioners/syntax?fbclid=IwAR3dfbfsRCbT1Cmqp8MsO5TTENANMGVnuY3rhKExpjKT6gneSoeKJ4fqMlA</a> </li> 
-</ul>    
+<ul>
+    <li><a href="https://www.terraform.io/language/resources/provisioners/syntax?fbclid=IwAR3dfbfsRCbT1Cmqp8MsO5TTENANMGVnuY3rhKExpjKT6gneSoeKJ4fqMlA">https://www.terraform.io/language/resources/provisioners/syntax?fbclid=IwAR3dfbfsRCbT1Cmqp8MsO5TTENANMGVnuY3rhKExpjKT6gneSoeKJ4fqMlA</a> </li>
+</ul>
 
 <p style="text-align:center">
     သင်ဆရာ မြင်ဆရာ ကြားဆရာများကိုလေးစားလျှက် 🙏🙏🙏
