@@ -30,7 +30,7 @@ categories: DevOps
 
 Argocd ကို install ခဲ့တဲ့ namespace ထဲမှာပဲ image updater ကိုလည်း install ပေးဖို့လိုပါတယ်။ [ဒီမှာ](https://argocd-image-updater.readthedocs.io/en/stable/install/installation/) instruction တွေကြည့်ပြီး install နိုင်ပါတယ်။
 
-```code
+```bash
 kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj-labs/argocd-image-updater/stable/manifests/install.yaml
 ```
 ပြီးသွားတဲ့အခါမှာတော့ အောက်ကလို image updater pod တစ်ခု run နေတာကိုတွေ့ရပါလိမ့်မည်။
@@ -62,8 +62,9 @@ kind: ConfigMap
 
 အရင်ဆုံး docker-registry secret တစ်ခု create ပေးရပါမည်။ ကျွန်တော်ကတော့ azure container registry ကိုသုံးထားပါတယ်။</p>
 
-> kubectl -n argocd create secret docker-registry mycontainerregistry-secret --docker-server=mycontainerregistry.azurecr.io --docker-username=mycontainerregistry --docker-password=PASSWORD -o yaml --dry-run=client | kubectl -n argocd apply -f -
-
+```bash
+kubectl -n argocd create secret docker-registry mycontainerregistry-secret --docker-server=mycontainerregistry.azurecr.io --docker-username=mycontainerregistry --docker-password=PASSWORD -o yaml --dry-run=client | kubectl -n argocd apply -f -
+```
 <p> credentials နေရာမှာ pull secret ကိုသုံးထားပါတယ် အောက်က argocd က namespace ဖြစ်ပြီး အနောက်ကတော့ registry ရဲ့ secret ဖြစ်ပါတယ်။ </p>
 
 ```bash
@@ -79,10 +80,76 @@ data:
 kind: ConfigMap
 metadata:
 ```
-> ဒီနေရာမှာ အရေးကြီးဆုံးတစ်ခုက argocd image updaer pod ကို restart လုပ်ပေးရပါမယ်။
+> ဒီနေရာမှာ အရေးကြီးဆုံးတစ်ခုက argocd image updater pod ကို restart လုပ်ပေးရပါမယ်။
 
 <p>pod ကို kubectl delete နဲ့ ဖျက်လိုက်ပါ။ pod အသစ်တစ်ခုပြန်ထွက်လာပါလိမ့်မည်။ </p>
 
 <h2>👉 Let's see how it works </h2>
 
+image ကို update လုပ်တဲ့ strategy တွေ ၄မျိုးလောက်ရှိတယ်။ latest, digest, name စသည်ဖြင့်ပေါ့။ အဲ့ထဲကမှ ကျွန်တော်က latest ကိုသုံးပါမည်။ creation time အရ updated အဖြစ်ဆုံး image နဲ့ workload တွေကို up-to-date ဖြစ်အောင်လုပ်ပေးသွားမှာပါ။
 
+<p> အောက်က argocd application လေးကိုကြည့်ရအောင်။ အထူးသဖြင့် annotations တွေပေါ့။ ကျန်တာတွေကတော့ သာမန် argocd application တွေအတိုင်းပါပဲ </p>
+
+```bash
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: merchant-api-staging
+  namespace: argocd
+  annotations:
+    argocd-image-updater.argoproj.io/image-list: myalias=dinger.azurecr.io/api-merchant-staging
+    argocd-image-updater.argoproj.io/myalias.update-strategy: latest
+    argocd-image-updater.argoproj.io/write-back-method: git
+    argocd-image-updater.argoproj.io/git-branch: testing
+    argocd-image-updater.argoproj.io/myalias.force-update: "true"
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    namespace: staging
+    name: in-cluster
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: false
+    syncOptions:
+      - CreateNamespace=true
+      - ApplyOutOfSyncOnly=true
+  source:
+    path: helm-charts/merchant-api-staging
+    repoURL: git@github.com:dinger19/dinger-kubernetes.git
+    targetRevision: staging
+```
+<p>api-merchant-staging ဆိုတဲ့ container image မှာ tag အသစ်တစ်ခုထွက်လာတိုင်း အောက်က git repo ( dinger19/dinger-kubernetes ) ရဲ့ staging branch ထဲက path (helm-charts/merchant-api-staging )ထဲမှာ image အသစ်ကို update ပေးမှာဖြစ်ပါတယ်။ write-back-method annotation မှာ git ဆိုတာက gitops repo ဖြစ်တဲ့ dinger-kubernetes မှာ new containe image ကိုသွား update လုပ်ပေးဖို့ပါ။
+
+
+code changes ဖြစ်လို့ image အသစ်ရလာတိုင်း argocd image updater ကနေပြီးတော့ helm chart မှာ .argocd-soure ဆိုပြိးအောက်ကအတိုင်း file အသစ်တစ်ခုတွေ့ရမှာဖြစ်ပြီး မကြာခင်မှာ image ကလည်း update ဖြစ်သွားမှာဖြစ်ပါတယ်။</p>
+
+```bash
+helm:
+  parameters:
+  - name: image.name
+    value: dinger.azurecr.io/api-merchant-staging
+    forcestring: true
+  - name: image.tag
+    value: d93cc6d
+    forcestring: true
+```
+
+<p> image update ဖြစ်တာကိုသိနိုင်ဖို့ argocd image updater ရဲ့ pod logs တွေကိုကြည့်ပြီးလည်းသိနိုင်ပါတယ်။ 
+
+ဒီလောက်ဆို ကိုယ်တိုင်စမ်းသပ်လို့ရပြီထင်ပါတယ်။ အဆင်ပြေကြပါစေ။ အခက်အခဲရှိခဲ့လျှင်လည်း page messengerကဖြစ်စေ email ကဖြစ်စေ မေးနိုင်ပါတယ်ခင်ဗျ။</p>
+
+<h2>👉 Reference</h2>
+
+<ul>
+    <li><a href="https://visionsincode.com/2023/02/11/argo-cd-image-updater-will-make-your-gitops-life-easier-for-your-sitecore-setup-in-kubernetes/">https://visionsincode.com/2023/02/11/argo-cd-image-updater-will-make-your-gitops-life-easier-for-your-sitecore-setup-in-kubernetes</a> </li>
+</ul>
+
+<p style="text-align:center">
+    သင်ဆရာ မြင်ဆရာ ကြားဆရာများကိုလေးစားလျှက် 🙏🙏🙏
+</p>
+<p style="text-align:center">
+   သောင်းထိုက်ဦး (UIT)
+</p>
