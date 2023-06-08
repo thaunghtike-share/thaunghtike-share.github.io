@@ -52,7 +52,7 @@ argocd-server-676c6b849b-r6lk5                      1/1     Running   0         
 
 အောက်ပါအတိုင်း log level ကို သတ်မှတ်ပေးလိုက်ပါ။
 
-```code
+```bash
 apiVersion: v1
 data:
   log.level: debug
@@ -66,7 +66,7 @@ kind: ConfigMap
 
 <p> credentials နေရာမှာ pull secret ကိုသုံးထားပါတယ် အောက်က argocd က namespace ဖြစ်ပြီး အနောက်ကတော့ registry ရဲ့ secret ဖြစ်ပါတယ်။ </p>
 
-```code
+```bash
 apiVersion: v1
 data:
   log.level: debug
