@@ -121,8 +121,9 @@ spec:
     repoURL: git@github.com:dinger19/dinger-kubernetes.git
     targetRevision: staging
 ```
-<p>api-merchant-staging ဆိုတဲ့ container image မှာ tag အသစ်တစ်ခုထွက်လာတိုင်း အောက်က git repo ( dinger19/dinger-kubernetes ) ရဲ့ staging branch ထဲက path (helm-charts/merchant-api-staging )ထဲမှာ image အသစ်ကို update ပေးမှာဖြစ်ပါတယ်။ write-back-method annotation မှာ git ဆိုတာက gitops repo ဖြစ်တဲ့ dinger-kubernetes မှာ new containe image ကိုသွား update လုပ်ပေးဖို့ပါ။
+<p>api-merchant-staging ဆိုတဲ့ container image မှာ tag အသစ်တစ်ခုထွက်လာတိုင်း အောက်က git repo ( dinger19/dinger-kubernetes ) ရဲ့ staging branch ထဲက path (helm-charts/merchant-api-staging )ထဲမှာ image အသစ်ကို update ပေးမှာဖြစ်ပါတယ်။
 
+write-back-method annotation မှာ git ဆိုတာက gitops repo ဖြစ်တဲ့ dinger-kubernetes မှာ new containe image ကိုသွား update လုပ်ပေးဖို့ပါ။
 
 code changes ဖြစ်လို့ image အသစ်ရလာတိုင်း argocd image updater ကနေပြီးတော့ helm chart မှာ .argocd-soure ဆိုပြိးအောက်ကအတိုင်း file အသစ်တစ်ခုတွေ့ရမှာဖြစ်ပြီး မကြာခင်မှာ image ကလည်း update ဖြစ်သွားမှာဖြစ်ပါတယ်။</p>
 
@@ -137,7 +138,7 @@ helm:
     forcestring: true
 ```
 
-<p> image update ဖြစ်တာကိုသိနိုင်ဖို့ argocd image updater ရဲ့ pod logs တွေကိုကြည့်ပြီးလည်းသိနိုင်ပါတယ်။ 
+<p> image update ဖြစ်တာကိုသိနိုင်ဖို့ argocd image updater ရဲ့ pod logs တွေကိုကြည့်ပြီးလည်းသိနိုင်ပါတယ်။
 
 ဒီလောက်ဆို ကိုယ်တိုင်စမ်းသပ်လို့ရပြီထင်ပါတယ်။ အဆင်ပြေကြပါစေ။ အခက်အခဲရှိခဲ့လျှင်လည်း page messengerကဖြစ်စေ email ကဖြစ်စေ မေးနိုင်ပါတယ်ခင်ဗျ။</p>
 
