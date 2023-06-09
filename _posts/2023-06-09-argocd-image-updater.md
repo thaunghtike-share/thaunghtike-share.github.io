@@ -132,7 +132,7 @@ spec:
     repoURL: git@github.com:myorg/kubernetes.git
     targetRevision: HEAD
 ```
-<p>myorg/kubernetes ဆိုတဲ့ repo မှာ argocd အတွက် helm chart တွေကို ထည့်ထားပါတယ်။ api-testing ဆိုတဲ့ application ထဲမှာ container image အတွက် api-testing ကိုအသုံးပြုထားပါတယ်။ argocd image updater က image အသစ် pushed လုပ်တိုင်း api-testing helm chart မှာ သုံးထားတဲ့ api-testing imaage အသစ်ကို overwrite လုပ်သွားမယ့်သဘောဖြစ်ပါတယ်။ </p>
+<p>myorg/kubernetes ဆိုတဲ့ repo မှာ argocd အတွက် helm chart တွေကို ထည့်ထားပါတယ်။ api-testing ဆိုတဲ့ application ထဲမှာ container image အတွက် api-testing ကိုအသုံးပြုထားပါတယ်။ argocd image updater က image အသစ် pushed လုပ်တိုင်း api-testing helm chart မှာ သုံးထားတဲ့ api-testing image အသစ်ကို overwrite လုပ်သွားမယ့်သဘောဖြစ်ပါတယ်။ </p>
 
 <p>write-back-method annotation မှာ git ဆိုတာက gitops repo ဖြစ်တဲ့ myorg/kubernetes မှာ new containe image ကိုသွား update လုပ်ပေးဖို့ပါ။</p>
 
@@ -159,7 +159,7 @@ helm:
 ```bash
 time="2023-06-09T06:00:18Z" level=info msg="git push origin staging" dir=/tmp/git-merchant-api-staging2803439614 execID=eba1a
 time="2023-06-09T06:00:19Z" level=info msg=Trace args="[git push origin staging]" dir=/tmp/git-merchant-api-staging2803439614 operation_name="exec git" time_ms=525.3606709999999
-time="2023-06-09T06:00:19Z" level=info msg="Successfully updated the live application spec" application=merchant-api-staging
+time="2023-06-09T06:00:19Z" level=info msg="Successfully updated the live application spec" application=api-testing
 time="2023-06-09T06:00:19Z" level=info msg="Processing results: applications=8 images_considered=8 images_skipped=0 images_updated=1 errors=0"
 ```
 
