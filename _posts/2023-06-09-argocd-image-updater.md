@@ -132,11 +132,11 @@ spec:
     repoURL: git@github.com:myorg/kubernetes.git
     targetRevision: HEAD
 ```
-<p>myorg/kubernetes ဆိုတဲ့ repo မှာ argocd အတွက် helm chart တွေကို ထည့်ထားပါတယ်။ api-testing ဆိုတဲ့ application ထဲမှာ container image အတွက် api-testing ကိုအသုံးပြုထားပါတယ်။ argocd image updater က image အသစ် pushed လုပ်တိုင်း api-testing helm chart မှာ သုံးထားတဲ့ api-testing imaage အသစ်ကို overwrite လုပ်သွားမယ့်သဘောဖြစ်ပါတယ်။
+<p>myorg/kubernetes ဆိုတဲ့ repo မှာ argocd အတွက် helm chart တွေကို ထည့်ထားပါတယ်။ api-testing ဆိုတဲ့ application ထဲမှာ container image အတွက် api-testing ကိုအသုံးပြုထားပါတယ်။ argocd image updater က image အသစ် pushed လုပ်တိုင်း api-testing helm chart မှာ သုံးထားတဲ့ api-testing imaage အသစ်ကို overwrite လုပ်သွားမယ့်သဘောဖြစ်ပါတယ်။ </p>
 
-write-back-method annotation မှာ git ဆိုတာက gitops repo ဖြစ်တဲ့ myorg/kubernetes မှာ new containe image ကိုသွား update လုပ်ပေးဖို့ပါ။
+<p>write-back-method annotation မှာ git ဆိုတာက gitops repo ဖြစ်တဲ့ myorg/kubernetes မှာ new containe image ကိုသွား update လုပ်ပေးဖို့ပါ။</p>
 
-code changes ဖြစ်လို့ image အသစ်ရလာတိုင်း argocd image updater ကနေပြီးတော့ helm chart မှာ .argocd-soure ဆိုပြိးအောက်ကအတိုင်း file အသစ်တစ်ခုတွေ့ရမှာဖြစ်ပြီး မကြာခင်မှာ image ကလည်း update ဖြစ်သွားမှာဖြစ်ပါတယ်။</p>
+<p>code changes ဖြစ်လို့ image အသစ်ရလာတိုင်း argocd image updater ကနေပြီးတော့ helm chart မှာ .argocd-soure ဆိုပြိးအောက်ကအတိုင်း file အသစ်တစ်ခုတွေ့ရမှာဖြစ်ပြီး မကြာခင်မှာ image ကလည်း update ဖြစ်သွားမှာဖြစ်ပါတယ်။</p>
 
 ![ss](https://raw.githubusercontent.com/thaunghtike-share/thaunghtike-share.github.io/master/images/Screenshot%202023-06-09%20at%2012.11.52.png)
 
