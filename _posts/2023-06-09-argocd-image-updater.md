@@ -91,7 +91,7 @@ metadata:
 There are four update strategies: </p>
 
 <ul>
-    <li>semver: Update to the tag with the highest allowed semantic version</li>>
+    <li>semver: Update to the tag with the highest allowed semantic version</li>
     <li>latest: Update to the tag with the most recent creation date</li>
     <li>name: Update to the tag with the latest entry from an alphabetically sorted list</li>
     <li>digest: Update to the most recent pushed version of a mutable tag</li>
