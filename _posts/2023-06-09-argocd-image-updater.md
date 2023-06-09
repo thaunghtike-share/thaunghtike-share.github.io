@@ -13,12 +13,12 @@ categories: DevOps
 
 <h2>👉 Introduction</h2>
 
-<p>တစ်နည်းအားဖြင့် image updater ဆိုတာ kubernetes workload တွေမှာအသုံးပြုထားတဲ့ container images တွေကို automatically update လုပ်ပေးသွားတဲ့ tool တစ်ခုလည်းဖြစ်ပါတယ်။ </p>
+<p>တစ်နည်းအားဖြင့် argocd image updater ဆိုတာ kubernetes workload တွေမှာအသုံးပြုထားတဲ့ container images တွေကို automatically update လုပ်ပေးသွားတဲ့ tool တစ်ခုလည်းဖြစ်ပါတယ်။ </p>
 
 > A tool to automatically update the container images of Kubernetes workloads that are managed by Argo CD. The Argo CD Image Updater can check for new versions of the container images that are deployed with your Kubernetes workloads and automatically update them to their latest allowed version using Argo CD.
 
 
-<p> ဆိုလိုရင်းကတော့ container registry ထဲမှာ image tag ဒါမှမဟုတ် digest အသစ်တစ်ခုရောက်လာတာနဲ့ GitOps repo ထဲမှာ image အသစ် နဲ့ update လုပ်ပေးသွားမှာဖြစ်ပါတယ်။ </p>
+<p> ဆိုလိုရင်းကတော့ container registry ထဲမှာ ကျွန်တော်တို့ရဲ့ kubernetes workload တွေမှာသုံးမယ့် image ရဲ့ tag (သို့) digest အသစ်တစ်ခုရောက်လာတာနဲ့ GitOps repo ထဲမှာ ရလာတဲ့ image အသစ် နဲ့ update လုပ်ပေးသွားမှာဖြစ်ပါတယ်။ </p>
 
 <h2>👉 Image Updater အကြောင်း</h2>
 
@@ -58,7 +58,7 @@ data:
   log.level: debug
 kind: ConfigMap
 ```
-<p> နောက်ဆုံးအဆင့်အနေနဲ့ argocd image updater ကို ကျွန်တော်တို့ရဲ့ container registry နဲ့ authenticate လုပ်ပေးရပါမယ်။ ခုဏ က configmap ကိုပဲ ပြန် edit ပြီး မိမိရဲ့ registry credentails တွေကိုထည့်ပေးပါ။ အသေးစိတ်ကို [ဒီမှာ](https://argocd-image-updater.readthedocs.io/en/stable/configuration/registries/) ကြည့်နိုင်ပါတယ်။
+<p> နောက်ဆုံးအဆင့်အနေနဲ့ argocd image updater ကို ကျွန်တော်တို့ရဲ့ container registry နဲ့ authenticate လုပ်ပေးရပါမယ်။ ခုဏ က configmap ကိုပဲ ပြန် edit ပြီး မိမိရဲ့ registry credentails တွေကိုထည့်ပေးပါ။
 
 အရင်ဆုံး docker-registry secret တစ်ခု create ပေးရပါမည်။ ကျွန်တော်ကတော့ azure container registry ကိုသုံးထားပါတယ်။</p>
 
@@ -80,24 +80,35 @@ data:
 kind: ConfigMap
 metadata:
 ```
-> ဒီနေရာမှာ အရေးကြီးဆုံးတစ်ခုက argocd image updater pod ကို restart လုပ်ပေးရပါမယ်။
+> အသေးစိတ်ကို [ဒီမှာ](https://argocd-image-updater.readthedocs.io/en/stable/configuration/registries/) ဖတ်နိုင်ပါတယ်။ ဒီနေရာမှာ အရေးကြီးဆုံးတစ်ခုက argocd image updater pod ကို restart လုပ်ပေးရပါမယ်။
 
 <p>pod ကို kubectl delete နဲ့ ဖျက်လိုက်ပါ။ pod အသစ်တစ်ခုပြန်ထွက်လာပါလိမ့်မည်။ </p>
 
 <h2>👉 Let's see how it works </h2>
 
-image ကို update လုပ်တဲ့ strategy တွေ ၄မျိုးလောက်ရှိတယ်။ latest, digest, name စသည်ဖြင့်ပေါ့။ အဲ့ထဲကမှ ကျွန်တော်က latest ကိုသုံးပါမည်။ creation time အရ updated အဖြစ်ဆုံး image နဲ့ workload တွေကို up-to-date ဖြစ်အောင်လုပ်ပေးသွားမှာပါ။
+<p>image ကို update လုပ်တဲ့ strategy တွေ ၄မျိုးလောက်ရှိတယ်။ latest, digest, name စသည်ဖြင့်ပေါ့။ အဲ့ထဲကမှ ကျွန်တော်က latest ကိုသုံးပါမည်။ creation time အရ updated အဖြစ်ဆုံး image နဲ့ workload တွေကို up-to-date ဖြစ်အောင်လုပ်ပေးသွားမှာပါ။
 
-<p> အောက်က argocd application လေးကိုကြည့်ရအောင်။ အထူးသဖြင့် annotations တွေပေါ့။ ကျန်တာတွေကတော့ သာမန် argocd application တွေအတိုင်းပါပဲ </p>
+There are four update strategies: </p>
+
+<ul>
+    <li>semver: Update to the tag with the highest allowed semantic version</li>>
+    <li>latest: Update to the tag with the most recent creation date</li>
+    <li>name: Update to the tag with the latest entry from an alphabetically sorted list</li>
+    <li>digest: Update to the most recent pushed version of a mutable tag</li>
+</ul>
+
+<p> အောက်က argocd application လေးကိုကြည့်ရအောင်။ အထူးသဖြင့် annotations တွေပေါ့။ ကျန်တာတွေကတော့ သာမန် argocd application တွေအတိုင်းပါပဲ။
+
+argocd မှာ kubernetes manifests တွေကို kustomizate, helm chrat စသည်ဖြင့် support လုပ်ပါတယ်။ ကျွန်တော်ကတော့ helm-chart ကိုသုံးပါတယ်။ </p>
 
 ```bash
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: merchant-api-staging
+  name: api-testing
   namespace: argocd
   annotations:
-    argocd-image-updater.argoproj.io/image-list: myalias=dinger.azurecr.io/api-merchant-staging
+    argocd-image-updater.argoproj.io/image-list: myalias=dinger.azurecr.io/api-testing
     argocd-image-updater.argoproj.io/myalias.update-strategy: latest
     argocd-image-updater.argoproj.io/write-back-method: git
     argocd-image-updater.argoproj.io/git-branch: testing
@@ -106,7 +117,7 @@ metadata:
   - resources-finalizer.argocd.argoproj.io
 spec:
   destination:
-    namespace: staging
+    namespace: testing
     name: in-cluster
   project: default
   syncPolicy:
@@ -117,30 +128,42 @@ spec:
       - CreateNamespace=true
       - ApplyOutOfSyncOnly=true
   source:
-    path: helm-charts/merchant-api-staging
-    repoURL: git@github.com:dinger19/dinger-kubernetes.git
-    targetRevision: staging
+    path: helm-charts/api-testing
+    repoURL: git@github.com:myorg/kubernetes.git
+    targetRevision: HEAD
 ```
-<p>api-merchant-staging ဆိုတဲ့ container image မှာ tag အသစ်တစ်ခုထွက်လာတိုင်း အောက်က git repo ( dinger19/dinger-kubernetes ) ရဲ့ staging branch ထဲက path (helm-charts/merchant-api-staging )ထဲမှာ image အသစ်ကို update ပေးမှာဖြစ်ပါတယ်။
+<p>myorg/kubernetes ဆိုတဲ့ repo မှာ argocd အတွက် helm chart တွေကို ထည့်ထားပါတယ်။ api-testing ဆိုတဲ့ application ထဲမှာ container image အတွက် api-testing ကိုအသုံးပြုထားပါတယ်။ argocd image updater က image အသစ် pushed လုပ်တိုင်း api-testing helm chart မှာ သုံးထားတဲ့ api-testing imaage အသစ်ကို overwrite လုပ်သွားမယ့်သဘောဖြစ်ပါတယ်။
 
-write-back-method annotation မှာ git ဆိုတာက gitops repo ဖြစ်တဲ့ dinger-kubernetes မှာ new containe image ကိုသွား update လုပ်ပေးဖို့ပါ။
+write-back-method annotation မှာ git ဆိုတာက gitops repo ဖြစ်တဲ့ myorg/kubernetes မှာ new containe image ကိုသွား update လုပ်ပေးဖို့ပါ။
 
 code changes ဖြစ်လို့ image အသစ်ရလာတိုင်း argocd image updater ကနေပြီးတော့ helm chart မှာ .argocd-soure ဆိုပြိးအောက်ကအတိုင်း file အသစ်တစ်ခုတွေ့ရမှာဖြစ်ပြီး မကြာခင်မှာ image ကလည်း update ဖြစ်သွားမှာဖြစ်ပါတယ်။</p>
+
+![ss](https://raw.githubusercontent.com/thaunghtike-share/thaunghtike-share.github.io/master/images/Screenshot%202023-06-09%20at%2012.11.52.png)
+
+<p>file ထဲမှာတော့ ရလာတဲ့ container image အတွက် tag အသစ်ကိုတွေ့ရမှာဖြစ်ပါတယ်။
+</p>
 
 ```bash
 helm:
   parameters:
   - name: image.name
-    value: dinger.azurecr.io/api-merchant-staging
+    value: dinger.azurecr.io/api-testing
     forcestring: true
   - name: image.tag
     value: d93cc6d
     forcestring: true
 ```
 
-<p> image update ဖြစ်တာကိုသိနိုင်ဖို့ argocd image updater ရဲ့ pod logs တွေကိုကြည့်ပြီးလည်းသိနိုင်ပါတယ်။
+<p> image update ဖြစ်တာကိုသိနိုင်ဖို့ argocd image updater ရဲ့ pod logs တွေကိုကြည့်ပြီးလည်းသိနိုင်ပါတယ်။ </p>
 
-ဒီလောက်ဆို ကိုယ်တိုင်စမ်းသပ်လို့ရပြီထင်ပါတယ်။ အဆင်ပြေကြပါစေ။ အခက်အခဲရှိခဲ့လျှင်လည်း page messengerကဖြစ်စေ email ကဖြစ်စေ မေးနိုင်ပါတယ်ခင်ဗျ။</p>
+```bash
+time="2023-06-09T06:00:18Z" level=info msg="git push origin staging" dir=/tmp/git-merchant-api-staging2803439614 execID=eba1a
+time="2023-06-09T06:00:19Z" level=info msg=Trace args="[git push origin staging]" dir=/tmp/git-merchant-api-staging2803439614 operation_name="exec git" time_ms=525.3606709999999
+time="2023-06-09T06:00:19Z" level=info msg="Successfully updated the live application spec" application=merchant-api-staging
+time="2023-06-09T06:00:19Z" level=info msg="Processing results: applications=8 images_considered=8 images_skipped=0 images_updated=1 errors=0"
+```
+
+<p>ဒီလောက်ဆို ကိုယ်တိုင်စမ်းသပ်လို့ရပြီထင်ပါတယ်။ အဆင်ပြေကြပါစေ။ အခက်အခဲရှိခဲ့လျှင်လည်း page messengerကဖြစ်စေ email ကဖြစ်စေ မေးနိုင်ပါတယ်ခင်ဗျ။</p>
 
 <h2>👉 Reference</h2>
 
