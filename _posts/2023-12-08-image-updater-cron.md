@@ -15,7 +15,7 @@ categories: DevOps
 
 ```
 kubectl create secret docker-registry mycontainerregistry-secret \
-  --docker-server=429726127752.dkr.ecr.ap-southeast-1.amazonaws.com \
+  --docker-server=acc_id.dkr.ecr.ap-southeast-1.amazonaws.com \
   --docker-username=AWS \
   --docker-password=$(aws ecr get-login-password --region ap-southeast-1) \
   --namespace=argocd
@@ -99,8 +99,8 @@ spec:
               - "-c"
             args:
               - |
-                export AWS_ACCESS_KEY_ID=AKIAWIDNMK2EGV4RHOOV
-                export AWS_SECRET_ACCESS_KEY=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
+                export AWS_ACCESS_KEY_ID=********
+                export AWS_SECRET_ACCESS_KEY=********
                 export AWS_DEFAULT_REGION=ap-southeast-1
 
                 kubectl delete secret mycontainerregistry-secret -n argocd
