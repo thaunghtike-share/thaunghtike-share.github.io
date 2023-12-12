@@ -29,8 +29,8 @@ data:
   registries.conf: |
     registries:
     - name: AWS ECR
-      prefix: accound_id.dkr.ecr.ap-southeast-1.amazonaws.com
-      api_url: https://account_id.dkr.ecr.ap-southeast-1.amazonaws.com
+      prefix: acc_id.dkr.ecr.ap-southeast-1.amazonaws.com
+      api_url: https://acc_id.dkr.ecr.ap-southeast-1.amazonaws.com
       credentials: pullsecret:argocd/mycontainerregistry-secret
       ping: yes
       default: true
@@ -107,7 +107,7 @@ spec:
                 ecr_token=$(aws ecr get-login-password --region ap-southeast-1)
 
                 kubectl create secret docker-registry mycontainerregistry-secret \
-                --docker-server=429726127752.dkr.ecr.ap-southeast-1.amazonaws.com \
+                --docker-server=acc_id.dkr.ecr.ap-southeast-1.amazonaws.com \
                 --docker-username=AWS \
                 --docker-password=$ecr_token \
                 --namespace=argocd
