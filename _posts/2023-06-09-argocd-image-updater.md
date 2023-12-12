@@ -1,6 +1,6 @@
 ---
 layout:     post
-title:   "Argocd Image Updater"
+title:   "Argocd Image Updater PART-I"
 date:       2023-06-08 15:13:18 +0200
 image: argocdimageupdater.png
 tags:
