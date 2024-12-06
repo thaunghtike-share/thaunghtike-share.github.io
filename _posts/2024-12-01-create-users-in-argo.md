@@ -2,7 +2,7 @@
 layout:     post
 title:   "Create ArgoCD Users & Assign RBAC on kubernetes"
 date:       2024-12-01 15:13:18 +0200
-image: argocdimageupdater.png
+image: argoaaa.jpeg
 tags:
     - devops
     - argocd
@@ -65,7 +65,7 @@ data:
     g, wailwin, role:readonly-user
 kind: ConfigMap
 ```
-ကျွန်တော်ကတော့ project အကုန်လုံးကို wildcard ပေးထားတာမလို့ ဖတ်ရတာ ရိုးရှင်းနိုင်ပါတယ်။ တကယ်လို့ prject တစ်ချို့ကိုပဲ permission ပေးဖို့လိုအပ်လာရင်တော့ <project_name>/<app_name> စသည်ဖြင့်သတ်ဆိုင်ရာ applications တွေကိုပဲ assign ချနိုင်ပါတယ်။
+ကျွန်တော်ကတော့ argocd project အကုန်လုံးကို wildcard ပေးထားတာမလို့ ဖတ်ရတာ ရိုးရှင်းနိုင်ပါတယ်။ တကယ်လို့ project တစ်ချို့ကိုပဲ permission ပေးဖို့လိုအပ်လာရင်တော့ <project_name>/<app_name> စသည်ဖြင့်သတ်ဆိုင်ရာ applications တွေကိုပဲ assign ချနိုင်ပါတယ်။
 
 <p> နောက်ဆုံးအဆင့်ကတော့ user တွေအတွက် password သတ်မှတ်ပေးရပါမယ်။ argocd binary ကို download ပီး login ဝင်ပေးရပါမယ်။</p>
 
