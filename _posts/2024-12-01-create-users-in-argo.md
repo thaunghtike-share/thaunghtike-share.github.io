@@ -1,8 +1,8 @@
 ---
 layout:     post
-title:   "Create ArgoCD Users & Assign RBAC on kubernetes"
+title:   "Create ArgoCD Users & Assign RBAC on Kubernetes"
 date:       2024-12-01 15:13:18 +0200
-image: argoaaa.jpeg
+image: argoaaa.png
 tags:
     - devops
     - argocd
