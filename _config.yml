@@ -1,15 +1,15 @@
 title: Thaung Htike Oo's Blog
-description: Learn DevOps With Me
+description: Learn DevOps NowS
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "thaunghtike-share.github.io" # the base hostname & protocol for your site, e.g. http://example.com
 
 # Author
 author-name:    Thaung Htike Oo
 author-image:   IMG_4916.jpeg
-author-job:     DevOps Engineer
+author-job:     Senior DevOps Engineer
 author-email:   thaunghtikeoo.tho1234@gmail.com # Add your email for contant form.
 author-twitter: thaunghtike_oo # Add your twitter account
-about-author:   DevOps Engineer at OpsZero & Dinger
+about-author:   DevOps Engineer at Mahar Bawga 
 
 # Social settings
 social-twitter:   thaunghtike_oo
