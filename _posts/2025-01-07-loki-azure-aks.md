@@ -287,7 +287,8 @@ loki-ruler-0                            1/1     Running   0          10m
 
 Loki ရလာပြီဆိုတော့ grafana မှာ loki ကို data source အနေနဲ့ ထည့်ဖို့ အဆင့် အနည်းငယ်ကိုလုပ်ပေးရပါဦးမယ်။
 
-<p> loki gateway ကို loki မှာ port-forward ပေးထားပါ။
+<p> loki gateway ကို loki မှာ port-forward ပေးထားပါ။ </p>
+
 ```bash
 kubectl port-forward --namespace loki svc/loki-gateway 3100:80 &
 ```
