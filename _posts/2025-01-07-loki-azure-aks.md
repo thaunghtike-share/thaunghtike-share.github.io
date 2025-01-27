@@ -9,7 +9,7 @@ tags:
 categories: DevOps
 ---
 
-<p>ကျွန်တော်ဒီနေ့မှာတော့ Loki ကို Azure AKS ပေါ်မှာ azure blob storage ကို backend အဖြစ် သုံးပြီး deployလုပ်ပုံကိုရှင်းပြပေးပါမယ်။ Loki ဆိုတာ lightweight logging solution တစ်ခုဖြစ်ပြီး ပုံမှန်ဆိုရင် server ရဲ့ disk storage ကိုသုံးတာမလို့ storage ပြည့်သွားရင် ပြသနာတွေဖြစ်လာနိုင်ပါတယ်။ အဲ့ဒါမလို့ ​Azure Blob တို့ AWS S3တို့လို storage backend တစ်ခုကိုသုံးပေးသင့်ပါတယ်။ ဒါကြောင့် ကျွန်တော်က azure blob ကိုသုံးပြီး ဒိနေ့ရှင်းပြပေးသွားပါမယ်။ </p>
+<p>ကျွန်တော်ဒီနေ့မှာတော့ Loki ကို Azure AKS ပေါ်မှာ azure blob storage ကို backend အဖြစ် သုံးပြီး deployလုပ်ပုံကိုရှင်းပြပေးပါမယ်။ Loki ဆိုတာ lightweight logging solution တစ်ခုဖြစ်ပြီး ပုံမှန်ဆိုရင် server ရဲ့ disk storage ကိုသုံးတာမလို့ storage ပြည့်သွားရင် ပြသနာတွေဖြစ်လာနိုင်ပါတယ်။ အဲ့ဒါမလို့ ​Azure Blob တို့ AWS S3တို့လို storage backend တစ်ခုကိုသုံးပေးသင့်ပါတယ်။ ဒါကြောင့် ကျွန်တော်က azure blob ကိုသုံးပြီး ဒီနေ့ရှင်းပြပေးသွားပါမယ်။ </p>
 
 Loki ကို azure နဲ့ authenticate လုပ်ဖို့ နည်းလမ်း(၃)ခုရှိပါတယ်။
 
@@ -107,7 +107,16 @@ helm repo update
 ```bash
 htpasswd -c .htpasswd <username>
 ```
-ပြီးရင်တော့ loki gateway မှာ authenticationအတွက်သုံးဖို့ loki-basic-auth ဆိုတဲ့ secret ကို create ပေးလို့ရပါပြီ။
+ပြီးရင်တော့ loki gateway မှာ authenticationအတွက်သုံးဖို့ loki-basic-auth ဆိုတဲ့ k8s secret ကို create ပေးလို့ရပါပြီ။
+
+```bash
+kubectl create secret generic loki-basic-auth --from-file=.htpasswd -n loki
+
+kubectl create secret generic canary-basic-auth \
+  --from-literal=username=loki \
+  --from-literal=password=lokiadmin \
+  -n loki
+```
 
 <h2>Loki Helm chart configuration</h2>
 
@@ -337,4 +346,4 @@ curl -u loki:lokiadmin \
 
 ![explorelogs](https://raw.githubusercontent.com/thaunghtike-share/thaunghtike-share.github.io/master/images/explore_logs.png)
 
-Kubernetes ရဲ့ pod, container စသည်တို့ကို ကြည့်ဖို့ဆိုရင်တော့ promtial ကို aks ထဲမှာ  deploy လုပ်ပေးရပါမယ်။ ကျွန်တော်ကတော့ မရှင်းပြတော့ပါဘူး။ အားလုံးအဆင်ပြေကြမယ်လို့ထင်ပါတယ်။ ကျေးဇူးတင်ပါတယ်။
+Kubernetes ရဲ့ pod, container စသည်တို့ကို ကြည့်ဖို့ဆိုရင်တော့ promtail ကို aks ထဲမှာ  deploy လုပ်ပေးရပါမယ်။ ကျွန်တော်ကတော့ မရှင်းပြတော့ပါဘူး။ အားလုံးအဆင်ပြေကြမယ်လို့ထင်ပါတယ်။ ကျေးဇူးတင်ပါတယ်။
