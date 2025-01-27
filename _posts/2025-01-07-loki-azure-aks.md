@@ -254,7 +254,7 @@ singleBinary:
 helm install --values values.yaml loki grafana/loki -n loki --create-namespace
 ```
 
-loki namespace အောက်က deployment တွေကို 'kubectl get pods -n loki
+loki namespace အောက်က pods တွေကို 'kubectl get pods -n loki
 ' နဲ့စစ်ကြည့်လို့ရပါပြီ။
 
 ```bash
@@ -316,17 +316,25 @@ curl -u loki:lokiadmin \
 
 အကုန်ပြီးသွားပြီဆိုရင်တော့ loki data source ကို add ဖို့အတွက် url ထည့်ပေးရပါမယ်။ basic authentication ကိုသုံးထားတာမလို့ .htpasswd ထဲက username နဲ့ password ကိုထည့်ပေးရပါမယ်။
 
-1. **URL**: Use the Loki Gateway URL if Grafana runs in the cluster:
+1. URL: Use the Loki Gateway URL if Grafana runs in the cluster:
    ```
    http://loki-gateway.loki.svc.cluster.local
    ```
 
-2. **Basic Auth**: Enable this and provide the credentials:
-   - **Username**: loki
-   - **Password**: lokiadmin
+2. Basic Auth: Enable this and provide the credentials:
+   - Username: loki
+   - Password: lokiadmin
 
-3. **Add HTTP Header**:
-   - **Key**: `X-Scope-OrgID`
-   - **Value**: `foo`
+3. Add HTTP Header:
+   - Key: `X-Scope-OrgID`
+   - Value: `foo`
 
 ![loki_ds](https://raw.githubusercontent.com/thaunghtike-share/thaunghtike-share.github.io/master/images/loki_ds.png)
+
+<h2>View Logs in grafan</h2>
+
+အခုဆိုရင်တော့ Grafana ရဲ့ explore ထဲကနေ Loki ကို source အနေနဲ့ရွေးပြီး logs တွေကိုအောက်ပါအတိုင်းကြည့်နိုင်ပါပြီ။
+
+![explorelogs](https://raw.githubusercontent.com/thaunghtike-share/thaunghtike-share.github.io/master/images/explore_logs.png)
+
+Kubernetes ရဲ့ pod, container စသည်တို့ကို ကြည့်ဖို့ဆိုရင်တော့ promtial ကို aks ထဲမှာ  deploy လုပ်ပေးရပါမယ်။ ကျွန်တော်ကတော့ မရှင်းပြတော့ပါဘူး။ အားလုံးအဆင်ပြေကြမယ်လို့ထင်ပါတယ်။ ကျေးဇူးတင်ပါတယ်။
