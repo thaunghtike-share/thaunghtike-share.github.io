@@ -39,6 +39,8 @@ grafana:
         auth_url: https://github.com/login/oauth/authorize
         token_url: https://github.com/login/oauth/access_token
         api_url: https://api.github.com/user
+        role_attribute_path: >-
+          contains(groups[*], 'OrgName') && 'Admin' || 'Viewer'
   extraEnv: []
 ```
 
@@ -53,6 +55,10 @@ grafana:
 ခဏနေရင် grafana user ကနေ logout ပြန်ထွက်လိုက်ပါ။ ဒါဆိုရင်တော့ အောက်ပါအတိုင်း Sign in with Github ဆိုတာတွေ့ရမှာဖြစ်ပြီးမိမိတို့ရဲ့ github acc နဲ့ login ဝင်နိုင်ပါပြီ။
 
 ![grafana](https://raw.githubusercontent.com/thaunghtike-share/thaunghtike-share.github.io/master/images/grafana.png)
+
+<h2> Give admin role to Github User</h2>
+
+Github user ကို admin role ပေးချင်ရင်တော့ admin user အနေနဲ့ login ဝင်ပါ။ ပြီးရင် Administration > Authentication ထဲက Github ကိုဝင်ပီး user mapping အောက်က skip orgnization role syn ကို on ပါ။ ပြီးရင် allow assign grafana admin ကို off ပါ။ အကုန်ပီးသွားရင် Users and Access အောက်က Users ထဲက ကိုယ် admin ပေးချင်တဲ့ user ကို admin role ပေးနိုင်ပါပြီ။
 
 အားလုံးကို ကျေးဇူးတင်ပါတယ်ခင်ဗျာ။
 
